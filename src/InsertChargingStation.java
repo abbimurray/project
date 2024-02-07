@@ -1,3 +1,6 @@
+/*for inserting/ adding charging station */
+/*NB: SOME CHARGING STATIONS WILL HAVE MORE THAN 1 CHARGER ID'S AS THEY HAVE MORE THAN ONE CHARGER, HOW SHOULD THIS BE DEALT WITH*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,22 +12,21 @@ public class InsertChargingStation {
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
-        String chargerId= "";
-        String county = "";
-        int css=0;
-        int chademo=0;
-        int fastAc=0;
+        String chargerId= "C5PHZ" ;
+        String county = "Carlow";
+        String address="Four Lakes Retail Park,Dublin Road,Carlow Town,Carlow";
+        int ccs=1;
+        int chademo=1;
+        int fastAc=1;
         int acSocket=0;
-        int cssKws=0;
-        int chademoKws=0;
-        int fastAcKws=0;
+        int ccsKws=50;
+        int chademoKws=50;
+        int fastAcKws=43;
         int acSocketKws=0;
-        double latitude=0;
-        double longitude=0;
-        int addressId=0;
-        String Address="";/*should address be in this table? can you use address id to link this table?*/
+        double latitude=52.846593;
+        double longitude=-6.902268;
 
-        /*how do i not hardcode? do i need a driver that connects to all of these classes?*/
+
         int i=0;
 
 
@@ -33,19 +35,19 @@ public class InsertChargingStation {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO chargingstation(County,CSS,Chademo,FastAC,ACSocket,CSS_kWs,Chademo_kWs,ACFast_kWs,ACSocket_kWs,Latitude,Longitude,AddressID,chargerID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO chargingstation(County,ccs,Chademo,FastAC,ACSocket,ccs_kWs,Chademo_kWs,ACFast_kWs,ACSocket_kWs,Latitude,Longitude,Address,chargerID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pstat.setString(1, county);
-            pstat.setInt(2, css);
+            pstat.setInt(2, ccs);
             pstat.setInt(3, chademo);
             pstat.setInt(4, fastAc);
             pstat.setInt(5, acSocket);
-            pstat.setInt(6,cssKws);
+            pstat.setInt(6,ccsKws);
             pstat.setInt(7, chademoKws);
             pstat.setInt(8,fastAcKws);
             pstat.setInt(9, acSocketKws);
             pstat.setDouble(10, latitude);
             pstat.setDouble(11, longitude);
-            pstat.setInt(12, addressId);
+            pstat.setString(12, address);
             pstat.setString(13, chargerId);
 
 

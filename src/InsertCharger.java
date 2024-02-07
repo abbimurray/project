@@ -11,10 +11,11 @@ public class InsertCharger{
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
-        String chargerId= "";
-        String status = "";
-        int kw= 0;
-        double costPerKwh= 0.0;
+        String chargerId= "C5PHZ";
+        String status = "in use";
+        String type ="Chademo";
+        int kw= 50;
+        double costPerKwh= 0.647;
         /*as addressId is auto incremented do i add it here or not?*/
         /*how do i not hardcode? do i need a driver that connects to all of these classes?*/
         int i=0;
@@ -25,11 +26,12 @@ public class InsertCharger{
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO charger(ChargerID,Status,kW,CostPerKWh) VALUES (?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO charger(ChargerID,Status,kW,CostPerKWh, type) VALUES (?,?,?,?,?)");
             pstat.setString(1, chargerId);
             pstat.setString(2, status);
             pstat.setInt(3, kw);
             pstat.setDouble(4, costPerKwh);
+            pstat.setString(5,type);
 
 
             //insert data into database
