@@ -1,3 +1,5 @@
+/*student name: abigail murray
+ * student number: C00260073*/
 /*FOR ADDING PAYMENT DETAILS*/
 /*NB: NEED TO WORK OUT HOW THE PAYMENT DETAILS IS CONNECTED TO THE ACCOUNT??*/
 

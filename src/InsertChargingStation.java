@@ -1,3 +1,6 @@
+/*student name: abigail murray
+ * student number: C00260073*/
+
 /*for inserting/ adding charging station */
 /*NB: SOME CHARGING STATIONS WILL HAVE MORE THAN 1 CHARGER ID'S AS THEY HAVE MORE THAN ONE CHARGER, HOW SHOULD THIS BE DEALT WITH*/
 

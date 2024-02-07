@@ -1,3 +1,7 @@
+/*student name: abigail murray
+ * student number: C00260073*/
+/*FOR ADDING transaction DETAILS*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

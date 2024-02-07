@@ -1,3 +1,5 @@
+/*student name: abigail murray
+* student number: C00260073*/
 /*insert class for adding account*/
 /*NB: WHAT SHOULD ACCOUNT BE CONNECTED TO? -- PAYMENT, TRANSACTION, TRANSACTION HISTORY?*/
 
