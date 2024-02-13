@@ -1,6 +1,8 @@
 /*student name: abigail murray
  * student number: C00260073*/
 /*FOR ADDING transaction DETAILS*/
+/*nb: connecting account id and chargerid?*/
+/*total cost method*/
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +13,7 @@ import java.sql.Timestamp;
 import java.sql.Time;
 import java.math.BigDecimal;
 
-public class InsertTransaction {
+public class AddTransaction {
     public static void main(String[] args) {
         //database url
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
@@ -24,13 +26,13 @@ public class InsertTransaction {
         // Calculate the duration in milliseconds
         long durationInMillis = endTime.getTime() - startTime.getTime();
         Time duration = new Time(durationInMillis);// Create a Time object representing the duration
-        BigDecimal kW = new BigDecimal("15.946");// Create a BigDecimal object with the decimal value
+        BigDecimal usedkW = new BigDecimal("15.946");// Create a BigDecimal object with the decimal value
         BigDecimal costPerKwh = new BigDecimal("0.682");
         //calculate total cost
         long totalSeconds = duration.getTime() / 1000; // Convert the Time duration to the total number of seconds
         BigDecimal totalCost = costPerKwh.multiply(new BigDecimal(totalSeconds)); //calculate total cost
 
-        int accountid =0;
+        int accountid =3;
 
 //pstat.setBigDecimal(9, decimalValue); // Use setBigDecimal to set the decimal value in the prepared statement*/
 
@@ -45,14 +47,15 @@ public class InsertTransaction {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO Transaction (Date,StartTime,Endtime, kW,CostPerKWH, duration,TotalCost) VALUES (?,?,?,?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO Transaction (Date,StartTime,Endtime, usedkW,CostPerKWH, duration,TotalCost, accountid) VALUES (?,?,?,?,?,?,?,?)");
             pstat.setDate(1, dateOfTransaction);
             pstat.setTimestamp(2,startTime);
             pstat.setTimestamp(3,endTime);
-            pstat.setBigDecimal(4,kW);
+            pstat.setBigDecimal(4,usedkW);
             pstat.setBigDecimal(5,costPerKwh);
             pstat.setTime(6,duration);
             pstat.setBigDecimal(7,totalCost);
+            pstat.setInt(8,accountid);
 
 
 

@@ -1,25 +1,25 @@
 /*student name: abigail murray
  * student number: C00260073*/
-/*FOR ADDING PAYMENT DETAILS*/
-/*NB: NEED TO WORK OUT HOW THE PAYMENT DETAILS IS CONNECTED TO THE ACCOUNT??*/
+/*CLASS FOR ADDING A charger*/
+/*NB: HOW TO CONNECT CHARGER TO CHARGING STATION + transaction??*/
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Date;
-public class InsertPaymentDetails {
+
+public class AddCharger{
     public static void main(String[] args) {
         //database url
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
-
-        String nameOnCard="lisa Smith";
-        String cardNumber= "2987769078651678";
-        int cvv=237;
-        Date expiry = Date.valueOf("2027-06-01"); // Use Date.valueOf to convert a string to a SQL date
-
+        String chargerId= "TEV016b";
+        String status = "available";
+        String type ="Type 2";
+        int kw= 22;
+        double costPerKwh= 0.563;
+        /*as addressId is auto incremented do i add it here or not?*/
         /*how do i not hardcode? do i need a driver that connects to all of these classes?*/
         int i=0;
 
@@ -29,12 +29,12 @@ public class InsertPaymentDetails {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO PaymentDetails (NameOnCard,CardNumber,Expiry,CVV) VALUES (?,?,?,?)");
-            pstat.setString(1, nameOnCard);
-            pstat.setString(2, cardNumber);
-            pstat.setDate(3, expiry);
-            pstat.setInt(4, cvv);
-
+            pstat = connection.prepareStatement("INSERT INTO charger(ChargerID,Status,kW,CostPerKWh, type) VALUES (?,?,?,?,?)");
+            pstat.setString(1, chargerId);
+            pstat.setString(2, status);
+            pstat.setInt(3, kw);
+            pstat.setDouble(4, costPerKwh);
+            pstat.setString(5,type);
 
 
             //insert data into database
@@ -53,4 +53,6 @@ public class InsertPaymentDetails {
             exception.printStackTrace();
         }
     }
+
 }
+

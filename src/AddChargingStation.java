@@ -1,7 +1,7 @@
 /*student name: abigail murray
  * student number: C00260073*/
-
 /*for inserting/ adding charging station */
+
 /*NB: SOME CHARGING STATIONS WILL HAVE MORE THAN 1 CHARGER ID'S AS THEY HAVE MORE THAN ONE CHARGER, HOW SHOULD THIS BE DEALT WITH*/
 
 import java.sql.Connection;
@@ -9,25 +9,25 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class InsertChargingStation {
+public class AddChargingStation {
     public static void main(String[] args) {
         //database url
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
-        String chargerId= "C5PHZ" ;
+        String chargerId= "TEV016a" ;
         String county = "Carlow";
-        String address="Four Lakes Retail Park,Dublin Road,Carlow Town,Carlow";
-        int ccs=1;
-        int chademo=1;
-        int fastAc=1;
-        int acSocket=0;
-        int ccsKws=50;
-        int chademoKws=50;
-        int fastAcKws=43;
-        int acSocketKws=0;
-        double latitude=52.846593;
-        double longitude=-6.902268;
+        String address="Tesco Tullow, Abbey st, Templeowen,Tullow";
+        int ccs=0;
+        int chademo=0;
+        int fastAc=0;
+        int acSocket=2;
+        int ccsKws=0;
+        int chademoKws=0;
+        int fastAcKws=0;
+        int acSocketKws=22;
+        double latitude=52.800607;
+        double longitude= -6.738443;
 
 
         int i=0;

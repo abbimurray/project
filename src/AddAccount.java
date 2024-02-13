@@ -1,14 +1,10 @@
-/*student name: abigail murray
-* student number: C00260073*/
-/*insert class for adding account*/
-/*NB: WHAT SHOULD ACCOUNT BE CONNECTED TO? -- PAYMENT, TRANSACTION, TRANSACTION HISTORY?*/
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class  InsertAccount {
+public class  AddAccount {
     public static void main(String[] args) {
         //database url
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
@@ -23,7 +19,7 @@ public class  InsertAccount {
         double currentBalance =20.0;
         String address = "12 rose cottage, main street,carlow";
 
-         /*AccountId is primary key + is auto incremented so does it need to also be included as variable or will it just automatically increment for each new account created */
+        /*AccountId is primary key + is auto incremented so does it need to also be included as variable or will it just automatically increment for each new account created */
 
 
         int i=0;
@@ -61,3 +57,4 @@ public class  InsertAccount {
     }
 
 }
+
