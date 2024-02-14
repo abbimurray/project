@@ -11,13 +11,13 @@ public class  AddAccount {
         Connection connection = null;
         PreparedStatement pstat = null;
 
-        String firstname = "Lisa";
-        String lastname = "Smith";
-        String email ="lisasmith@mail.com";
-        String phone ="(087)1398088";
-        String password= "waumn!08Z";
-        double currentBalance =20.0;
-        String address = "12 rose cottage, main street,carlow";
+        String firstname = "Frank";
+        String lastname = "Murphy";
+        String email ="murphy@mail.com";
+        String phone ="(086)4569088";
+        String password= "XX!k98hg";
+        double currentBalance =50.0;
+        String address = "12 hazelgrove, the drive, beachfield estate, Kilkenny";
 
         /*AccountId is primary key + is auto incremented so does it need to also be included as variable or will it just automatically increment for each new account created */
 
