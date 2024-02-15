@@ -17,7 +17,7 @@ public class DeletePaymentDetails {
             connection = DriverManager.getConnection( DATABASE_URL, "root", "pknv!47A" );
 
             // create Prepared Statement for deleting data from the table
-            pstat = connection.prepareStatement("Delete From paymentdetails Where CardNumber=?" );
+            pstat = connection.prepareStatement("Delete From paymentDetails Where CardNumber=?" );
             pstat . setString(1, cardNumber);
 
             // delete data from the table

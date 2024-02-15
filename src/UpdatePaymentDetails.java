@@ -25,7 +25,7 @@ public class UpdatePaymentDetails {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
             // create Prepared Statement for updating ALL data in the table
-            pstat = connection.prepareStatement("Update paymentdetails SET CardNumber=?  Where NameOnCard=? AND CVV=?");
+            pstat = connection.prepareStatement("Update paymentDetails SET CardNumber=?  Where NameOnCard=? AND CVV=?");
             pstat.setString(1, cardNumber);
             pstat.setString(2, nameOnCard);
             pstat.setInt(3, cvv);

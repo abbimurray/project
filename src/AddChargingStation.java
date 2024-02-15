@@ -38,7 +38,7 @@ public class AddChargingStation {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO chargingstation(County,ccs,Chademo,FastAC,ACSocket,ccs_kWs,Chademo_kWs,ACFast_kWs,ACSocket_kWs,Latitude,Longitude,Address,chargerID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO chargingStation(County,ccs,Chademo,FastAC,ACSocket,ccs_kWs,Chademo_kWs,ACFast_kWs,ACSocket_kWs,Latitude,Longitude,Address,chargerID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pstat.setString(1, county);
             pstat.setInt(2, ccs);
             pstat.setInt(3, chademo);

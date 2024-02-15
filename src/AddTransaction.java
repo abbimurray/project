@@ -47,7 +47,7 @@ public class AddTransaction {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO Transaction (Date,StartTime,Endtime, usedkW,CostPerKWH, duration,TotalCost, accountid) VALUES (?,?,?,?,?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO transaction (Date,StartTime,Endtime, usedkW,CostPerKWH, duration,TotalCost, accountid) VALUES (?,?,?,?,?,?,?,?)");
             pstat.setDate(1, dateOfTransaction);
             pstat.setTimestamp(2,startTime);
             pstat.setTimestamp(3,endTime);

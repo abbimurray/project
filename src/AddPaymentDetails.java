@@ -30,7 +30,7 @@ public class AddPaymentDetails {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO PaymentDetails (NameOnCard,CardNumber,Expiry,CVV) VALUES (?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO paymentDetails (NameOnCard,CardNumber,Expiry,CVV) VALUES (?,?,?,?)");
             pstat.setString(1, nameOnCard);
             pstat.setString(2, cardNumber);
             pstat.setDate(3, expiry);

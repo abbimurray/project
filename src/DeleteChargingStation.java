@@ -17,7 +17,7 @@ public class DeleteChargingStation {
             connection = DriverManager.getConnection( DATABASE_URL, "root", "pknv!47A" );
 
             // create Prepared Statement for deleting data from the table
-            pstat = connection.prepareStatement("Delete From chargingstation Where Address=?" );
+            pstat = connection.prepareStatement("Delete From chargingStation Where Address=?" );
             pstat . setString(1, address);
 
             // delete data from the table

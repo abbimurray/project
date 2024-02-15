@@ -17,7 +17,7 @@ public class DeleteTransaction {
             connection = DriverManager.getConnection( DATABASE_URL, "root", "pknv!47A" );
 
             // create Prepared Statement for deleting data from the table
-            pstat = connection.prepareStatement("Delete From Transaction Where TransactionID=?" );
+            pstat = connection.prepareStatement("Delete From transaction Where TransactionID=?" );
             pstat . setInt(1, transactionID);
 
             // delete data from the table

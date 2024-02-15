@@ -22,7 +22,7 @@ public class ViewTransaction {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A" );
             // create Prepared Statement for querying data in the table
-            pstat = connection.prepareStatement("SELECT *  FROM  Transaction");
+            pstat = connection.prepareStatement("SELECT *  FROM  transaction");
             // query data in the table
             resultSet = pstat.executeQuery();
             // process query results
