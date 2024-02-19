@@ -1,7 +1,8 @@
 /*student name: abigail murray
  * student number: C00260073*/
 /*CLASS FOR ADDING A charger*/
-/*NB: HOW TO CONNECT CHARGER TO CHARGING STATION + transaction??*/
+/*NB: HOW TO CONNECT CHARGER TO CHARGING STATION + transaction??
+* tested with scanner - working*/
 
 import java.sql.Connection;
 import java.sql.DriverManager;

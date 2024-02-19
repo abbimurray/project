@@ -1,13 +1,13 @@
 /*student name: abigail murray
  * student number: C00260073*/
 /*FOR ADDING PAYMENT DETAILS*/
-/*NB: NEED TO WORK OUT HOW THE PAYMENT DETAILS IS CONNECTED TO THE ACCOUNT?? OR TO TRANSACTION*/
+/*NB: NEED TO WORK OUT HOW THE PAYMENT DETAILS IS CONNECTED TO THE ACCOUNT?? OR TO TRANSACTION
+* working with scanner for entering details*/
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.util.Scanner;
 
 public class AddPaymentDetails {
@@ -22,15 +22,20 @@ public class AddPaymentDetails {
         System.out.println("Enter name on card:");
         String nameOnCard = scanner.nextLine();
 
-        System.out.println("Enter card number:");
+        System.out.println("Enter card number(max 16 digits):");
         String cardNumber = scanner.nextLine();
 
-        System.out.println("Enter cvv:");
-        int cvv = scanner.nextInt();
 
-        System.out.println("Enter Expiry date:");
-        Date expiry = Date.valueOf(scanner.nextLine());// Use Date.valueOf to convert a string to a SQL date
-       /* Date expiry = Date.valueOf("2027-06-01"); */
+        System.out.println("Enter cvv(3 digits):");
+        int cvv = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        System.out.println("Enter Expiry date (mm/yy)eg 06/27:");
+        String expiry = scanner.nextLine();
+        /* Date expiry = Date.valueOf("2027-06-01"); */
+
+
+
         int i=0;
 
 
@@ -42,7 +47,7 @@ public class AddPaymentDetails {
             pstat = connection.prepareStatement("INSERT INTO paymentDetails (NameOnCard,CardNumber,Expiry,CVV) VALUES (?,?,?,?)");
             pstat.setString(1, nameOnCard);
             pstat.setString(2, cardNumber);
-            pstat.setDate(3, expiry);
+            pstat.setString(3, expiry);
             pstat.setInt(4, cvv);
 
 

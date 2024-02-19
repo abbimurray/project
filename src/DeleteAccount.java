@@ -9,7 +9,7 @@ public class DeleteAccount{
         Connection connection = null;
         PreparedStatement pstat = null;
         int i =0;
-        int AccountID=5;
+        int AccountID=7;
         try
         {
             // establish connection to database

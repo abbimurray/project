@@ -1,7 +1,7 @@
 /*student name: abigail murray
  * student number: C00260073*/
 /*for inserting/ adding charging station */
-
+/*will work once the charger whose charger id you enter already exist in system*/
 /*NB: SOME CHARGING STATIONS WILL HAVE MORE THAN 1 CHARGER ID'S AS THEY HAVE MORE THAN ONE CHARGER, HOW SHOULD THIS BE DEALT WITH*/
 
 import java.sql.Connection;

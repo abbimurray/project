@@ -10,7 +10,7 @@ public class DeleteCharger {
         Connection connection = null;
         PreparedStatement pstat = null;
         int i =0;
-        int chargerID=2;
+        String chargerID="TEV036";
         try
         {
             // establish connection to database
@@ -18,7 +18,7 @@ public class DeleteCharger {
 
             // create Prepared Statement for deleting data from the table
             pstat = connection.prepareStatement("Delete From charger Where ChargerID=?" );
-            pstat . setInt (1, chargerID);
+            pstat . setString (1, chargerID);
 
             // delete data from the table
             i = pstat.executeUpdate();
