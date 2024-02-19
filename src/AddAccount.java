@@ -31,10 +31,10 @@ public class  AddAccount {
 
         System.out.println("Enter Current Balance:");
         double currentBalance = scanner.nextDouble();
+        scanner.nextLine(); // Consume the newline character
 
         System.out.println("Enter Address:");
         String address = scanner.nextLine();
-
         /*AccountId is primary key + is auto incremented so does it need to also be included as variable or will it just automatically increment for each new account created */
 
 
