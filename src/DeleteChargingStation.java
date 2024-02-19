@@ -2,7 +2,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import java.util.Scanner;
+/*allows you to delete charging station ok */
 public class DeleteChargingStation {
     public static void main(String[] args ) {
         final String DATABASE_URL =  "jdbc:mysql://localhost:3306/EVCharging";
@@ -10,7 +11,13 @@ public class DeleteChargingStation {
         Connection connection = null;
         PreparedStatement pstat = null;
         int i =0;
-        String address="";
+
+        Scanner scanner = new Scanner(System.in);
+
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter address of the charging station you wish to delete:");
+        String address = scanner.nextLine();
+
         try
         {
             // establish connection to database

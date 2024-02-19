@@ -1,5 +1,5 @@
-/*not working yet as it is connected to chargingstation so wont let yuu delete charger as its connected to chargingstation?*/
-
+/*not working yet as it is connected to chargingstation so wont let you delete charger as its connected to chargingstation?*/
+/*works if you first delete the charging station then go and delte the charger*/
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
