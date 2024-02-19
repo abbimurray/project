@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class UpdateAccountAddress {
     public static void main(String [] args ) {
@@ -9,13 +10,19 @@ public class UpdateAccountAddress {
 
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
 
-        String address="2462 cherry avenue,Main street,Lahinch, Co.Clare";
-        int accountId=3;
-
-
         Connection connection = null;
         PreparedStatement pstat = null;
         int i =0;
+
+        Scanner scanner = new Scanner(System.in);
+        // inputs
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter accountId:");
+        int accountId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter new address:");
+        String address = scanner.nextLine();
+
 
         try {
             // establish connection to database
