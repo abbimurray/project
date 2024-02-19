@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class AddCharger{
     public static void main(String[] args) {
@@ -14,13 +15,25 @@ public class AddCharger{
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
-        String chargerId= "TEV016b";
-        String status = "available";
-        String type ="Type 2";
-        int kw= 22;
-        double costPerKwh= 0.563;
-        /*as addressId is auto incremented do i add it here or not?*/
-        /*how do i not hardcode? do i need a driver that connects to all of these classes?*/
+        Scanner scanner = new Scanner(System.in);
+        // inputs
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter ChargerID:");
+        String chargerId = scanner.nextLine();
+
+        System.out.println("Enter status:");
+        String status = scanner.nextLine();
+
+        System.out.println("Enter charger type:");
+        String type = scanner.nextLine();
+
+        System.out.println("Enter kw:");
+        int  kw = scanner.nextInt();
+
+        System.out.println("Enter cost per kwh:");
+        double  costPerKwh = scanner.nextDouble();
+
+
         int i=0;
 
 

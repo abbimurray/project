@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.Scanner;
 
 public class AddPaymentDetails {
     public static void main(String[] args) {
@@ -15,13 +16,21 @@ public class AddPaymentDetails {
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
+        Scanner scanner = new Scanner(System.in);
+        // inputs
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter name on card:");
+        String nameOnCard = scanner.nextLine();
 
-        String nameOnCard="lisa Smith";
-        String cardNumber= "2987769078651678";
-        int cvv=237;
-        Date expiry = Date.valueOf("2027-06-01"); // Use Date.valueOf to convert a string to a SQL date
+        System.out.println("Enter card number:");
+        String cardNumber = scanner.nextLine();
 
-        /*how do i not hardcode? do i need a driver that connects to all of these classes?*/
+        System.out.println("Enter cvv:");
+        int cvv = scanner.nextInt();
+
+        System.out.println("Enter Expiry date:");
+        Date expiry = Date.valueOf(scanner.nextLine());// Use Date.valueOf to convert a string to a SQL date
+       /* Date expiry = Date.valueOf("2027-06-01"); */
         int i=0;
 
 

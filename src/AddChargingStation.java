@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class AddChargingStation {
     public static void main(String[] args) {
@@ -15,19 +16,48 @@ public class AddChargingStation {
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
-        String chargerId= "TEV016a" ;
-        String county = "Carlow";
-        String address="Tesco Tullow, Abbey st, Templeowen,Tullow";
-        int ccs=0;
-        int chademo=0;
-        int fastAc=0;
-        int acSocket=2;
-        int ccsKws=0;
-        int chademoKws=0;
-        int fastAcKws=0;
-        int acSocketKws=22;
-        double latitude=52.800607;
-        double longitude= -6.738443;
+        Scanner scanner = new Scanner(System.in);
+        // inputs
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter ChargerID:");
+        String chargerId = scanner.nextLine();
+
+        System.out.println("Enter County:");
+        String county = scanner.nextLine();
+
+        System.out.println("Enter Address:");
+        String address = scanner.nextLine();
+
+        System.out.println("Enter  number of ccs:");
+        int ccs = scanner.nextInt();
+
+        System.out.println("Enter  number of chademo:");
+        int chademo = scanner.nextInt();
+
+        System.out.println("Enter  number of fast ac:");
+        int fastAc = scanner.nextInt();
+
+        System.out.println("Enter  number of ac socket:");
+        int acSocket = scanner.nextInt();
+
+        System.out.println("Enter ccs kws:");
+        int ccsKws = scanner.nextInt();
+
+        System.out.println("Enter chademo kws:");
+        int chademoKws = scanner.nextInt();
+
+        System.out.println("Enter fast ac kws:");
+        int fastAcKws = scanner.nextInt();
+
+        System.out.println("Enter ac socket kws:");
+        int acSocketKws = scanner.nextInt();
+
+        System.out.println("Enter latitude:");
+        double latitude = scanner.nextDouble();
+
+        System.out.println("Enter longitude:");
+        double longitude = scanner.nextDouble();
+
 
 
         int i=0;

@@ -12,6 +12,7 @@ import java.sql.Date; /*need this for date */
 import java.sql.Timestamp;
 import java.sql.Time;
 import java.math.BigDecimal;
+import java.util.Scanner;
 
 public class AddTransaction {
     public static void main(String[] args) {
@@ -19,8 +20,44 @@ public class AddTransaction {
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
         Connection connection = null;
         PreparedStatement pstat = null;
+        Scanner scanner = new Scanner(System.in);
+        // inputs
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter account id:");
+        int accountid = scanner.nextInt();
+        System.out.println("Enter date of transaction:");
+        Date dateOfTransaction = Date.valueOf(scanner.nextLine());
+        System.out.println("Enter start time of transaction:");
+        Timestamp startTime = Timestamp.valueOf(scanner.nextLine());
+        System.out.println("Enter end time of transaction:");
+        Timestamp endTime=  Timestamp.valueOf(scanner.nextLine());
+        // Calculate the duration
+        long durationMs = endTime.getTime() - startTime.getTime();
+        Time duration = new Time(durationMs);
+        System.out.println("Duration: " + duration);
 
-        Date dateOfTransaction = Date.valueOf("2024-02-06");// = Date.valueOf("2027-06-01"); // Use Date.valueOf to convert a string to a SQL date
+        //calculate usage
+        double powerConsumptionRate = 5.0;// set
+        // Calculate the duration in hours
+        double durationHours = (double) durationMs / (1000 * 60 * 60); // Convert duration from milliseconds to hours
+        // Calculate the used kilowatt-hours
+        BigDecimal usedkW = BigDecimal.valueOf(durationHours * powerConsumptionRate);
+        System.out.println("Used kWh: " + usedkW);
+
+        // calculate total cost
+        System.out.println("Enter cost per Kwh:");
+        BigDecimal costPerKwh= BigDecimal.valueOf(scanner.nextDouble());
+
+        BigDecimal totalCost = usedkW.multiply(costPerKwh);
+        System.out.println("Total Cost: " + totalCost);
+
+
+
+
+
+
+
+       /* Date dateOfTransaction = Date.valueOf("2024-02-06");// = Date.valueOf("2027-06-01"); // Use Date.valueOf to convert a string to a SQL date
         Timestamp startTime = Timestamp.valueOf("2024-02-06 09:00:00");
         Timestamp endTime = Timestamp.valueOf("2024-02-06 09:32:00");
         // Calculate the duration in milliseconds
@@ -31,14 +68,11 @@ public class AddTransaction {
         //calculate total cost
         long totalSeconds = duration.getTime() / 1000; // Convert the Time duration to the total number of seconds
         BigDecimal totalCost = costPerKwh.multiply(new BigDecimal(totalSeconds)); //calculate total cost
-
-        int accountid =3;
+*/
 
 //pstat.setBigDecimal(9, decimalValue); // Use setBigDecimal to set the decimal value in the prepared statement*/
 
-        /*corresponding data types for dates and times??*/
-        /*should transaction id be included here? it is auto incremented*/
-        /*how do i not hardcode? do i need a driver that connects to all of these classes?*/
+
         int i=0;
 
 

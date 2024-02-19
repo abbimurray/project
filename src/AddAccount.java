@@ -13,6 +13,7 @@ public class  AddAccount {
         PreparedStatement pstat = null;
         Scanner scanner = new Scanner(System.in);
 
+        //inputs will be replaced - insert through gui
         System.out.println("Enter First Name:");
         String firstname = scanner.nextLine();
 
