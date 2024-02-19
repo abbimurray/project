@@ -1,7 +1,10 @@
+/*not working yet as it is connected to chargingstation so wont let yuu delete charger as its connected to chargingstation?*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class DeleteCharger {
     public static void main(String[] args ) {
@@ -10,7 +13,17 @@ public class DeleteCharger {
         Connection connection = null;
         PreparedStatement pstat = null;
         int i =0;
-        String chargerID="TEV036";
+
+
+        Scanner scanner = new Scanner(System.in);
+
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter charger id of charger you wish to delete:");
+        String chargerID= scanner.nextLine();
+
+
+
+
         try
         {
             // establish connection to database

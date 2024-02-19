@@ -1,7 +1,11 @@
+
+/*working with scanner */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class DeleteTransaction {
     public static void main(String[] args ) {
@@ -9,8 +13,14 @@ public class DeleteTransaction {
 // database URL
         Connection connection = null;
         PreparedStatement pstat = null;
+        Scanner scanner = new Scanner(System.in);
         int i =0;
-        int transactionID=2;
+
+
+        System.out.println("Enter transactionid of transaction you wish to delete:");
+        int transactionID = scanner.nextInt();
+
+
         try
         {
             // establish connection to database
