@@ -1,25 +1,30 @@
 package UPDATE;
-/*WORKS*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class updateChargingTransactions {
+public class updateAvailability {
+
     public static void main(String[] args) {
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
 
         // Create a Scanner object to read user input
         Scanner scanner = new Scanner(System.in);
 
-        // Prompt the user to enter the stationID of the entry they want to update
-        System.out.println("Enter the transactionID of the entry you want to update:");
-        int transactionID = scanner.nextInt();
+        System.out.println("Enter the chargerID of the entry you want to update:");
+        int chargerID = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
 
-        // Prompt the user to enter the field they want to update
-        System.out.println("Enter the field you want to update (startTime, endTime, energyConsumed, rate, totalCost, userID, chargerID):");
+        System.out.println("Enter the startTime of the entry you want to update (YYYY-MM-DD HH:MM:SS):");
+        String startTimeStr = scanner.nextLine();
+        LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")); // Parse the input string to LocalDateTime with the specified pattern
+
+        System.out.println("Enter the field you want to update (startTime, endTime, availability, chargerID):");
         String fieldToUpdate = scanner.nextLine();
 
         // Prompt the user to enter the new value for the chosen field
@@ -34,11 +39,12 @@ public class updateChargingTransactions {
             // Establish connection to the database
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
-            // Create prepared statement for updating the specified field in the table for the specified stationID
-            String updateQuery = "UPDATE chargingTransactions SET " + fieldToUpdate + "=? WHERE transactionID=?";
+            // Create prepared statement for updating the specified field in the table for the specified chargerID and startTime
+            String updateQuery = "UPDATE availability SET " + fieldToUpdate + "=? WHERE chargerID=? AND startTime=?";
             pstat = connection.prepareStatement(updateQuery);
             pstat.setString(1, newValue);
-            pstat.setInt(2, transactionID);
+            pstat.setInt(2, chargerID);
+            pstat.setObject(3, startTime);
 
             // Update data in the table
             i = pstat.executeUpdate();
@@ -48,8 +54,12 @@ public class updateChargingTransactions {
             sqlException.printStackTrace();
         } finally {
             try {
-                pstat.close();
-                connection.close();
+                if (pstat != null) {
+                    pstat.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

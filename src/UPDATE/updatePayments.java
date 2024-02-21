@@ -1,12 +1,12 @@
 package UPDATE;
-/*WORKS*/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class updateChargingTransactions {
+public class updatePayments {
     public static void main(String[] args) {
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
 
@@ -14,12 +14,12 @@ public class updateChargingTransactions {
         Scanner scanner = new Scanner(System.in);
 
         // Prompt the user to enter the stationID of the entry they want to update
-        System.out.println("Enter the transactionID of the entry you want to update:");
-        int transactionID = scanner.nextInt();
+        System.out.println("Enter the paymentID of the entry you want to update:");
+        int paymentID = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
 
         // Prompt the user to enter the field they want to update
-        System.out.println("Enter the field you want to update (startTime, endTime, energyConsumed, rate, totalCost, userID, chargerID):");
+        System.out.println("Enter the field you want to update (amount, payMethod, date, chargerID, userID, transactionID):");
         String fieldToUpdate = scanner.nextLine();
 
         // Prompt the user to enter the new value for the chosen field
@@ -35,10 +35,10 @@ public class updateChargingTransactions {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             // Create prepared statement for updating the specified field in the table for the specified stationID
-            String updateQuery = "UPDATE chargingTransactions SET " + fieldToUpdate + "=? WHERE transactionID=?";
+            String updateQuery = "UPDATE chargingTransactions SET " + fieldToUpdate + "=? WHERE paymentID=?";
             pstat = connection.prepareStatement(updateQuery);
             pstat.setString(1, newValue);
-            pstat.setInt(2, transactionID);
+            pstat.setInt(2, paymentID);
 
             // Update data in the table
             i = pstat.executeUpdate();

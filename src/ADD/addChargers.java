@@ -13,6 +13,7 @@ public class addChargers {
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
 
     public static void main(String[] args) {
+
         Connection connection = null;
         PreparedStatement pstat = null;
 

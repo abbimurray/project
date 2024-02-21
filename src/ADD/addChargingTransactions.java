@@ -44,8 +44,8 @@ public class addChargingTransactions {
         int userID = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
 
-        System.out.println("Enter station id:");
-        int stationID = scanner.nextInt();
+        System.out.println("Enter charger id:");
+        int chargerID = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
 
         int i=0;
@@ -56,14 +56,14 @@ public class addChargingTransactions {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO chargingTransactions(startTime, endTime, energyConsumed,rate, totalCost, userID, stationiD) VALUES (?,?,?,?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO chargingTransactions(startTime, endTime, energyConsumed,rate, totalCost, userID, chargerID) VALUES (?,?,?,?,?,?,?)");
             pstat.setObject(1, startTime); // setObject to set LocalDateTime
             pstat.setObject(2, endTime);
             pstat.setBigDecimal(3, energyConsumed);
             pstat.setBigDecimal(4, rate);
             pstat.setBigDecimal(5, totalCost);
             pstat.setInt(6, userID);
-            pstat.setInt(7, stationID);
+            pstat.setInt(7, chargerID);
 
 
 
