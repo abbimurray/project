@@ -1,24 +1,24 @@
-
-/*works using scanner */
+package ignore_oldDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
-
-public class DeleteAccount{
+/*allows you to delete charging station ok */
+public class DeleteChargingStation {
     public static void main(String[] args ) {
         final String DATABASE_URL =  "jdbc:mysql://localhost:3306/EVCharging";
 // database URL
         Connection connection = null;
         PreparedStatement pstat = null;
+        int i =0;
+
         Scanner scanner = new Scanner(System.in);
 
         //inputs will be replaced - insert through gui
-        System.out.println("Enter account id of account you wish to delete:");
-        int AccountID= scanner.nextInt();
-        int i =0;
+        System.out.println("Enter address of the charging station you wish to delete:");
+        String address = scanner.nextLine();
 
         try
         {
@@ -26,8 +26,8 @@ public class DeleteAccount{
             connection = DriverManager.getConnection( DATABASE_URL, "root", "pknv!47A" );
 
             // create Prepared Statement for deleting data from the table
-            pstat = connection.prepareStatement("Delete From account Where AccountID=?" );
-            pstat . setInt (1, AccountID);
+            pstat = connection.prepareStatement("Delete From chargingStation Where Address=?" );
+            pstat . setString(1, address);
 
             // delete data from the table
             i = pstat.executeUpdate();
@@ -49,4 +49,4 @@ public class DeleteAccount{
             }
         }
     } // end main
-} // end class
+}

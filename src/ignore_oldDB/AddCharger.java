@@ -1,8 +1,8 @@
-/*student name: abigail murray
+package ignore_oldDB;/*student name: abigail murray
  * student number: C00260073*/
-/*FOR ADDING PAYMENT DETAILS*/
-/*NB: NEED TO WORK OUT HOW THE PAYMENT DETAILS IS CONNECTED TO THE ACCOUNT?? OR TO TRANSACTION
-* working with scanner for entering details*/
+/*CLASS FOR ADDING A charger*/
+/*NB: HOW TO CONNECT CHARGER TO CHARGING STATION + transaction??
+* tested with scanner - working*/
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class AddPaymentDetails {
+public class AddCharger {
     public static void main(String[] args) {
         //database url
         final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
@@ -19,21 +19,20 @@ public class AddPaymentDetails {
         Scanner scanner = new Scanner(System.in);
         // inputs
         //inputs will be replaced - insert through gui
-        System.out.println("Enter name on card:");
-        String nameOnCard = scanner.nextLine();
+        System.out.println("Enter ChargerID:");
+        String chargerId = scanner.nextLine();
 
-        System.out.println("Enter card number(max 16 digits):");
-        String cardNumber = scanner.nextLine();
+        System.out.println("Enter status:");
+        String status = scanner.nextLine();
 
+        System.out.println("Enter charger type:");
+        String type = scanner.nextLine();
 
-        System.out.println("Enter cvv(3 digits):");
-        int cvv = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        System.out.println("Enter kw:");
+        int  kw = scanner.nextInt();
 
-        System.out.println("Enter Expiry date (mm/yy)eg 06/27:");
-        String expiry = scanner.nextLine();
-        /* Date expiry = Date.valueOf("2027-06-01"); */
-
+        System.out.println("Enter cost per kwh:");
+        double  costPerKwh = scanner.nextDouble();
 
 
         int i=0;
@@ -44,12 +43,12 @@ public class AddPaymentDetails {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO paymentDetails (NameOnCard,CardNumber,Expiry,CVV) VALUES (?,?,?,?)");
-            pstat.setString(1, nameOnCard);
-            pstat.setString(2, cardNumber);
-            pstat.setString(3, expiry);
-            pstat.setInt(4, cvv);
-
+            pstat = connection.prepareStatement("INSERT INTO charger(ChargerID,Status,kW,CostPerKWh, type) VALUES (?,?,?,?,?)");
+            pstat.setString(1, chargerId);
+            pstat.setString(2, status);
+            pstat.setInt(3, kw);
+            pstat.setDouble(4, costPerKwh);
+            pstat.setString(5,type);
 
 
             //insert data into database
@@ -68,4 +67,6 @@ public class AddPaymentDetails {
             exception.printStackTrace();
         }
     }
+
 }
+

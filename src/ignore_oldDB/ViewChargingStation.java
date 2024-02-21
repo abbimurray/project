@@ -1,13 +1,8 @@
-/*working*/
+package ignore_oldDB;/*working*/
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class ViewTransaction {
+public class ViewChargingStation {
     public static void main( String[] args ){
 
         // database URL
@@ -22,12 +17,12 @@ public class ViewTransaction {
             // establish connection to database
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A" );
             // create Prepared Statement for querying data in the table
-            pstat = connection.prepareStatement("SELECT *  FROM  transaction");
+            pstat = connection.prepareStatement("SELECT *  FROM chargingStation");
             // query data in the table
             resultSet = pstat.executeQuery();
             // process query results
             ResultSetMetaData metaData = resultSet.getMetaData();
-            int numberOfColumns = metaData.getColumnCount(); System.out. println ( "Transaction Table of Books Database:\n" );
+            int numberOfColumns = metaData.getColumnCount(); System.out. println ( "chargingStation Table of Books Database:\n" );
             for ( int i = 1; i <= numberOfColumns; i++ ) System.out. print (metaData.getColumnName( i ) + "\t"); System.out. println () ;
 
             while( resultSet .next() ){

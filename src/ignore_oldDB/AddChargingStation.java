@@ -1,4 +1,4 @@
-/*student name: abigail murray
+package ignore_oldDB;/*student name: abigail murray
  * student number: C00260073*/
 /*for inserting/ adding charging station */
 /*will work once the charger whose charger id you enter already exist in system*/

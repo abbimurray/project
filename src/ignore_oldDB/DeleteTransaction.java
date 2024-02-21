@@ -1,27 +1,24 @@
-/*not working yet as it is connected to chargingstation so wont let you delete charger as its connected to chargingstation?*/
-/*works if you first delete the charging station then go and delte the charger*/
+package ignore_oldDB;
+/*working with scanner */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class DeleteCharger {
+public class DeleteTransaction {
     public static void main(String[] args ) {
         final String DATABASE_URL =  "jdbc:mysql://localhost:3306/EVCharging";
 // database URL
         Connection connection = null;
         PreparedStatement pstat = null;
+        Scanner scanner = new Scanner(System.in);
         int i =0;
 
 
-        Scanner scanner = new Scanner(System.in);
-
-        //inputs will be replaced - insert through gui
-        System.out.println("Enter charger id of charger you wish to delete:");
-        String chargerID= scanner.nextLine();
-
-
+        System.out.println("Enter transactionid of transaction you wish to delete:");
+        int transactionID = scanner.nextInt();
 
 
         try
@@ -30,8 +27,8 @@ public class DeleteCharger {
             connection = DriverManager.getConnection( DATABASE_URL, "root", "pknv!47A" );
 
             // create Prepared Statement for deleting data from the table
-            pstat = connection.prepareStatement("Delete From charger Where ChargerID=?" );
-            pstat . setString (1, chargerID);
+            pstat = connection.prepareStatement("Delete From transaction Where TransactionID=?" );
+            pstat . setInt(1, transactionID);
 
             // delete data from the table
             i = pstat.executeUpdate();
@@ -53,4 +50,5 @@ public class DeleteCharger {
             }
         }
     } // end main
+
 }

@@ -1,4 +1,4 @@
-/*changes the cardnumber */
+package ignore_oldDB;/*changes the cardnumber */
 
 import java.sql.Connection;
 import java.sql.DriverManager;

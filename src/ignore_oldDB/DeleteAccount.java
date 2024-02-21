@@ -1,5 +1,5 @@
-
-/*working with scanner */
+package ignore_oldDB;
+/*works using scanner */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,19 +7,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class DeleteTransaction {
+public class DeleteAccount{
     public static void main(String[] args ) {
         final String DATABASE_URL =  "jdbc:mysql://localhost:3306/EVCharging";
 // database URL
         Connection connection = null;
         PreparedStatement pstat = null;
         Scanner scanner = new Scanner(System.in);
+
+        //inputs will be replaced - insert through gui
+        System.out.println("Enter account id of account you wish to delete:");
+        int AccountID= scanner.nextInt();
         int i =0;
-
-
-        System.out.println("Enter transactionid of transaction you wish to delete:");
-        int transactionID = scanner.nextInt();
-
 
         try
         {
@@ -27,8 +26,8 @@ public class DeleteTransaction {
             connection = DriverManager.getConnection( DATABASE_URL, "root", "pknv!47A" );
 
             // create Prepared Statement for deleting data from the table
-            pstat = connection.prepareStatement("Delete From transaction Where TransactionID=?" );
-            pstat . setInt(1, transactionID);
+            pstat = connection.prepareStatement("Delete From account Where AccountID=?" );
+            pstat . setInt (1, AccountID);
 
             // delete data from the table
             i = pstat.executeUpdate();
@@ -50,5 +49,4 @@ public class DeleteTransaction {
             }
         }
     } // end main
-
-}
+} // end class

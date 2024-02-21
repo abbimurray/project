@@ -1,4 +1,4 @@
-/*works with scanner*/
+package ignore_oldDB;/*works with scanner*/
 
 import java.sql.Connection;
 import java.sql.DriverManager;

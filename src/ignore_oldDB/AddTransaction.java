@@ -1,17 +1,11 @@
-/*student name: abigail murray
+package ignore_oldDB;/*student name: abigail murray
  * student number: C00260073*/
 /*FOR ADDING transaction DETAILS*/
 /*nb: connecting account id and chargerid?*/
 /*total cost method*/
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Date; /*need this for date */
-import java.sql.Timestamp;
-import java.sql.Time;
 import java.math.BigDecimal;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
