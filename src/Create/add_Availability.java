@@ -1,4 +1,4 @@
-package add2;
+package Create;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class addAvailability2 {
+public class add_Availability {
 
     public static void main(String[] args) {
         //database url
