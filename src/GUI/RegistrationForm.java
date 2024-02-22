@@ -2,6 +2,8 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class RegistrationForm extends JDialog {
     private JLabel add_icon;
@@ -26,11 +28,33 @@ public class RegistrationForm extends JDialog {
         setMinimumSize(new Dimension(450,474));
         setModal(true);
         setLocationRelativeTo(parent);
+
+        /*button for creating new user*/
+        btnSubmit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registerUser();
+            }
+        });
+
+        /*button to cancel new user*/
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
         setVisible(true);
 
     }
 
-    public static void Main (String[]args){
-        RegistrationForm myForm = new RegistrationForm();
+    private void registerUser() {
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Registration Form");
+        RegistrationForm myForm = new RegistrationForm(frame);
+        System.out.println("Registration Form");
     }
 }
