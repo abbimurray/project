@@ -1,5 +1,7 @@
 package ADD;
 
+import GUI.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,6 +46,7 @@ public class addUserAccounts {
             pstat.setString(2, password);
             pstat.setString(3, email);
             pstat.setString(4, payMethod);
+
 
 
             //insert data into database
