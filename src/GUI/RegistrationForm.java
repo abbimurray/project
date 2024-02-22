@@ -150,5 +150,7 @@ public class RegistrationForm extends JDialog {
         {
             System.out.println("Registration cancelled");
         }
+        // Exit the program after the dialog is closed
+        System.exit(0);
     }
 }
