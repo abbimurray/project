@@ -24,7 +24,7 @@ public class LoginForm extends JDialog {
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setVisible(true);
+
         btnOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,7 +42,18 @@ public class LoginForm extends JDialog {
                     JOptionPane.showMessageDialog(LoginForm.this, "Email or Password invalid", "Try Again", JOptionPane.ERROR_MESSAGE);
                }
             }
+
+
+
         });
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        setVisible(true);
     }
 
     public User user;
@@ -57,10 +68,10 @@ public class LoginForm extends JDialog {
 
         PreparedStatement pstat = null;
         try {
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
 
-            pstat = conn.prepareStatement("SELECT * FROM user_accounts WHERE username=? AND password=?" );
+            pstat = connection.prepareStatement("SELECT * FROM user_accounts WHERE username=? AND password=?" );
             pstat.setString(1, username);
             pstat.setString(2, password);
 
@@ -71,9 +82,12 @@ public class LoginForm extends JDialog {
                 user = new User();
                 user.userName = resultSet.getString("username");
                 user.password = resultSet.getString("password");
+                user.email = resultSet.getString("email");
 
             }
 
+            pstat.close();
+            connection.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -87,5 +101,16 @@ public class LoginForm extends JDialog {
         JFrame frame = new JFrame("Login Form");
         LoginForm loginForm= new LoginForm(frame);
         System.out.println("Login Form");
+        User user = loginForm.user;
+        if(user != null)
+        {
+            System.out.println("Successful Authentication of: " + user.userName);
+            System.out.println("Email: " + user.email);
+        }
+        else {
+            System.out.println("Authentication cancelled");
+        }
+        // Exit the program after the dialog is closed
+        System.exit(0);
     }
 }

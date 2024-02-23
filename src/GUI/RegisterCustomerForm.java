@@ -1,5 +1,5 @@
 package GUI;
-/*registration form to register new admin-> management*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,40 +8,34 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
-public class RegistrationForm extends JDialog {
-    private JLabel add_icon;
-    private JLabel title;
-    private JLabel userLabel;
-    private JTextField tfUsername;
-    private JLabel emailLabel;
+public class RegisterCustomerForm extends JDialog{
+    private JPanel registerCustomerPanel;
+    private JLabel titlecust;
+    private JPasswordField pfConfirm;
+    private JPasswordField pfPassword;
+    private JTextField tfPhone;
     private JTextField tfEmail;
-    private JLabel pwLabel;
-    private JPasswordField pwf1;
-    private JLabel pfLabel2;
-    private JPasswordField pwf2;
+    private JTextField tfLastName;
+    private JTextField tfFirstName;
     private JButton btnSubmit;
     private JButton btnCancel;
-    private JPanel registerAdminPanel;
 
-    public RegistrationForm (JFrame parent)
-    {
+
+    //constructor
+    public RegisterCustomerForm(JFrame parent){
         super(parent);/*call parent instructure which requires jframe*/
-        setTitle("Create a new user account(admin)");
-        setContentPane(registerAdminPanel);
+        setTitle("Create a new customer account");
+        setContentPane(registerCustomerPanel);
         setMinimumSize(new Dimension(450,474));
         setModal(true);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        /*button for creating new admin*/
         btnSubmit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registerUser();
+                registerCustomer();
             }
         });
-
-        /*button to cancel new admin*/
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,22 +44,23 @@ public class RegistrationForm extends JDialog {
         });
 
         setVisible(true);
-
     }
 
-    //register new admin user
-    private void registerUser() {
-        String userName = tfUsername.getText();
+    private void registerCustomer() {
+        String firstName = tfFirstName.getText();
+        String lastName = tfLastName.getText();
         String email = tfEmail.getText();
-        String password = String.valueOf(pwf1.getPassword());
-        String confirmPassword = String.valueOf(pwf2.getPassword());
+        String phone = tfPhone.getText();
+        String password = String.valueOf(pfPassword.getPassword());
+        String confirmPassword =String.valueOf(pfConfirm.getPassword());
 
         /*if any fields aren't entered*/
-        if (userName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty())
+        if (firstName.isEmpty() || lastName.isEmpty()|| email.isEmpty() ||phone.isEmpty()||  password.isEmpty() || confirmPassword.isEmpty())
         {
             JOptionPane.showMessageDialog(this, "Please enter all fields", "Try again", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         /*if passwords don't match*/
         if(!password.equals(confirmPassword))
         {
@@ -73,22 +68,23 @@ public class RegistrationForm extends JDialog {
             return;
         }
 
-       userAdmin = addUserAccounts(userName, email, password);
-        if (userAdmin != null)
+        customer= addCustomerAccounts(firstName,lastName, email,phone, password);
+        if (customer != null)
         {
             dispose();
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "Failed to register new user", "Try again", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Failed to register new customer", "Try again", JOptionPane.ERROR_MESSAGE);
             return;
         }
-    }
 
-    public UserAdmin userAdmin;
-    private UserAdmin addUserAccounts(String userName, String email, String password)
-    {
-        UserAdmin userAdmin= null;/*if method fails it will return null*/
+
+    }
+    public Customer customer;
+    private Customer addCustomerAccounts(String firstName,String lastName, String email,String phone, String password) {
+        Customer customer = null;/*if method fails it will return null*/
+
         final String DB_URL ="jdbc:mysql://localhost:3306/EVCharging";
         final String USERNAME="root";
         final String PASSWORD="pknv!47A";
@@ -97,25 +93,30 @@ public class RegistrationForm extends JDialog {
         PreparedStatement pstat = null;
         int i=0;
 
+
         try {
             //establish connection to database
             connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO user_accounts (username, password, email) VALUES (?,?,?)");
-            pstat.setString(1, userName);
-            pstat.setString(2, password);
+            pstat = connection.prepareStatement("INSERT INTO customer_accounts (firstName, lastName, email, phone, password) VALUES (?,?,?,?,?)");
+            pstat.setString(1, firstName);
+            pstat.setString(2, lastName);
             pstat.setString(3, email);
-
+            pstat.setString(4, phone);
+            pstat.setString(5, password);
 
             //insert row into table
             int addedRows = pstat.executeUpdate();
             if (addedRows>0)
             {
-                userAdmin = new UserAdmin();
-                userAdmin.setUsername(userName);
-                userAdmin.setEmail(email);
-                userAdmin.setPassword(password);
+                customer = new Customer();
+                customer.setFirstName(firstName);
+                customer.setLastName(lastName);
+                customer.setEmail(email);
+                customer.setPhone(phone);
+                customer.setPassword(password);
+
 
             }
 
@@ -131,20 +132,19 @@ public class RegistrationForm extends JDialog {
             e.printStackTrace();
         }
 
-        return userAdmin;
+
+        return customer;
 
     }
 
-
-
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Registration Form");
-        RegistrationForm myForm = new RegistrationForm(frame);
-        System.out.println("Registration Form");
-        UserAdmin userAdmin = myForm.userAdmin;
-        if(userAdmin != null)
+        JFrame frame = new JFrame("Registration Form for cUSTOMER");
+        RegisterCustomerForm myCustomerForm = new RegisterCustomerForm(frame);
+        System.out.println("Registration Form for Customer");
+        Customer customer = myCustomerForm.customer;
+        if(customer != null)
         {
-            System.out.println("Successful Registration of:  " + userAdmin.getUsername());
+            System.out.println("Successful Registration of:  " + customer.getFirstName() +  customer.getLastName());
 
         }
         else
@@ -154,4 +154,5 @@ public class RegistrationForm extends JDialog {
         // Exit the program after the dialog is closed
         System.exit(0);
     }
-}
+
+}//end class
