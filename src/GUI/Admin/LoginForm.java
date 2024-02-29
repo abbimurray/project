@@ -1,4 +1,5 @@
-package GUI;
+package GUI.Admin;
+/*Login form for users which is admin for the system*/
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,14 +33,14 @@ public class LoginForm extends JDialog {
                 String password = String.valueOf(pfPassword.getPassword());
 
 
-               user= getAuthenticatedUser(username, password);
-               if (user !=null)
+               userAdmin= getAuthenticatedUser(username, password);
+               if (userAdmin !=null)
                {
                    dispose();
                }
                else
                {
-                    JOptionPane.showMessageDialog(LoginForm.this, "Email or Password invalid", "Try Again", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(LoginForm.this, "Username or Password invalid", "Try Again", JOptionPane.ERROR_MESSAGE);
                }
             }
 
@@ -56,11 +57,11 @@ public class LoginForm extends JDialog {
         setVisible(true);
     }
 
-    public User user;
+    public UserAdmin userAdmin;
 
     //method to get authenticated user
-    private User getAuthenticatedUser(String username, String password){
-        User user=null;
+    private UserAdmin getAuthenticatedUser(String username, String password){
+        UserAdmin userAdmin=null;
 
         final String DB_URL ="jdbc:mysql://localhost:3306/EVCharging";
         final String USERNAME="root";
@@ -79,10 +80,12 @@ public class LoginForm extends JDialog {
 
             if (resultSet.next())
             {
-                user = new User();
-                user.userName = resultSet.getString("username");
-                user.password = resultSet.getString("password");
-                user.email = resultSet.getString("email");
+                userAdmin = new UserAdmin();
+                userAdmin.setUsername(username);
+                userAdmin.setPassword(password);
+               // userAdmin.userName = resultSet.getString("username");
+                //userAdmin.password = resultSet.getString("password");
+                //userAdmin.email = resultSet.getString("email");
 
             }
 
@@ -93,7 +96,7 @@ public class LoginForm extends JDialog {
             throw new RuntimeException(e);
         }
 
-        return user;
+        return userAdmin;
     }
 
     public static void main(String[] args)
@@ -101,11 +104,11 @@ public class LoginForm extends JDialog {
         JFrame frame = new JFrame("Login Form");
         LoginForm loginForm= new LoginForm(frame);
         System.out.println("Login Form");
-        User user = loginForm.user;
-        if(user != null)
+        UserAdmin userAdmin = loginForm.userAdmin;
+        if(userAdmin != null)
         {
-            System.out.println("Successful Authentication of: " + user.userName);
-            System.out.println("Email: " + user.email);
+            System.out.println("Successful Authentication of: " + userAdmin.getUsername());
+
         }
         else {
             System.out.println("Authentication cancelled");

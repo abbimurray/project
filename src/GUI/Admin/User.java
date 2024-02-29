@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Admin;
 
 /*user refers to admin user*/
 public class User {

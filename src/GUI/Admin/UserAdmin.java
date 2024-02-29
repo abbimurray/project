@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Admin;
 
 public class UserAdmin {
 

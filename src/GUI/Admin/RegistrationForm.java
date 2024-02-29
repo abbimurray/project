@@ -1,5 +1,6 @@
-package GUI;
+package GUI.Admin;
 /*registration form to register new admin-> management*/
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

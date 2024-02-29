@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Customer;
 
 import javax.swing.*;
 import java.awt.*;

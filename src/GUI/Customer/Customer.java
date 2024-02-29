@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Customer;
 /*class for: customer
 * student name: abigail murray
 * student number: c00260073*/
@@ -76,5 +76,6 @@ public class Customer {
     public void setPassword(String password){
         this.password = password;
     }
+
 
 }//end class
