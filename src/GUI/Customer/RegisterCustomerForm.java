@@ -138,13 +138,13 @@ public class RegisterCustomerForm extends JDialog{
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Registration Form for cUSTOMER");
+        JFrame frame = new JFrame("Registration Form for Customer");
         RegisterCustomerForm myCustomerForm = new RegisterCustomerForm(frame);
         System.out.println("Registration Form for Customer");
         Customer customer = myCustomerForm.customer;
         if(customer != null)
         {
-            System.out.println("Successful Registration of:  " + customer.getFirstName() +  customer.getLastName());
+            System.out.println("Successful Registration of:  " + customer.getFirstName() + " " + customer.getLastName());
 
         }
         else

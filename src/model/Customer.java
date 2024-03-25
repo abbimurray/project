@@ -1,7 +1,5 @@
-package GUI.Customer;
-/*class for: customer
- * student name: abigail murray
- * student number: c00260073*/
+package model;
+
 public class Customer {
     private int customerID;
     private String firstName;
@@ -9,6 +7,8 @@ public class Customer {
     private String email;
     private String phone;
     private String password;
+    private String salt; //  field for salt - needed for password hashing
+
 
 
     /*constructor methods*/
@@ -77,5 +77,12 @@ public class Customer {
         this.password = password;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
 }//end class
