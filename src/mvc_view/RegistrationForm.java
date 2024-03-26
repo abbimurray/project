@@ -1,4 +1,5 @@
 package mvc_view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,28 +12,78 @@ import utils.HashingUtils;
 import utils.ValidationUtils; /*importing validation class for email and password*/
 
 public class RegistrationForm extends JDialog {
-    private JTextField emailTextField;
-    private JPasswordField passwordField;
-    private JPasswordField confirmPasswordField;
-    private JTextField firstNameTextField;
-    private JTextField lastNameTextField;
-    private JTextField phoneTextField;
-    private JButton registerButton;
-    private JButton cancelButton;
-    private JPanel registerPanel;
+    //private JTextField emailTextField;
+    //private JPasswordField passwordField;
+    //private JPasswordField confirmPasswordField;
+    //private JTextField firstNameTextField;
+    //private JTextField lastNameTextField;
+    //private JTextField phoneTextField;
+    //private JButton registerButton;
+    //private JButton cancelButton;
+    //private JPanel registerPanel;
+
+    private JTextField emailTextField = new JTextField(20);
+    private JPasswordField passwordField = new JPasswordField(20);
+    private JPasswordField confirmPasswordField = new JPasswordField(20);
+    private JTextField firstNameTextField = new JTextField(20);
+    private JTextField lastNameTextField = new JTextField(20);
+    private JTextField phoneTextField = new JTextField(20);
+    private JButton registerButton = new JButton("Register");
+    private JButton cancelButton = new JButton("Cancel");
 
     public RegistrationForm(JFrame parent) {
         super(parent);
-        setTitle("Register");
-        setSize(600, 600);
+        setTitle("Registration Form");
+        setSize(800, 600);
         setModal(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(parent);
         initializeUI();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     private void initializeUI() {
-        registerPanel = new JPanel(new GridLayout(5, 2));
+       registerPanel = new JPanel(new FlowLayout());
+
+
+        getContentPane().setLayout(new BorderLayout());
+
+        // Header panel with logo and text
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        headerPanel.setBackground(new Color(204, 255, 204)); // mint  color
+
+        // Logo
+        ImageIcon logoIcon = new ImageIcon("src/mvc_view/electric-car-5.png");
+        JLabel logoLabel = new JLabel(logoIcon);
+        headerPanel.add(logoLabel);
+
+        // Title
+        JLabel titleLabel = new JLabel("                              Register as a User");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(new Color(36,35,37));
+
+        headerPanel.setLayout(new BorderLayout());
+
+        headerPanel.add(logoLabel, BorderLayout.WEST);
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+        headerPanel.add(titleLabel);
+
+        getContentPane().add(headerPanel, BorderLayout.NORTH);
+
+
+
 
         firstNameTextField = new JTextField();
         lastNameTextField = new JTextField();
@@ -60,6 +111,9 @@ public class RegistrationForm extends JDialog {
         registerPanel.add(registerButton);
 
         add(registerPanel, BorderLayout.CENTER);
+
+
+
 
         // Event listeners
         registerButton.addActionListener(new ActionListener() {
