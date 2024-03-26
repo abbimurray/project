@@ -17,17 +17,15 @@ public class LoginForm extends JFrame {
     private JButton loginButton;
     private JButton registerButton;//register will take them to register as new user
     private JButton cancelButton;  //reset
-    // private JPanel loginPanel;
+
 
     public LoginForm() {
         setTitle("EV Charging System Login");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-       // initializeUI();
-        //setLocationRelativeTo(null); // Center on screen
-    //}
+
         try {
-            // Attempt to set a Look and Feel that might respect color changes better
+            // set a Look and Feel that handles color changes better
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,8 +42,7 @@ public class LoginForm extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(new Color(204, 255, 204));//MINT GREEN
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        //add logo to login page
-        ImageIcon logoIcon = new ImageIcon("src/mvc_view/electric-car-5.png");
+        ImageIcon logoIcon = new ImageIcon("src/mvc_view/electric-car-5.png"); //add logo to login page
         JLabel logoLabel = new JLabel(logoIcon);
         JLabel evChargingLabel = new JLabel("EV Charging");
         evChargingLabel.setForeground(new Color(36,35,37));
@@ -61,33 +58,25 @@ public class LoginForm extends JFrame {
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-
-        // Add some space at the top
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));// Add some space at the top
 
         JLabel loginLabel = new JLabel("Login in");
         loginLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         loginLabel.setFont(new Font("Arial", Font.BOLD, 24));
         rightPanel.add(loginLabel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // space
 
         JLabel welcomeLabel = new JLabel("Welcome back!");
         welcomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         rightPanel.add(welcomeLabel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 60))); // Add space between login label and fields
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 60))); // space BETWEEN THE LOGIN +WELCOME MESSAGE AND THE TEXT FIELDS
 
-
-
+        //Images
         ImageIcon keyIcon = new ImageIcon("src/GUI/Images/key.png");
         JLabel emailIconLabel = new JLabel(new ImageIcon("src/GUI/Images/email.png"));
         JLabel passwordIconLabel = new JLabel(new ImageIcon("src/GUI/Images/lock.png"));
 
-
-
-
-        //rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Additional spacer if needed
-        //rightPanel.add(imageLabel);
 
         // Email Field
         JPanel emailPanel = new JPanel();
@@ -99,7 +88,7 @@ public class LoginForm extends JFrame {
         emailLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Set left alignment
         emailPanel.add(emailLabel);
 
-        JPanel emailTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel emailTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         emailTextField = new JTextField(20);
         emailTextField.setMaximumSize(new Dimension(300, 30)); // Set fixed width and height
         emailTextFieldPanel.add(emailIconLabel); // Add email icon to the left
@@ -110,7 +99,7 @@ public class LoginForm extends JFrame {
 
         rightPanel.add(emailPanel);
 
-// Password Field
+        // Password Field
         JPanel passwordPanel = new JPanel();
         passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
         passwordPanel.setBackground(Color.WHITE);
@@ -120,7 +109,7 @@ public class LoginForm extends JFrame {
         passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Set left alignment
         passwordPanel.add(passwordLabel);
 
-        JPanel passwordTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel passwordTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         passwordField = new JPasswordField(20);
         passwordField.setMaximumSize(new Dimension(300, 30)); // Set fixed width and height
         passwordTextFieldPanel.add(passwordIconLabel); // Add password icon to the left
@@ -128,26 +117,18 @@ public class LoginForm extends JFrame {
         passwordPanel.add(passwordTextFieldPanel);
         passwordTextFieldPanel.setBackground(Color.WHITE);
 
-        passwordPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
-
         rightPanel.add(passwordPanel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
 
 
+        //Buttons
+      //  registerButton = new JButton("Register Here");//reset fields
 
-
-
-        //loginButton = new JButton("Login");
-        //cancelButton = new JButton("Cancel");
-        registerButton = new JButton("Register Here");//reset fields
-
-// Create a panel to hold the buttons
+        // Create a panel to hold the buttons - login and cancel
         JPanel buttonPanel = new JPanel(new FlowLayout());
         // Set the background color of the button panel to white
         buttonPanel.setBackground(Color.WHITE);
 
-
-// Login Button
+        // Login Button
         loginButton = new JButton("Login");
         loginButton.setOpaque(true);
         loginButton.setBackground(new Color(204, 255, 204));
@@ -155,7 +136,7 @@ public class LoginForm extends JFrame {
         loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
         buttonPanel.add(loginButton);
 
-// Cancel Button
+        // Cancel Button
         cancelButton = new JButton("Cancel");
         cancelButton.setOpaque(true);
         cancelButton.setBackground(new Color(204, 255, 204));
@@ -163,33 +144,19 @@ public class LoginForm extends JFrame {
         cancelButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
         buttonPanel.add(cancelButton);
 
-// Add the button panel to the right panel
+        // Add the button panel to the right panel
         rightPanel.add(buttonPanel);
 
-        //rightPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        //rightPanel.add(emailIconLabel);
-        //rightPanel.add(emailTextField);
-        //rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adjust spacing
-        //rightPanel.add(passwordIconLabel);
-        //rightPanel.add(passwordField);
-      //  rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adjust spacing
-        //rightPanel.add(loginButton);
-        //rightPanel.add(cancelButton);
-        rightPanel.add(new JLabel("Not already a user?"));
+        //Register here button - not on button panel
+        JLabel notUserLabel = new JLabel("Not already a user?");
+        notUserLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rightPanel.add(notUserLabel);
+        registerButton = new JButton("Register Here");//reset fields
+        customizeButton(registerButton);
         rightPanel.add(registerButton);
 
-
-        //adding email and password box to right panel
-        // rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));//spacer
-        // rightPanel.add(new JLabel("Email:"));
-        //rightPanel.add(emailTextField);
-        //rightPanel.add(new JLabel("Password:"));
-        //rightPanel.add(passwordField);
-        //rightPanel.add(loginButton);
-        //rightPanel.add(cancelButton);
-        //rightPanel.add(new JLabel("Not already a user?"));
-        //rightPanel.add(registerButton);
-
+        // To add spacing at the bottom, add vertical glue after the last component
+        rightPanel.add(Box.createVerticalGlue()); // Pushes everything up, adding space at the bottom
 
         //center components in right panel
         for (Component component : rightPanel.getComponents()) {
@@ -206,9 +173,6 @@ public class LoginForm extends JFrame {
         //add split pane to jframe
         getContentPane().add(splitpane, BorderLayout.CENTER);
 
-
-
-        //add(loginPanel, BorderLayout.CENTER);
 
         // Event listeners
         loginButton.addActionListener(new ActionListener() {
@@ -296,4 +260,3 @@ public class LoginForm extends JFrame {
         });
     }
 }
-
