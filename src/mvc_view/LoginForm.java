@@ -1,5 +1,4 @@
 package mvc_view;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +16,7 @@ public class LoginForm extends JFrame {
     private JButton loginButton;
     private JButton registerButton;//register will take them to register as new user
     private JButton cancelButton;  //reset
-   // private JPanel loginPanel;
+    // private JPanel loginPanel;
 
     public LoginForm() {
         setTitle("EV Charging System Login");
@@ -29,9 +28,8 @@ public class LoginForm extends JFrame {
 
     private void initializeUI() {
         JSplitPane splitpane = new JSplitPane();
-        splitpane.setDividerLocation(266);//1/3 of the width
+        splitpane.setDividerLocation(400);//1/3 of the width
         splitpane.setEnabled(false);// can't move divider
-        // loginPanel = new JPanel(new GridLayout(3, 2));
 
         //Left Panel
         JPanel leftPanel = new JPanel();
@@ -55,32 +53,59 @@ public class LoginForm extends JFrame {
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
-        // Assuming the image is named 'some-image.png' and located in the src/mvc_view directory
+        // Add some space at the top
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));
+
+        JLabel loginLabel = new JLabel("Login in");
+        loginLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        loginLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        rightPanel.add(loginLabel);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
+
+        JLabel welcomeLabel = new JLabel("Welcome back!");
+        welcomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        rightPanel.add(welcomeLabel);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Add space
+
+
         ImageIcon keyIcon = new ImageIcon("src/GUI/Images/key.png");
-        JLabel imageLabel = new JLabel(keyIcon);
-        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the image
+        JLabel emailIconLabel = new JLabel(new ImageIcon("src/GUI/Images/email.png"));
+        JLabel passwordIconLabel = new JLabel(new ImageIcon("src/GUI/Images/password-3.png"));
 
-        // Add the image label to the right panel
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Additional spacer if needed
-        rightPanel.add(imageLabel);
+        emailTextField = new JTextField(15); // Reduce size of email field
+        passwordField = new JPasswordField(15);
 
+        //rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Additional spacer if needed
+        //rightPanel.add(imageLabel);
 
-        emailTextField = new JTextField(20);
-        passwordField = new JPasswordField(20);
         loginButton = new JButton("Login");
         cancelButton = new JButton("Cancel");
         registerButton = new JButton("Register Here");//reset fields
 
-        //adding email and password box to right panel
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));//spacer
-        rightPanel.add(new JLabel("Email:"));
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        rightPanel.add(emailIconLabel);
         rightPanel.add(emailTextField);
-        rightPanel.add(new JLabel("Password:"));
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adjust spacing
+        rightPanel.add(passwordIconLabel);
         rightPanel.add(passwordField);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adjust spacing
         rightPanel.add(loginButton);
         rightPanel.add(cancelButton);
         rightPanel.add(new JLabel("Not already a user?"));
         rightPanel.add(registerButton);
+
+
+        //adding email and password box to right panel
+        // rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));//spacer
+        // rightPanel.add(new JLabel("Email:"));
+        //rightPanel.add(emailTextField);
+        //rightPanel.add(new JLabel("Password:"));
+        //rightPanel.add(passwordField);
+        //rightPanel.add(loginButton);
+        //rightPanel.add(cancelButton);
+        //rightPanel.add(new JLabel("Not already a user?"));
+        //rightPanel.add(registerButton);
 
 
         //center components in right panel
@@ -92,7 +117,7 @@ public class LoginForm extends JFrame {
         splitpane.setRightComponent(rightPanel);
         splitpane.setDividerSize(0);//removes visible divider line
 
-        //add split pane ti jframe
+        //add split pane to jframe
         getContentPane().add(splitpane, BorderLayout.CENTER);
 
 
@@ -150,6 +175,7 @@ public class LoginForm extends JFrame {
             if (hashedInputPassword.equals(customer.getPassword())) {
                 JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 // Here, you can proceed to the next part of your application
+                //add in opendashboard
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
@@ -165,7 +191,7 @@ public class LoginForm extends JFrame {
         // Instantiate and show the registration form
         RegistrationForm registrationForm = new RegistrationForm(this);
         registrationForm.setVisible(true);
-        // Optionally, hide the login form
+        // hide the login form
         this.setVisible(false);
     }
 
@@ -178,3 +204,4 @@ public class LoginForm extends JFrame {
         });
     }
 }
+
