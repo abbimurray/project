@@ -73,22 +73,60 @@ public class LoginForm extends JFrame {
         JLabel emailIconLabel = new JLabel(new ImageIcon("src/GUI/Images/email.png"));
         JLabel passwordIconLabel = new JLabel(new ImageIcon("src/GUI/Images/password-3.png"));
 
-        emailTextField = new JTextField(15); // Reduce size of email field
-        passwordField = new JPasswordField(15);
+
+        // emailTextField = new JTextField(15); // Reduce size of email field
+        //passwordField = new JPasswordField(15);
 
         //rightPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Additional spacer if needed
         //rightPanel.add(imageLabel);
+
+        // Email Field
+        JPanel emailPanel = new JPanel();
+        emailPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel emailLabel = new JLabel("Email:");
+        emailLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        emailPanel.add(emailLabel);
+
+        emailTextField = new JTextField(20);
+        emailTextField.setMaximumSize(new Dimension(300, 30)); // Set fixed width and height
+        emailPanel.add(emailIconLabel); // Add email icon to the left
+        emailPanel.add(emailTextField);
+
+        rightPanel.add(emailPanel);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
+
+        // Password Field
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel passwordLabel = new JLabel("Password:");
+        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        passwordPanel.add(passwordLabel);
+
+        passwordField = new JPasswordField(20);
+        passwordField.setMaximumSize(new Dimension(300, 30)); // Set fixed width and height
+        passwordPanel.add(passwordIconLabel); // Add password icon to the left
+        passwordPanel.add(passwordField);
+
+        rightPanel.add(passwordPanel);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
+
+
+
 
         loginButton = new JButton("Login");
         cancelButton = new JButton("Cancel");
         registerButton = new JButton("Register Here");//reset fields
 
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        rightPanel.add(emailIconLabel);
-        rightPanel.add(emailTextField);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adjust spacing
-        rightPanel.add(passwordIconLabel);
-        rightPanel.add(passwordField);
+
+
+        //rightPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        //rightPanel.add(emailIconLabel);
+        //rightPanel.add(emailTextField);
+        //rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adjust spacing
+        //rightPanel.add(passwordIconLabel);
+        //rightPanel.add(passwordField);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Adjust spacing
         rightPanel.add(loginButton);
         rightPanel.add(cancelButton);
