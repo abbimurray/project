@@ -46,7 +46,7 @@ public class RegistrationForm extends JDialog {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
         headerPanel.setPreferredSize(new Dimension(headerPanel.getWidth(), 20)); // Decrease the height of the title panel
-        ImageIcon logoIcon = new ImageIcon("src/mvc_view/electric-car-5.png");
+        ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png");
         JLabel logoLabel = new JLabel(logoIcon);
         JLabel titleLabel = new JLabel("Register as a User", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));

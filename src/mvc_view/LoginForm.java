@@ -43,7 +43,7 @@ public class LoginForm extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(new Color(204, 255, 204));//MINT GREEN
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        ImageIcon logoIcon = new ImageIcon("src/mvc_view/electric-car-5.png"); //add logo to login page
+        ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png"); //add logo to login page
         JLabel logoLabel = new JLabel(logoIcon);
         JLabel evChargingLabel = new JLabel("EV Charging");
         evChargingLabel.setForeground(new Color(36,35,37));
@@ -75,8 +75,8 @@ public class LoginForm extends JFrame {
 
         //Images
         ImageIcon keyIcon = new ImageIcon("src/GUI/Images/key.png");
-        JLabel emailIconLabel = new JLabel(new ImageIcon("src/GUI/Images/email.png"));
-        JLabel passwordIconLabel = new JLabel(new ImageIcon("src/GUI/Images/lock.png"));
+        JLabel emailIconLabel = new JLabel(new ImageIcon("src/images/email.png"));
+        JLabel passwordIconLabel = new JLabel(new ImageIcon("src/images/lock.png"));
 
 
         // Email Field
