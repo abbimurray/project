@@ -197,6 +197,10 @@ public class RegistrationForm extends JDialog {
         if (isRegistered) {
             JOptionPane.showMessageDialog(this, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose(); // Close the registration form
+
+            // Open the CustomerDashboard
+            CustomerDashboard dashboard = new CustomerDashboard();
+            dashboard.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Registration failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }

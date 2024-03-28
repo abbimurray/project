@@ -231,8 +231,14 @@ public class LoginForm extends JFrame {
 
             if (hashedInputPassword.equals(customer.getPassword())) {
                 JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                // Here, you can proceed to the next part of your application
-                //add in opendashboard
+                // Hide the LoginForm
+                this.setVisible(false);
+                this.dispose(); // Dispose the login form, don't need it anymore
+
+                // Open the CustomerDashboard
+                CustomerDashboard dashboard = new CustomerDashboard();
+                dashboard.setVisible(true);
+
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid email or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }

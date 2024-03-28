@@ -24,6 +24,9 @@ public class Customer {
         this.password = password;
     }
 
+    public Customer(String text, String text1, String text2, String text3, String s) {
+    }
+
     // Getters and setters
 
     //customerID
