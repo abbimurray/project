@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import controller.UserSession;
 
 import model.Customer;/*import customer class in model*/
 import model.CustomerModel;/*import classes in model*/
@@ -231,11 +232,15 @@ public class LoginForm extends JFrame {
 
             if (hashedInputPassword.equals(customer.getPassword())) {
                 JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                // After successful login, set the logged-in user's email in UserSession
+                UserSession.getInstance().setUserEmail(email);
+
                 // Hide the LoginForm
                 this.setVisible(false);
-                this.dispose(); // Dispose the login form, don't need it anymore
+                this.dispose(); // Dispose of the login form if you no longer need it
 
-                // Open the CustomerDashboard
+                // Open the CustomerDashboard or next part of your application
                 CustomerDashboard dashboard = new CustomerDashboard();
                 dashboard.setVisible(true);
 

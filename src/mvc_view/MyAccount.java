@@ -10,23 +10,63 @@ public class MyAccount extends JFrame {
     private CustomerModel customerModel;
     private JButton btnViewDetails, btnUpdateDetails, btnDeleteAccount, btnSignOut;
 
-    // Updated constructor to accept customerEmail
     public MyAccount(String customerEmail) {
         this.customerEmail = customerEmail;
-        this.customerModel = new CustomerModel(); // Initialize your model (consider making this a singleton or passing it as a parameter)
+        this.customerModel = new CustomerModel();
 
         setTitle("My Profile");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        initializeButtons(); // Initialize buttons first
         initializeUI();
+
         setLocationRelativeTo(null);
     }
 
-    private void initializeUI() {
-        // Your UI initialization code, modify btnViewDetails's action listener
+    private void initializeButtons() {
+        btnViewDetails = new JButton("View My Details");
+        btnUpdateDetails = new JButton("Update My Details");
+        btnDeleteAccount = new JButton("Delete My Account");
+        btnSignOut = new JButton("Sign Out");
+
+        // Set font for buttons
+        Font buttonFont = new Font("Arial", Font.BOLD, 18);
+        btnViewDetails.setFont(buttonFont);
+        btnUpdateDetails.setFont(buttonFont);
+        btnDeleteAccount.setFont(buttonFont);
+        btnSignOut.setFont(buttonFont);
+
+        // Now it's safe to add action listeners after buttons are initialized
         btnViewDetails.addActionListener(this::viewDetailsAction);
-        // Other initialization code remains the same
+        // Add listeners for other buttons similarly
     }
+
+    private void initializeUI() {
+        setLayout(new BorderLayout());
+
+        // Header panel setup
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(204, 255, 204)); // Mint color
+        JLabel titleLabel = new JLabel("My Profile", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        ImageIcon dashboardIcon = new ImageIcon("src/images/myaccount.png");
+        JLabel iconLabel = new JLabel(dashboardIcon);
+
+        headerPanel.add(iconLabel, BorderLayout.WEST);
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+        // Buttons Panel
+        JPanel buttonsPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        buttonsPanel.add(btnViewDetails);
+        buttonsPanel.add(btnUpdateDetails);
+        buttonsPanel.add(btnDeleteAccount);
+        buttonsPanel.add(btnSignOut);
+
+        add(headerPanel, BorderLayout.NORTH);
+        add(buttonsPanel, BorderLayout.CENTER);
+    }
+
 
     private void viewDetailsAction(ActionEvent e) {
         Customer customer = customerModel.getCustomerByEmail(customerEmail);

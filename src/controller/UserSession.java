@@ -20,5 +20,10 @@ public class UserSession {
         this.userEmail = userEmail;
     }
 
+    // Method to clear the session
+    public void clearSession() {
+        this.userEmail = null; // Reset the email to null or any initial value you prefer
+
+    }
     // can Add other user details or session-related methods here
 }

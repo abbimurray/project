@@ -1,6 +1,8 @@
 
 package mvc_view;
 
+import controller.UserSession;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -107,9 +109,11 @@ public class CustomerDashboard extends JFrame {
 
     private void openMyAccount() {
         System.out.println("Opening My Profile");
-        MyAccount myAccountForm = new MyAccount(loggedInCustomerEmail);
+        String userEmail = UserSession.getInstance().getUserEmail();
+        MyAccount myAccountForm = new MyAccount(userEmail);
         myAccountForm.setVisible(true);
         CustomerDashboard.this.setVisible(false); // Temporarily hide the dashboard
+
 
     }
 
