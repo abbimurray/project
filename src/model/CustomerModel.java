@@ -8,8 +8,6 @@ public class CustomerModel {
     private final String DATABASE_PASSWORD = "pknv!47A";
 
 
-
-
     // Method to RETRIEVE a customer by email
     public Customer getCustomerByEmail(String email) {
         Customer customer = null;
@@ -61,12 +59,12 @@ public class CustomerModel {
             e.printStackTrace();
             return false;
         }
+
     }
 
-    // Method to UPDATE an existing customer
-    public boolean updateCustomer(Customer customer) {
-        String sql = "UPDATE customer_accounts SET firstName = ?, lastName = ?, email = ?, phone = ?, password = ? WHERE customerID = ?";
 
+    public boolean updateCustomer(Customer customer) {
+        String sql = "UPDATE customer_accounts SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE customerID = ?";
         try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -74,22 +72,17 @@ public class CustomerModel {
             pstmt.setString(2, customer.getLastName());
             pstmt.setString(3, customer.getEmail());
             pstmt.setString(4, customer.getPhone());
-            pstmt.setString(5, customer.getPassword());
-            pstmt.setInt(6, customer.getCustomerID());
-            pstmt.setString(7, customer.getSalt()); // Set the salt in the next position
-
+            pstmt.setInt(5, customer.getCustomerID());
 
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
-
     // Method to DELETE a customer
-    public boolean deleteCustomer(int customerID) {
+    /*public boolean deleteCustomer(int customerID) {
         String sql = "DELETE FROM customer_accounts WHERE customerID = ?";
 
         try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
@@ -104,5 +97,19 @@ public class CustomerModel {
             e.printStackTrace();
             return false;
         }
+    }*/
+
+    public boolean deleteCustomerByEmail(String email) {
+        String sql = "DELETE FROM customer_accounts WHERE email = ?";
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
+}//end class

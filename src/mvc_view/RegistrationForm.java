@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import model.Customer;/*import customer class in model*/
 import model.CustomerModel;/*import classes in model*/
-
+import controller.UserSession;
 import utils.HashingUtils;
 import utils.ValidationUtils; /*importing validation class for email and password*/
 
@@ -23,7 +23,6 @@ public class RegistrationForm extends JDialog {
     private JButton cancelButton = new JButton("Cancel");
 
 
-
     public RegistrationForm(JFrame parent) {
         super(parent);
         setTitle("Registration Form");
@@ -34,8 +33,7 @@ public class RegistrationForm extends JDialog {
         initializeUI();
     }
 
-    private void initializeUI()
-    {
+    private void initializeUI() {
         //main panel setup
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -80,7 +78,7 @@ public class RegistrationForm extends JDialog {
         formPanel.add(lastNameLabel, gbc);
         lastNameTextField.setFont(textFieldFont);
         formPanel.add(lastNameTextField, gbc);
-       //
+        //
 
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setFont(labelFont);
@@ -145,6 +143,7 @@ public class RegistrationForm extends JDialog {
         // Optional: if you want the buttons to have a uniform size, you can set a preferred size
         button.setPreferredSize(new Dimension(100, 40)); // Adjust width and height as needed
     }
+
     private void register() {
         String firstName = firstNameTextField.getText().trim();
         String lastName = lastNameTextField.getText().trim();
@@ -154,7 +153,7 @@ public class RegistrationForm extends JDialog {
         String phone = phoneTextField.getText().trim();
 
         //validation to ensure all fields are filled in
-        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() ||phone.isEmpty()|| password.isEmpty() || confirmPassword.isEmpty()) {
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || phone.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -194,7 +193,7 @@ public class RegistrationForm extends JDialog {
         CustomerModel customerModel = new CustomerModel();
         boolean isRegistered = customerModel.addCustomer(newCustomer);
 
-        if (isRegistered) {
+        /*if (isRegistered) {
             JOptionPane.showMessageDialog(this, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose(); // Close the registration form
 
@@ -206,5 +205,32 @@ public class RegistrationForm extends JDialog {
         }
     }
 
+         */
+
+        if (isRegistered) {
+            JOptionPane.showMessageDialog(this, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            dispose(); // Close the registration form
+
+            // Retrieve the full customer details, including the customerID, to store in the session
+            // Assuming you have a method in CustomerModel to retrieve by email:
+            Customer registeredCustomer = customerModel.getCustomerByEmail(email);
+            if (registeredCustomer != null) {
+                // Update the UserSession with the registered customer's details
+                UserSession.getInstance().setUserEmail(registeredCustomer.getEmail());
+                UserSession.getInstance().setCustomerID(registeredCustomer.getCustomerID());
+                UserSession.getInstance().setFirstName(registeredCustomer.getFirstName());
+                UserSession.getInstance().setLastName(registeredCustomer.getLastName());
+
+                // Open the CustomerDashboard
+                CustomerDashboard dashboard = new CustomerDashboard();
+                dashboard.setVisible(true);
+            } else {
+                // Handle the unlikely case where the user couldn't be retrieved after registration
+                JOptionPane.showMessageDialog(this, "There was a problem retrieving your account details.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Registration failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 }//end of class

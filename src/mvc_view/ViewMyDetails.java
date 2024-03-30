@@ -1,5 +1,7 @@
 package mvc_view;
 import model.Customer;
+import utils.UIUtils;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -42,39 +44,68 @@ public class ViewMyDetails extends JFrame {
         formPanel.setBackground(Color.WHITE); // Set to white for the form look
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding around the form
 
+        ///
+        // Styling for labels and details
+        Font labelFont = new Font("Arial", Font.BOLD, 20);
+        Font detailFont = new Font("Arial", Font.PLAIN, 18);
+
+        // Initialize GridBagConstraints
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10); // Margins between components
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Styling for labels and details
-        Font labelFont = new Font("Arial", Font.BOLD, 18);
-        Font detailFont = new Font("Arial", Font.PLAIN, 18);
+        //for customerID
+        JLabel customerIDLabel = new JLabel("Customer ID: ");
+        customerIDLabel.setFont(labelFont);
+        formPanel.add(customerIDLabel, gbc);
 
-        // Adding details - Adjust as per your requirement
-        formPanel.add(new JLabel("First Name: "), gbc);
-        formPanel.add(new JLabel(customer.getFirstName()) {{
-            setFont(detailFont);
-        }}, gbc);
-        formPanel.add(new JLabel("Last Name: "), gbc);
-        formPanel.add(new JLabel(customer.getLastName()) {{
-            setFont(detailFont);
-        }}, gbc);
-        formPanel.add(new JLabel("Email: "), gbc);
-        formPanel.add(new JLabel(customer.getEmail()) {{
-            setFont(detailFont);
-        }}, gbc);
-        formPanel.add(new JLabel("Phone: "), gbc);
-        formPanel.add(new JLabel(customer.getPhone()) {{
-            setFont(detailFont);
-        }}, gbc);
+        JLabel customerIDValue = new JLabel(String.valueOf(customer.getCustomerID()));
+        customerIDValue.setFont(detailFont); // Apply detail font
+        formPanel.add(customerIDValue, gbc);
+        //  for First Name
+        JLabel firstNameLabel = new JLabel("First Name: ");
+        firstNameLabel.setFont(labelFont);
+        formPanel.add(firstNameLabel, gbc);
+
+        JLabel firstNameValue = new JLabel(customer.getFirstName());
+        firstNameValue.setFont(detailFont);
+        formPanel.add(firstNameValue, gbc);
+
+        //  for Last Name
+        JLabel lastNameLabel = new JLabel("Last Name: ");
+        lastNameLabel.setFont(labelFont);
+        formPanel.add(lastNameLabel, gbc);
+
+        JLabel lastNameValue = new JLabel(customer.getLastName());
+        lastNameValue.setFont(detailFont);
+        formPanel.add(lastNameValue, gbc);
+
+        //  for Email
+        JLabel emailLabel = new JLabel("Email: ");
+        emailLabel.setFont(labelFont);
+        formPanel.add(emailLabel, gbc);
+
+        JLabel emailValue = new JLabel(customer.getEmail());
+        emailValue.setFont(detailFont);
+        formPanel.add(emailValue, gbc);
+
+        //  for Phone
+        JLabel phoneLabel = new JLabel("Phone: ");
+        phoneLabel.setFont(labelFont);
+        formPanel.add(phoneLabel, gbc);
+
+        JLabel phoneValue = new JLabel(customer.getPhone());
+        phoneValue.setFont(detailFont);
+        formPanel.add(phoneValue, gbc);
 
         // Wrap formPanel in another panel to center it on screen
         JPanel centerPanel = new JPanel(new GridBagLayout());
         centerPanel.add(formPanel);
 
         // Go Back Button
-        JButton goBackButton = new JButton("Go Back");
+        JButton goBackButton = new JButton("Go Back to My Profile");
+        UIUtils.customizeButton(goBackButton);
         goBackButton.addActionListener(e -> dispose()); // Close this window
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(goBackButton);

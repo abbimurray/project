@@ -10,6 +10,7 @@ import controller.UserSession;
 
 import model.Customer;/*import customer class in model*/
 import model.CustomerModel;/*import classes in model*/
+import utils.UIUtils;
 import utils.ValidationUtils; /*importing validation class for email and password*/
 import utils.HashingUtils;/*import class for hashing passwords*/
 public class LoginForm extends JFrame {
@@ -25,7 +26,6 @@ public class LoginForm extends JFrame {
         setTitle("EV Charging System Login");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         try {
             // set a Look and Feel that handles color changes better
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -121,10 +121,6 @@ public class LoginForm extends JFrame {
 
         rightPanel.add(passwordPanel);
 
-
-        //Buttons
-      //  registerButton = new JButton("Register Here");//reset fields
-
         // Create a panel to hold the buttons - login and cancel
         JPanel buttonPanel = new JPanel(new FlowLayout());
         // Set the background color of the button panel to white
@@ -132,18 +128,20 @@ public class LoginForm extends JFrame {
 
         // Login Button
         loginButton = new JButton("Login");
-        loginButton.setOpaque(true);
-        loginButton.setBackground(new Color(204, 255, 204));
-        loginButton.setForeground( new Color(36,35,37)); // Custom text color
-        loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
+        UIUtils.customizeButton(loginButton);
+       // loginButton.setOpaque(true);
+        //loginButton.setBackground(new Color(204, 255, 204));
+        //loginButton.setForeground( new Color(36,35,37)); // Custom text color
+        //loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
         buttonPanel.add(loginButton);
 
         // Cancel Button
         cancelButton = new JButton("Cancel");
-        cancelButton.setOpaque(true);
-        cancelButton.setBackground(new Color(204, 255, 204));
-        cancelButton.setForeground(new Color(36,35,37)); // Custom text color
-        cancelButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
+        UIUtils.customizeButton(cancelButton);
+        //cancelButton.setOpaque(true);
+        //cancelButton.setBackground(new Color(204, 255, 204));
+        //cancelButton.setForeground(new Color(36,35,37)); // Custom text color
+        //cancelButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
         buttonPanel.add(cancelButton);
 
         // Add the button panel to the right panel
@@ -154,7 +152,8 @@ public class LoginForm extends JFrame {
         notUserLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         rightPanel.add(notUserLabel);
         registerButton = new JButton("Register Here");//reset fields
-        customizeButton(registerButton);
+        //customizeButton(registerButton);
+        UIUtils.customizeButton(registerButton);
         rightPanel.add(registerButton);
 
         // To add spacing at the bottom, add vertical glue after the last component
@@ -208,12 +207,12 @@ public class LoginForm extends JFrame {
 
 
     // Custom method to customize buttons
-    private void customizeButton(JButton button) {
+    /*private void customizeButton(JButton button) {
         button.setOpaque(true);
         button.setBackground(new Color(204, 255, 204)); // Mint green
         button.setForeground(new Color(36, 35, 37)); // Custom text color
         button.setFont(new Font("Arial", Font.BOLD, 16));
-    }
+    }*/
 
     private void login() {
         String email = emailTextField.getText().trim();
@@ -231,7 +230,7 @@ public class LoginForm extends JFrame {
             String hashedInputPassword = HashingUtils.hashPasswordWithSHA256(inputPassword, customer.getSalt());
 
             if (hashedInputPassword.equals(customer.getPassword())) {
-                JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                //JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                 // After successful login, set the logged-in user's email in UserSession
                 UserSession.getInstance().setUserEmail(email);

@@ -34,8 +34,24 @@ public class CustomerDashboard extends JFrame {
         ImageIcon dashboardIcon = new ImageIcon("src/images/dashboard.png");
         JLabel iconLabel = new JLabel(dashboardIcon);
 
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Logout action
+                UserSession.getInstance().clearSession(); // Clear user session
+                dispose(); // Close the dashboard
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true); // Show the login form again
+            }
+        });
+
         headerPanel.add(iconLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
 
         // Main panel
         JPanel mainPanel = new JPanel();
