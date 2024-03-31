@@ -134,7 +134,13 @@ public class CustomerDashboard extends JFrame {
     }
 
     private void openSearchForChargingStations() {
-        System.out.println("Opening Search for Charging Stations...");
+        System.out.println("Opening Search for Charging Stations...");//printing to terminal
+        // Create an instance of the FindChargingStationForm
+        FindChargingStationForm findChargingStationForm = new FindChargingStationForm();
+        // Make the form visible
+        findChargingStationForm.setVisible(true);
+        // Hide the dashboard when opening the form
+         this.setVisible(false);
 
     }
 
