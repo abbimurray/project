@@ -59,5 +59,56 @@ public class ChargingStationModel {
         return stations;
     }
 
+   /* public List<Charger> getChargersByStationId(int stationId) {
+        List<Charger> chargers = new ArrayList<>();
+        String sql = "SELECT * FROM chargers WHERE stationID = ?";
 
-}
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, stationId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Charger charger = new Charger();
+                charger.setChargerID(rs.getInt("chargerID"));
+                charger.setChargerType(rs.getString("chargerType"));
+                charger.setStationID(rs.getInt("stationID"));
+                charger.setStatus(rs.getString("status"));
+                charger.setKw(rs.getInt("kw"));
+                charger.setCostPerKWH(rs.getBigDecimal("costPerKWH"));
+
+                chargers.add(charger);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return chargers;
+    }*/
+
+    public List<Charger> getChargersByStationId(int stationId) {
+        List<Charger> chargers = new ArrayList<>();
+        String sql = "SELECT * FROM chargers WHERE stationID = ?";
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, stationId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Charger charger = new Charger();
+                charger.setChargerID(rs.getInt("chargerID"));
+                charger.setChargerType(rs.getString("chargerType"));
+                charger.setStationID(rs.getInt("stationID"));
+                charger.setStatus(rs.getString("status"));
+                charger.setKw(rs.getInt("kw"));
+                charger.setCostPerKWH(rs.getBigDecimal("costPerKWH"));
+                chargers.add(charger);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return chargers;
+    }
+
+
+}//end class

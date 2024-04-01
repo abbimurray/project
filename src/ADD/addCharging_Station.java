@@ -28,9 +28,6 @@ public class addCharging_Station {
         int numChargers= scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
 
-        System.out.println("Enter operator :");
-        String operator = scanner.nextLine();
-
 
         int i=0;
 
@@ -40,11 +37,11 @@ public class addCharging_Station {
             connection = DriverManager.getConnection(DATABASE_URL, "root", "pknv!47A");
 
             //create prepared statement for inserting into table
-            pstat = connection.prepareStatement("INSERT INTO charging_station(county, address, numberOfChargers, operator) VALUES (?,?,?,?)");
+            pstat = connection.prepareStatement("INSERT INTO charging_stations(county, address, numberOfChargers) VALUES (?,?,?)");
             pstat.setString(1, county);
             pstat.setString(2, address);
             pstat.setInt(3, numChargers);
-            pstat.setString(4, operator);
+
 
 
             //insert data into database

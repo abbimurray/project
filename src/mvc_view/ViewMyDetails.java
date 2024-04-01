@@ -1,9 +1,12 @@
 package mvc_view;
+import controller.UserSession;
 import model.Customer;
 import utils.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ViewMyDetails extends JFrame {
     private Customer customer; // Assuming you have a Customer class that holds user details
@@ -38,6 +41,22 @@ public class ViewMyDetails extends JFrame {
         titlePanel.setBackground(new Color(204, 255, 204)); // Match the header panel's background
         titlePanel.add(titleLabel);
         headerPanel.add(titlePanel, BorderLayout.CENTER);
+
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Logout action
+                UserSession.getInstance().clearSession(); // Clear user session
+                dispose(); // Close the dashboard
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true); // Show the login form again
+            }
+        });
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
 
         // Form-like Details Panel
         JPanel formPanel = new JPanel(new GridBagLayout());

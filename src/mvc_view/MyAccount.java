@@ -1,4 +1,5 @@
 package mvc_view;
+import controller.UserSession;
 import model.Customer;
 import model.CustomerModel;
 import utils.UIUtils;
@@ -6,6 +7,8 @@ import utils.UIUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MyAccount extends JFrame {
     private String customerEmail; // To hold the logged-in customer's email
@@ -76,8 +79,25 @@ public class MyAccount extends JFrame {
         ImageIcon dashboardIcon = new ImageIcon("src/images/myaccount.png");
         JLabel iconLabel = new JLabel(dashboardIcon);
 
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Logout action
+                UserSession.getInstance().clearSession(); // Clear user session
+                dispose(); // Close the dashboard
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true); // Show the login form again
+            }
+        });
+
+
         headerPanel.add(iconLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
 
         // Buttons Panel
         JPanel buttonsPanel = new JPanel(new GridLayout(3, 1, 10, 10));

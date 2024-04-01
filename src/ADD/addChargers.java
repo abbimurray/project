@@ -77,7 +77,7 @@ public class addChargers {
     // Function to validate the stationId
     private static boolean isStationIdValid(Connection connection, int stationId) throws SQLException {
         // Prepare a statement to check if the stationId exists
-        String query = "SELECT COUNT(*) AS count FROM charging_station WHERE stationID = ?";
+        String query = "SELECT COUNT(*) AS count FROM charging_stations WHERE stationID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, stationId);
             try (ResultSet resultSet = statement.executeQuery()) {

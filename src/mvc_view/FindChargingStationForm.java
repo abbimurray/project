@@ -1,84 +1,204 @@
 package mvc_view;
 
+import controller.UserSession;
 import model.ChargingStation;
 import model.ChargingStationModel;
+import utils.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class FindChargingStationForm extends JFrame {
     private JComboBox<String> countyComboBox;
-    private JList<String> stationList;
-    private DefaultListModel<String> stationListModel;
+    //private JList<String> stationList;
+    //private DefaultListModel<String> stationListModel;
+
+    private DefaultListModel<ChargingStation> stationListModel;//using objects - to directly use the selected station without having to fetch it again from the database or map it from a string representation.
+    private JList<ChargingStation> stationList;
+
     private JButton viewDetailsButton;
 
     public FindChargingStationForm() {
         setTitle("Find Charging Stations");
-        setSize(400, 300);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initializeUI();
         populateCounties();
     }
 
-    private void initializeUI() {
-        getContentPane().setLayout(new BorderLayout(5, 5));
 
-        countyComboBox = new JComboBox<>();
-        countyComboBox.addActionListener(new ActionListener() {
+
+
+    private void initializeUI() {
+        getContentPane().setLayout(new BorderLayout(10, 10));
+        getContentPane().setBackground(Color.WHITE);
+
+        // Header Panel
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BorderLayout());
+        headerPanel.setBackground(new Color(204, 255, 204)); // Mint green color
+        ImageIcon searchIcon = new ImageIcon(getClass().getResource("/images/search.png")); // Adjust path as needed
+        JLabel iconLabel = new JLabel(searchIcon);
+        JLabel titleLabel = new JLabel("Search for Charging Stations", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+
+
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedCounty = (String) countyComboBox.getSelectedItem();
-                populateStations(selectedCounty);
+            public void mouseClicked(MouseEvent e) {
+                // Logout action
+                UserSession.getInstance().clearSession(); // Clear user session
+                dispose(); // Close the dashboard
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true); // Show the login form again
             }
         });
+        //Adding header panels
+        headerPanel.add(iconLabel, BorderLayout.WEST);
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
+        getContentPane().add(headerPanel, BorderLayout.NORTH);
+
+        // Wrapper Panel for centering components
+        JPanel wrapperPanel = new JPanel(new GridBagLayout());
+        wrapperPanel.setBackground(Color.WHITE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.NORTH;
+
+        // County Selection
+        JLabel selectCountyLabel = new JLabel("Select a county:");
+        selectCountyLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        wrapperPanel.add(selectCountyLabel, gbc);
+
+        countyComboBox = new JComboBox<>();
+        countyComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
+        countyComboBox.setMaximumSize(new Dimension(200, 25));
+        wrapperPanel.add(countyComboBox, gbc);
+
+        // Adding a vertical space
+        gbc.insets = new Insets(10, 0, 10, 0); // Top, left, bottom, right padding
+        wrapperPanel.add(Box.createVerticalStrut(20), gbc); // Add vertical space
+
+        // Reset insets to default for subsequent components
+        gbc.insets = new Insets(0, 0, 0, 0);
+
+
+        // Station List Label and List
+        JLabel stationListLabel = new JLabel("Stations based on county selected:");
+        stationListLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        wrapperPanel.add(stationListLabel, gbc);
+
 
         stationListModel = new DefaultListModel<>();
         stationList = new JList<>(stationListModel);
-        JScrollPane scrollPane = new JScrollPane(stationList);
+        stationList.setFont(new Font("Arial", Font.PLAIN, 16));
+        JScrollPane listScrollPane = new JScrollPane(stationList);
+        listScrollPane.setPreferredSize(new Dimension(600, 200));
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        wrapperPanel.add(listScrollPane, gbc);
 
-        viewDetailsButton = new JButton("View Details");
-        viewDetailsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedStation = stationList.getSelectedValue();
-                if (selectedStation != null) {
-                    // Handle viewing details for the selected station
-                    JOptionPane.showMessageDialog(FindChargingStationForm.this, "Details for: " + selectedStation);
-                }
+
+        stationList = new JList<>(stationListModel);
+        stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        stationList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && !stationList.isSelectionEmpty()) {
+                ChargingStation selectedStation = stationList.getSelectedValue(); // Directly gets the selected ChargingStation object
+                EventQueue.invokeLater(() -> {
+                    StationDetailsForm detailsForm = new StationDetailsForm(selectedStation);
+                    detailsForm.setVisible(true);
+                    this.setVisible(false); // Hide this form, assuming 'this' refers to the FindChargingStationForm instance
+                });
             }
         });
 
-        getContentPane().add(countyComboBox, BorderLayout.NORTH);
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
-        getContentPane().add(viewDetailsButton, BorderLayout.SOUTH);
+
+        // Adding components to the content pane
+        getContentPane().add(headerPanel, BorderLayout.NORTH);
+        getContentPane().add(wrapperPanel, BorderLayout.CENTER);
+
+        // View Details Button
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setBackground(Color.WHITE);
+        viewDetailsButton = new JButton("View Details");
+        UIUtils.customizeButton(viewDetailsButton);
+        buttonPanel.add(viewDetailsButton);
+
+        viewDetailsButton.addActionListener(e -> {
+            ChargingStation selectedStation = stationList.getSelectedValue();
+            if (selectedStation != null) {
+                StationDetailsForm detailsForm = new StationDetailsForm(selectedStation);
+                detailsForm.setVisible(true);
+                // Optionally, if you want to hide the find station form
+                // this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a station from the list.", "No Station Selected", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
+        JButton btnReturnToDashboard = new JButton("Return to Dashboard");
+        UIUtils.customizeButton(btnReturnToDashboard);
+        btnReturnToDashboard.addActionListener(e -> {
+            // Action to return to the dashboard
+            dispose(); // Close the current view
+            CustomerDashboard dashboard = new CustomerDashboard();
+            dashboard.setVisible(true);
+        });
+
+        buttonPanel.add(btnReturnToDashboard);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        // Populate counties combo box and add action listener to the combo box
+        populateCounties();
+        countyComboBox.addActionListener(e -> {
+            String selectedCounty = (String) countyComboBox.getSelectedItem();
+            if (selectedCounty != null && !selectedCounty.isEmpty()) {
+                populateStations(selectedCounty); // Populate stations based on selected county
+            }
+        });
+    }
+    private void populateStationsAction(ActionEvent e) {
+        String selectedCounty = (String) countyComboBox.getSelectedItem();
+        populateStations(selectedCounty);
     }
 
+    private void viewDetailsAction(ActionEvent e) {
+        ChargingStation selectedStation = stationList.getSelectedValue();
+        if (selectedStation != null) {
+            JOptionPane.showMessageDialog(this, "Details for: " + selectedStation);
+        }
+    }
 
     private void populateCounties() {
         ChargingStationModel model = new ChargingStationModel();
         List<String> counties = model.getDistinctCounties();
+        countyComboBox.removeAllItems(); // Clear the comboBox before adding new items
         for (String county : counties) {
             countyComboBox.addItem(county);
         }
     }
+
+
     private void populateStations(String county) {
         ChargingStationModel model = new ChargingStationModel();
         List<ChargingStation> stations = model.getStationsByCounty(county);
+        stationListModel.clear(); // Clear the list before adding new items
         for (ChargingStation station : stations) {
-            stationListModel.addElement(station.toString()); // Assuming ChargingStation.toString() is overridden
+            stationListModel.addElement(station); // Add each station to the list model
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new FindChargingStationForm().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new FindChargingStationForm().setVisible(true));
     }
 }
 

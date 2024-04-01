@@ -230,7 +230,7 @@ public class LoginForm extends JFrame {
             String hashedInputPassword = HashingUtils.hashPasswordWithSHA256(inputPassword, customer.getSalt());
 
             if (hashedInputPassword.equals(customer.getPassword())) {
-                //JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                 // After successful login, set the logged-in user's email in UserSession
                 UserSession.getInstance().setUserEmail(email);

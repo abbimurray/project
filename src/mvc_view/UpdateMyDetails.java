@@ -1,11 +1,14 @@
 package mvc_view;
 
+import controller.UserSession;
 import model.Customer;
 import model.CustomerModel;
 import utils.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -48,6 +51,23 @@ public class UpdateMyDetails extends JFrame {
         titlePanel.setBackground(new Color(204, 255, 204)); //mint colour
         titlePanel.add(headerLabel);
         headerPanel.add(titlePanel, BorderLayout.CENTER);
+
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Logout action
+                UserSession.getInstance().clearSession(); // Clear user session
+                dispose(); // Close the dashboard
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true); // Show the login form again
+            }
+        });
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
+
 
         add(headerPanel, BorderLayout.NORTH);
 
