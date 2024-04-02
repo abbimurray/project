@@ -1,5 +1,6 @@
 package mvc_view;
 
+import controller.UserSession;
 import model.Charger;
 import model.ChargingStation;
 import model.ChargingStationModel;
@@ -7,6 +8,8 @@ import utils.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class StationDetailsForm extends JFrame {
@@ -19,7 +22,7 @@ public class StationDetailsForm extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-
+        getContentPane().setBackground(Color.WHITE); // Set background colour to white
         fetchChargersForStation(); // Ensure this is called before initializeComponents
         initializeComponents();
     }
@@ -27,27 +30,67 @@ public class StationDetailsForm extends JFrame {
     private void initializeComponents() {
         setLayout(new BorderLayout());
 
-        // Now that chargers is initialized, the rest of the method can safely access it
-        add(createHeaderPanel(), BorderLayout.NORTH);  // Header Panel with Station Details
-        add(createChargersPanel(), BorderLayout.CENTER);// Main Content Panel with Chargers Details
+        add(createHeaderPanel(), BorderLayout.NORTH);
+        add(createChargersPanel(), BorderLayout.CENTER);
 
-        // Footer Panel with Back Button
         JButton backButton = new JButton("Back to Stations List");
-        backButton.addActionListener(e -> this.dispose());
+        UIUtils.customizeButton(backButton); // Customize button appearance
+        backButton.addActionListener(e -> {
+            this.dispose(); // Close the current StationDetailsForm
+            EventQueue.invokeLater(() -> {
+                FindChargingStationForm findChargingStationForm = new FindChargingStationForm();
+                findChargingStationForm.setVisible(true); // Show the FindChargingStationForm
+            });
+        });
+
         JPanel footerPanel = new JPanel();
         footerPanel.add(backButton);
         add(footerPanel, BorderLayout.SOUTH);
-
     }
 
     private JPanel createHeaderPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
+
+        // Icon on the left
+        ImageIcon stationIcon = new ImageIcon("src/images/charging-station.png");
+        JLabel iconLabel = new JLabel(stationIcon);
+        headerPanel.add(iconLabel, BorderLayout.WEST);
+
+        // Title in the center
+        JLabel titleLabel = new JLabel("Station Details", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Logout action
+                UserSession.getInstance().clearSession(); // Clear user session
+                dispose(); // Close the current form
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true); // Show the login form again
+            }
+        });
+
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
+
+        return headerPanel;
+    }
+/*
+    private JPanel createDetailsPanel() {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         panel.add(new JLabel("Station ID: " + selectedStation.getStationID()));
         panel.add(new JLabel("Address: " + selectedStation.getAddress()));
         panel.add(new JLabel("County: " + selectedStation.getCounty()));
         panel.add(new JLabel("Number of Chargers: " + selectedStation.getNumberOfChargers()));
         return panel;
-    }
+    }*/
 
     private JPanel createChargersPanel() {
         JPanel panel = new JPanel();
@@ -71,6 +114,7 @@ public class StationDetailsForm extends JFrame {
 
         return panel;
     }
+
 
     private void fetchChargersForStation() {
         // This method should fetch chargers for the selected station
