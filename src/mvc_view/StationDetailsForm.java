@@ -20,17 +20,16 @@ public class StationDetailsForm extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        fetchChargersForStation(); // Ensure this is called before initializeComponents
         initializeComponents();
     }
 
     private void initializeComponents() {
         setLayout(new BorderLayout());
 
-        // Header Panel with Station Details
-        add(createHeaderPanel(), BorderLayout.NORTH);
-
-        // Main Content Panel with Chargers Details
-        add(createChargersPanel(), BorderLayout.CENTER);
+        // Now that chargers is initialized, the rest of the method can safely access it
+        add(createHeaderPanel(), BorderLayout.NORTH);  // Header Panel with Station Details
+        add(createChargersPanel(), BorderLayout.CENTER);// Main Content Panel with Chargers Details
 
         // Footer Panel with Back Button
         JButton backButton = new JButton("Back to Stations List");
@@ -39,7 +38,6 @@ public class StationDetailsForm extends JFrame {
         footerPanel.add(backButton);
         add(footerPanel, BorderLayout.SOUTH);
 
-        fetchChargersForStation();
     }
 
     private JPanel createHeaderPanel() {
@@ -76,7 +74,6 @@ public class StationDetailsForm extends JFrame {
 
     private void fetchChargersForStation() {
         // This method should fetch chargers for the selected station
-        // For example purposes, it's empty. You'll need to fill it with actual logic to fetch chargers.
         ChargingStationModel model = new ChargingStationModel();
         this.chargers = model.getChargersByStationId(selectedStation.getStationID());
     }
@@ -87,8 +84,4 @@ public class StationDetailsForm extends JFrame {
         JOptionPane.showMessageDialog(this, message);
     }
 
-    // Main method for demonstration purposes
-    public static void main(String[] args) {
-        // Your code to test the form
-    }
 }

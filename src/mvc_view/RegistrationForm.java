@@ -6,9 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import model.Customer;/*import customer class in model*/
-import model.CustomerModel;/*import classes in model*/
+import model.CustomerModel;
 import controller.UserSession;
 import utils.HashingUtils;
+import utils.UIUtils;
 import utils.ValidationUtils; /*importing validation class for email and password*/
 
 public class RegistrationForm extends JDialog {
@@ -43,7 +44,7 @@ public class RegistrationForm extends JDialog {
         // Header panel setup
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
-        headerPanel.setPreferredSize(new Dimension(headerPanel.getWidth(), 20)); // Decrease the height of the title panel
+        headerPanel.setPreferredSize(new Dimension(headerPanel.getWidth(), 20)); // height of title panel
         ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png");
         JLabel logoLabel = new JLabel(logoIcon);
         JLabel titleLabel = new JLabel("Register as a User", SwingConstants.CENTER);
@@ -62,62 +63,61 @@ public class RegistrationForm extends JDialog {
         gbc.insets = new Insets(4, 4, 4, 4);
         formPanel.setBackground(Color.WHITE);
 
-
         // Create and set font for each label
         Font labelFont = new Font("Arial", Font.BOLD, 18);
         Font textFieldFont = new Font("Arial", Font.PLAIN, 16);
-
+        // for firstName
         JLabel firstNameLabel = new JLabel("First Name:");
         firstNameLabel.setFont(labelFont);
         formPanel.add(firstNameLabel, gbc);
         firstNameTextField.setFont(textFieldFont);
         formPanel.add(firstNameTextField, gbc);
-
+        //for lastName
         JLabel lastNameLabel = new JLabel("Last Name:");
         lastNameLabel.setFont(labelFont);
         formPanel.add(lastNameLabel, gbc);
         lastNameTextField.setFont(textFieldFont);
         formPanel.add(lastNameTextField, gbc);
-        //
-
+        //for email
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setFont(labelFont);
         formPanel.add(emailLabel, gbc);
         emailTextField.setFont(textFieldFont);
         formPanel.add(emailTextField, gbc);
-
+        //for phone
         JLabel phoneLabel = new JLabel("Phone:");
         phoneLabel.setFont(labelFont);
         formPanel.add(phoneLabel, gbc);
         phoneTextField.setFont(textFieldFont);
         formPanel.add(phoneTextField, gbc);
-
+        //for password
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setFont(labelFont);
         formPanel.add(passwordLabel, gbc);
         passwordField.setFont(textFieldFont);
         formPanel.add(passwordField, gbc);
-
+        //for confirmPassword
         JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
         confirmPasswordLabel.setFont(labelFont);
         formPanel.add(confirmPasswordLabel, gbc);
         confirmPasswordField.setFont(textFieldFont);
         formPanel.add(confirmPasswordField, gbc);
-        ///////////
+
+
         //button Panel setup
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(registerButton);
         buttonPanel.add(cancelButton);
-        customizeButton(cancelButton);
-        customizeButton(registerButton);
+        UIUtils.customizeButton(cancelButton);
+        UIUtils.customizeButton(registerButton);
 
         //add form panel and button panel to main panel
         mainPanel.add(formPanel);
         mainPanel.add(buttonPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 50)));//create space
 
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 50)));
-        // Event listeners
+        // Event listeners for buttons
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,15 +134,15 @@ public class RegistrationForm extends JDialog {
         });
     }
 
-    private void customizeButton(JButton button) {
+   /* private void customizeButton(JButton button) {
         Color mintGreen = new Color(204, 255, 204); // Mint green color
         button.setOpaque(true);
         button.setBackground(mintGreen); // Set background to mint green
         button.setForeground(new Color(36, 35, 37)); // Set text color
         button.setFont(new Font("Arial", Font.BOLD, 16)); // Set font to Arial, Bold, size 16
-        // Optional: if you want the buttons to have a uniform size, you can set a preferred size
+
         button.setPreferredSize(new Dimension(100, 40)); // Adjust width and height as needed
-    }
+    }*/
 
     private void register() {
         String firstName = firstNameTextField.getText().trim();
@@ -193,26 +193,12 @@ public class RegistrationForm extends JDialog {
         CustomerModel customerModel = new CustomerModel();
         boolean isRegistered = customerModel.addCustomer(newCustomer);
 
-        /*if (isRegistered) {
-            JOptionPane.showMessageDialog(this, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
-            dispose(); // Close the registration form
-
-            // Open the CustomerDashboard
-            CustomerDashboard dashboard = new CustomerDashboard();
-            dashboard.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Registration failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-         */
 
         if (isRegistered) {
             JOptionPane.showMessageDialog(this, "Registration successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
             dispose(); // Close the registration form
 
             // Retrieve the full customer details, including the customerID, to store in the session
-            // Assuming you have a method in CustomerModel to retrieve by email:
             Customer registeredCustomer = customerModel.getCustomerByEmail(email);
             if (registeredCustomer != null) {
                 // Update the UserSession with the registered customer's details
@@ -224,8 +210,9 @@ public class RegistrationForm extends JDialog {
                 // Open the CustomerDashboard
                 CustomerDashboard dashboard = new CustomerDashboard();
                 dashboard.setVisible(true);
+
             } else {
-                // Handle the unlikely case where the user couldn't be retrieved after registration
+                // case where the user couldn't be retrieved after registration
                 JOptionPane.showMessageDialog(this, "There was a problem retrieving your account details.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {

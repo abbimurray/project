@@ -105,14 +105,14 @@ public class FindChargingStationForm extends JFrame {
         listScrollPane.setPreferredSize(new Dimension(600, 200));
         gbc.fill = GridBagConstraints.HORIZONTAL;
         wrapperPanel.add(listScrollPane, gbc);
-
-
-        stationList = new JList<>(stationListModel);
+        //stationList = new JList<>(stationListModel);
         stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
 
         stationList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && !stationList.isSelectionEmpty()) {
                 ChargingStation selectedStation = stationList.getSelectedValue(); // Directly gets the selected ChargingStation object
+                System.out.println("Selected Station: " + selectedStation); // This is just for debugging.
                 EventQueue.invokeLater(() -> {
                     StationDetailsForm detailsForm = new StationDetailsForm(selectedStation);
                     detailsForm.setVisible(true);
@@ -120,7 +120,6 @@ public class FindChargingStationForm extends JFrame {
                 });
             }
         });
-
 
         // Adding components to the content pane
         getContentPane().add(headerPanel, BorderLayout.NORTH);
@@ -133,17 +132,19 @@ public class FindChargingStationForm extends JFrame {
         UIUtils.customizeButton(viewDetailsButton);
         buttonPanel.add(viewDetailsButton);
 
+
         viewDetailsButton.addActionListener(e -> {
             ChargingStation selectedStation = stationList.getSelectedValue();
+            System.out.println("Selected Station: " + selectedStation); // Debugging line
             if (selectedStation != null) {
                 StationDetailsForm detailsForm = new StationDetailsForm(selectedStation);
                 detailsForm.setVisible(true);
-                // Optionally, if you want to hide the find station form
-                // this.setVisible(false);
+                this.setVisible(false);//temporarily hide the find station form
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a station from the list.", "No Station Selected", JOptionPane.WARNING_MESSAGE);
             }
         });
+
 
         JButton btnReturnToDashboard = new JButton("Return to Dashboard");
         UIUtils.customizeButton(btnReturnToDashboard);

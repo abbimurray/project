@@ -1,25 +1,22 @@
 package mvc_view;
 
-
 import javax.swing.*;
 import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import controller.UserSession;
-
 import model.Customer;/*import customer class in model*/
 import model.CustomerModel;/*import classes in model*/
 import utils.UIUtils;
 import utils.ValidationUtils; /*importing validation class for email and password*/
 import utils.HashingUtils;/*import class for hashing passwords*/
 public class LoginForm extends JFrame {
-    // add email and password fields,and buttons
     private JTextField emailTextField;
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton registerButton;//register will take them to register as new user
-    private JButton cancelButton;  //reset
+    private JButton cancelButton;  //reset form
 
 
     public LoginForm() {
@@ -27,8 +24,7 @@ public class LoginForm extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         try {
-            // set a Look and Feel that handles color changes better
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());//handles colour changes better
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,14 +40,14 @@ public class LoginForm extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(new Color(204, 255, 204));//MINT GREEN
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png"); //add logo to login page
+        ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png"); //logo for login page
         JLabel logoLabel = new JLabel(logoIcon);
         JLabel evChargingLabel = new JLabel("EV Charging");
         evChargingLabel.setForeground(new Color(36,35,37));
         evChargingLabel.setFont(new Font("Arial", Font.BOLD, 24));
         evChargingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        leftPanel.add(Box.createVerticalGlue());
+        //add to left panel
+        leftPanel.add(Box.createVerticalGlue());//create space
         leftPanel.add(logoLabel);
         leftPanel.add(evChargingLabel);
         leftPanel.add(Box.createVerticalGlue());
@@ -60,57 +56,51 @@ public class LoginForm extends JFrame {
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));// Add some space at the top
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));//to create space at the top
 
-        JLabel loginLabel = new JLabel("Login in");
+        JLabel loginLabel = new JLabel("Login ");
         loginLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         loginLabel.setFont(new Font("Arial", Font.BOLD, 24));
         rightPanel.add(loginLabel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); // space
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); //to create  space
 
         JLabel welcomeLabel = new JLabel("Welcome back!");
         welcomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         rightPanel.add(welcomeLabel);
-        rightPanel.add(Box.createRigidArea(new Dimension(0, 60))); // space BETWEEN THE LOGIN +WELCOME MESSAGE AND THE TEXT FIELDS
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 60))); // space between login message and text fields
 
         //Images
         ImageIcon keyIcon = new ImageIcon("src/GUI/Images/key.png");
         JLabel emailIconLabel = new JLabel(new ImageIcon("src/images/email.png"));
         JLabel passwordIconLabel = new JLabel(new ImageIcon("src/images/lock.png"));
 
-
         // Email Field
         JPanel emailPanel = new JPanel();
         emailPanel.setLayout(new BoxLayout(emailPanel, BoxLayout.Y_AXIS));
         emailPanel.setBackground(Color.WHITE);
-
         JLabel emailLabel = new JLabel("Email:");
         emailLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        emailLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Set left alignment
+        emailLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Set to  left alignment
         emailPanel.add(emailLabel);
-
         JPanel emailTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         emailTextField = new JTextField(20);
-        emailTextField.setMaximumSize(new Dimension(300, 30)); // Set fixed width and height
+        emailTextField.setMaximumSize(new Dimension(300, 30)); // Set to fixed width and height
         emailTextFieldPanel.add(emailIconLabel); // Add email icon to the left
         emailTextFieldPanel.add(emailTextField);
         emailPanel.add(emailTextFieldPanel);
         emailTextFieldPanel.setBackground(Color.WHITE);
-        emailPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Add space
-
-        rightPanel.add(emailPanel);
+        emailPanel.add(Box.createRigidArea(new Dimension(0, 10))); // to add space
+        rightPanel.add(emailPanel);//add to right panel
 
         // Password Field
         JPanel passwordPanel = new JPanel();
         passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
         passwordPanel.setBackground(Color.WHITE);
-
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Set left alignment
         passwordPanel.add(passwordLabel);
-
         JPanel passwordTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         passwordField = new JPasswordField(20);
         passwordField.setMaximumSize(new Dimension(300, 30)); // Set fixed width and height
@@ -118,30 +108,20 @@ public class LoginForm extends JFrame {
         passwordTextFieldPanel.add(passwordField);
         passwordPanel.add(passwordTextFieldPanel);
         passwordTextFieldPanel.setBackground(Color.WHITE);
-
-        rightPanel.add(passwordPanel);
+        rightPanel.add(passwordPanel);//add to right panel
 
         // Create a panel to hold the buttons - login and cancel
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        // Set the background color of the button panel to white
-        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBackground(Color.WHITE);// background color of the button panel set to white
 
         // Login Button
         loginButton = new JButton("Login");
         UIUtils.customizeButton(loginButton);
-       // loginButton.setOpaque(true);
-        //loginButton.setBackground(new Color(204, 255, 204));
-        //loginButton.setForeground( new Color(36,35,37)); // Custom text color
-        //loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
         buttonPanel.add(loginButton);
 
         // Cancel Button
         cancelButton = new JButton("Cancel");
         UIUtils.customizeButton(cancelButton);
-        //cancelButton.setOpaque(true);
-        //cancelButton.setBackground(new Color(204, 255, 204));
-        //cancelButton.setForeground(new Color(36,35,37)); // Custom text color
-        //cancelButton.setFont(new Font("Arial", Font.BOLD, 16)); // Custom font style
         buttonPanel.add(cancelButton);
 
         // Add the button panel to the right panel
@@ -151,13 +131,11 @@ public class LoginForm extends JFrame {
         JLabel notUserLabel = new JLabel("Not already a user?");
         notUserLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         rightPanel.add(notUserLabel);
-        registerButton = new JButton("Register Here");//reset fields
-        //customizeButton(registerButton);
+        registerButton = new JButton("Register Here");
         UIUtils.customizeButton(registerButton);
         rightPanel.add(registerButton);
 
-        // To add spacing at the bottom, add vertical glue after the last component
-        rightPanel.add(Box.createVerticalGlue()); // Pushes everything up, adding space at the bottom
+        rightPanel.add(Box.createVerticalGlue()); // adding space at the bottom
 
         //center components in right panel
         for (Component component : rightPanel.getComponents()) {
@@ -205,20 +183,11 @@ public class LoginForm extends JFrame {
 
     }
 
-
-    // Custom method to customize buttons
-    /*private void customizeButton(JButton button) {
-        button.setOpaque(true);
-        button.setBackground(new Color(204, 255, 204)); // Mint green
-        button.setForeground(new Color(36, 35, 37)); // Custom text color
-        button.setFont(new Font("Arial", Font.BOLD, 16));
-    }*/
-
     private void login() {
         String email = emailTextField.getText().trim();
         String inputPassword = new String(passwordField.getPassword());
 
-        if (!ValidationUtils.isValidEmail(email)) {
+        if (!ValidationUtils.isValidEmail(email)) {//unsuccessful login
             JOptionPane.showMessageDialog(this, "Invalid email format.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -229,17 +198,15 @@ public class LoginForm extends JFrame {
         if (customer != null && customer.getSalt() != null) {
             String hashedInputPassword = HashingUtils.hashPasswordWithSHA256(inputPassword, customer.getSalt());
 
-            if (hashedInputPassword.equals(customer.getPassword())) {
-                JOptionPane.showMessageDialog(this, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                // After successful login, set the logged-in user's email in UserSession
+            if (hashedInputPassword.equals(customer.getPassword())) {//successful login
+                // setting the logged-in user's email in UserSession, it can be used then
                 UserSession.getInstance().setUserEmail(email);
 
                 // Hide the LoginForm
                 this.setVisible(false);
-                this.dispose(); // Dispose of the login form if you no longer need it
+                //this.dispose(); // Dispose of the login form if you no longer need it
 
-                // Open the CustomerDashboard or next part of your application
+                // Open the CustomerDashboard
                 CustomerDashboard dashboard = new CustomerDashboard();
                 dashboard.setVisible(true);
 
@@ -270,4 +237,4 @@ public class LoginForm extends JFrame {
             }
         });
     }
-}
+}//end of class

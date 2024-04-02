@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 public class MyAccount extends JFrame {
     private String customerEmail; // To hold the logged-in customer's email
     private CustomerModel customerModel;
-    private JButton btnViewDetails, btnUpdateDetails, btnDeleteAccount, btnSignOut;
+    private JButton btnViewDetails, btnUpdateDetails, btnDeleteAccount;
 
     public MyAccount(String customerEmail) {
         this.customerEmail = customerEmail;
@@ -35,12 +35,9 @@ public class MyAccount extends JFrame {
         btnViewDetails = new JButton(" View My Details", new ImageIcon("src/images/view.png"));
         btnUpdateDetails = new JButton(" Update My Details", new ImageIcon("src/images/update.png"));
         btnDeleteAccount = new JButton(" Delete My Account", new ImageIcon("src/images/delete.png"));
-        btnSignOut = new JButton("Sign Out");
-
 
         // Set font for buttons
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
-        btnSignOut.setFont(buttonFont);
 
         // Customize buttons
         customizeButton(btnViewDetails);
@@ -69,8 +66,8 @@ public class MyAccount extends JFrame {
 
     private void initializeUI() {
         getContentPane().setBackground(Color.WHITE); // Set the background of the content pane to white
-
         setLayout(new BorderLayout());
+
         // Header panel setup
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint color
@@ -93,8 +90,7 @@ public class MyAccount extends JFrame {
                 loginForm.setVisible(true); // Show the login form again
             }
         });
-
-
+        //add to header panel
         headerPanel.add(iconLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
         headerPanel.add(signOutLabel, BorderLayout.EAST);
@@ -109,7 +105,7 @@ public class MyAccount extends JFrame {
         buttonsPanel.add(btnUpdateDetails);
         buttonsPanel.add(btnDeleteAccount);
 
-        //Bottom panel with sign out and go back to dashboard
+        //Bottom panel with go back to dashboard
         JPanel bottomPanel = new JPanel();
         bottomPanel.setBackground(Color.WHITE); // Set the background color to white
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Added spacing between buttons
@@ -123,21 +119,12 @@ public class MyAccount extends JFrame {
             dashboard.setVisible(true);
         });
 
-        UIUtils.customizeButton(btnSignOut);
-        btnSignOut.addActionListener(e -> {
-            // Action to sign out
-            dispose(); // Close the current view
-            LoginForm loginForm = new LoginForm();
-            loginForm.setVisible(true);
-        });
-
     bottomPanel.add(btnReturnToDashboard);
-    bottomPanel.add(btnSignOut);
 
     // Layout the components
         add(headerPanel, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH); // Added bottomPanel to the SOUTH
+        add(bottomPanel, BorderLayout.SOUTH);
 }
 
 
@@ -155,7 +142,7 @@ public class MyAccount extends JFrame {
         if (customer != null) {
             UpdateMyDetails updateDetailsPage = new UpdateMyDetails(customer);
             updateDetailsPage.setVisible(true);
-            this.setVisible(false); // Optionally hide the MyAccount form
+            this.setVisible(false); // hide the MyAccount form
         } else {
             JOptionPane.showMessageDialog(this, "Unable to fetch customer details for update.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -173,7 +160,7 @@ public class MyAccount extends JFrame {
             if (deleted) {
                 JOptionPane.showMessageDialog(this, "Your account has been successfully deleted.", "Account Deleted", JOptionPane.INFORMATION_MESSAGE);
                 dispose(); // Close the MyAccount form
-                // Optionally, redirect to the login page or close the application
+                // redirect to the login page or close the application
                 LoginForm loginForm = new LoginForm();
                 loginForm.setVisible(true);
             } else {
@@ -181,8 +168,6 @@ public class MyAccount extends JFrame {
             }
         }
     }
-
-
 
 
 }//end class

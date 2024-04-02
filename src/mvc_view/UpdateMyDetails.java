@@ -47,8 +47,9 @@ public class UpdateMyDetails extends JFrame {
 
         JLabel headerLabel = new JLabel("Update My Details", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        titlePanel.setBackground(new Color(204, 255, 204)); //mint colour
+
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20)); //vertical gap to move text down a bit
+        titlePanel.setBackground(new Color(204, 255, 204)); // mint color
         titlePanel.add(headerLabel);
         headerPanel.add(titlePanel, BorderLayout.CENTER);
 
@@ -66,9 +67,8 @@ public class UpdateMyDetails extends JFrame {
                 loginForm.setVisible(true); // Show the login form again
             }
         });
+
         headerPanel.add(signOutLabel, BorderLayout.EAST);
-
-
         add(headerPanel, BorderLayout.NORTH);
 
         // Form Panel
@@ -130,8 +130,8 @@ public class UpdateMyDetails extends JFrame {
         saveButton.addActionListener(e -> saveChanges());
     }
 
-    //////
-// Adjust the helper method to accommodate row parameter and simplify GridBagConstraints usage
+
+    // Adjust the helper method to accommodate row parameter and simplify GridBagConstraints usage
     private void addFormField(JPanel panel, String labelText, String fieldValue, int row, Font labelFont, Font textFieldFont) {
         addFormField(panel, labelText, fieldValue, row, labelFont, textFieldFont, true);
     }
@@ -159,30 +159,7 @@ public class UpdateMyDetails extends JFrame {
     }
 
 
-    /////
-    /*private void saveChanges() {
-        try {
-            if (firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() || phoneField.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please fill all the fields", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
 
-            customer.setFirstName(firstNameField.getText());
-            customer.setLastName(lastNameField.getText());
-            customer.setPhone(phoneField.getText());
-            // Assuming password and salt are not being updated here. If they are, gather those values as well.
-
-            boolean updated = customerModel.updateCustomer(customer);
-            if (updated) {
-                JOptionPane.showMessageDialog(this, "Details updated successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to update details", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Update failed: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
     private void saveChanges() {
         // Example of getting data from GUI text fields
         String firstName = firstNameField.getText();
@@ -230,4 +207,5 @@ public class UpdateMyDetails extends JFrame {
             }
         }
     }
-}
+
+}//end class
