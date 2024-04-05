@@ -142,7 +142,9 @@ public class CustomerDashboard extends JFrame {
 
     private void openReserveACharger() {
         System.out.println("Opening Reserve a Charger...");//printing to terminal
-        // Implementation to open the reservation section
+        ReservationManagementForm reservationManagementForm = new ReservationManagementForm();
+        reservationManagementForm.setVisible(true);
+        this.setVisible(false);//temporarily hide dashboard
     }
 
     private void openChargingHistory() {
