@@ -40,9 +40,24 @@ public class ReservationManagementForm extends JFrame {
 
         // add action listeners after buttons are initialized
         //Action listener for adding reservation
-        //btnAddReservations.addActionListener(this::addReservationsAction);
+        btnAddReservations.addActionListener(e -> {
+            EventQueue.invokeLater(() -> {
+                new AddNewReservationForm().setVisible(true);
+            });
+        });
         // Action listener for viewing details
-        //btnViewReservations.addActionListener(this::viewReservationsAction);
+//        btnViewReservations.addActionListener(e -> {
+//            EventQueue.invokeLater(() -> {
+//                ViewReservationsForm viewReservationsForm = new ViewReservationsForm();
+//                viewReservationsForm.setVisible(true);
+//            });
+//        });
+
+
+        btnViewReservations.addActionListener(e -> {
+            ViewReservationsForm viewReservationsForm = new ViewReservationsForm();
+            viewReservationsForm.setVisible(true);
+        });
         // Action listener for updating details
         // btnUpdateReservations.addActionListener(e -> updateReservationsAction());
         //Action listener for deleting customer

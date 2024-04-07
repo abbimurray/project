@@ -202,6 +202,14 @@ public class LoginForm extends JFrame {
                 // setting the logged-in user's email in UserSession, it can be used then
                 UserSession.getInstance().setUserEmail(email);
 
+                UserSession session = UserSession.getInstance();
+               // session.setUserEmail(email);
+
+                //get other customer details
+                session.setCustomerID(customer.getCustomerID());
+                session.setFirstName(customer.getFirstName());
+                session.setLastName(customer.getLastName());
+
                 // Hide the LoginForm
                 this.setVisible(false);
                 //this.dispose(); // Dispose of the login form if you no longer need it
