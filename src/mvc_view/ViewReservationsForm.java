@@ -4,9 +4,14 @@ package mvc_view;
 import controller.ReservationController;
 import controller.UserSession;
 import model.Reservation;
+import utils.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ViewReservationsForm extends JFrame {
@@ -23,6 +28,44 @@ public class ViewReservationsForm extends JFrame {
     }
 
     private void initializeUI() {
+
+        setLayout(new BorderLayout(10, 10)); // Add some spacing
+        // Icon
+        ImageIcon userIcon = new ImageIcon("src/images/reserved.png");
+        JLabel iconLabel = new JLabel(userIcon);
+
+        // Title Label
+        JLabel titleLabel = new JLabel("Viewing My Reservations");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+
+        // Header Panel with BorderLayout for better control
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(204, 255, 204));
+        headerPanel.add(iconLabel, BorderLayout.WEST);
+
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));//vertical gap to push title down a bit
+        titlePanel.setBackground(new Color(204, 255, 204)); // Match the header panel's background
+        titlePanel.add(titleLabel);
+        headerPanel.add(titlePanel, BorderLayout.CENTER);
+
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Logout action
+                UserSession.getInstance().clearSession(); // Clear user session
+                dispose(); // Close the dashboard
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true); // Show the login form again
+            }
+        });
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
+
+
+
         reservationController = new ReservationController();
         reservationsTextArea = new JTextArea(10, 50);
         reservationsTextArea.setEditable(false); // Make the text area non-editable
@@ -45,85 +88,23 @@ public class ViewReservationsForm extends JFrame {
 
         reservationsTextArea.setText(sb.toString());
         add(scrollPane, BorderLayout.CENTER);
-    }
-}
-/*public class ViewReservationsForm extends JFrame {
-    private JTable reservationsTable;
-    private ReservationController reservationController;
-
-    public ViewReservationsForm() {
-        setTitle("View Reservations");
-        setSize(800, 600);
-        setLayout(new BorderLayout());
-        initializeUI();
-        setLocationRelativeTo(null); // Center on screen
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    private void initializeUI() {
-        reservationController = new ReservationController();
-        String[] columnNames = {"Reservation ID", "Station ID", "Charger ID", "Date and Time", "Status"};
-        int currentUserId = UserSession.getInstance().getCustomerID();
-        List<Reservation> reservations = reservationController.getReservationsForCustomer(currentUserId);
-
-        Object[][] data = new Object[reservations.size()][5];
-        for (int i = 0; i < reservations.size(); i++) {
-            Reservation reservation = reservations.get(i);
-            data[i][0] = reservation.getReservationID();
-            data[i][1] = reservation.getStationID();
-            data[i][2] = reservation.getChargerID();
-            data[i][3] = reservation.getReservationDateTime() != null ? reservation.getReservationDateTime().toString() : "Not set";
-            data[i][4] = reservation.getStatus();
-        }
-
-        reservationsTable = new JTable(data, columnNames);
-        JScrollPane scrollPane = new JScrollPane(reservationsTable);
-        reservationsTable.setFillsViewportHeight(true);
-
-        add(scrollPane, BorderLayout.CENTER);
-    }
-}
-*/
 
 
 
-/*
-public class ViewReservationsForm extends JFrame {
-    private JTable reservationsTable;
-    private ReservationController reservationController;
 
-    public ViewReservationsForm() {
-        setTitle("View Reservations");
-        setSize(800, 600);
-        setLayout(new BorderLayout());
-        initializeUI();
-        setLocationRelativeTo(null); // Center on screen
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        // Go Back Button
+        JButton goBackButton = new JButton("Go Back");
+        UIUtils.customizeButton(goBackButton);
+        goBackButton.addActionListener(e -> dispose()); // Close this window
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.add(goBackButton);
+
+        //add panels
+        add(bottomPanel, BorderLayout.SOUTH);
+        add(headerPanel, BorderLayout.NORTH);
+
     }
 
-    private void initializeUI() {
-        reservationController = new ReservationController();
-        String[] columnNames = {"Reservation ID", "Station ID", "Charger ID", "Date and Time", "Status"};
 
-        // Fetch the reservations for the current user
-        int currentUserId = UserSession.getInstance().getCustomerID(); // Assuming you store the user ID in the session
-        List<Reservation> reservations = reservationController.getReservationsByCustomerId(currentUserId);
 
-        Object[][] data = new Object[reservations.size()][5];
-        for (int i = 0; i < reservations.size(); i++) {
-            Reservation reservation = reservations.get(i);
-            data[i][0] = reservation.getReservationID();
-            data[i][1] = reservation.getStationID();
-            data[i][2] = reservation.getChargerID();
-            // Use a ternary operator to check for null
-            data[i][3] = reservation.getReservationDateTime() != null ? reservation.getReservationDateTime().toString() : "Not set";
-            data[i][4] = reservation.getStatus();
-        }
-
-        reservationsTable = new JTable(data, columnNames);
-        JScrollPane scrollPane = new JScrollPane(reservationsTable);
-        reservationsTable.setFillsViewportHeight(true);
-
-        add(scrollPane, BorderLayout.CENTER);
-    }
-}*/
+}//end class
