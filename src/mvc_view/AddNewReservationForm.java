@@ -72,119 +72,106 @@ public class AddNewReservationForm extends JFrame {
         this.add(headerPanel, BorderLayout.NORTH);
     }
     private void initializeFormFieldsAndFooter() {
-        this.getContentPane().setBackground(Color.WHITE); // Set form background to white
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
 
         JPanel fieldsPanel = new JPanel(new GridBagLayout());
         fieldsPanel.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = 1;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(10, 10, 10, 10);
+
+        JLabel instructionLabel = new JLabel("Fill in the reservation fields below");
+        instructionLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        fieldsPanel.add(instructionLabel, gbc);
+
+        gbc.gridy++;
 
         Font fieldFont = new Font("Arial", Font.PLAIN, 18);
 
-        // Station ID Label and Field
         JLabel lblStationID = new JLabel("Station ID:");
         lblStationID.setFont(fieldFont);
+        gbc.gridy++;
         fieldsPanel.add(lblStationID, gbc);
 
-        gbc.gridx = 1;
         txtStationID = new JTextField(20);
         txtStationID.setFont(fieldFont);
+        gbc.gridx = 1;
         fieldsPanel.add(txtStationID, gbc);
 
-        // Reset for next row
-        gbc.gridx = 0;
-        gbc.gridy++;
-
-        // Charger ID Label and Field
         JLabel lblChargerID = new JLabel("Charger ID:");
         lblChargerID.setFont(fieldFont);
-        fieldsPanel.add(lblChargerID, gbc);
-
-        gbc.gridx = 1;
-        txtChargerID = new JTextField(20);
-        txtChargerID.setFont(fieldFont);
-        fieldsPanel.add(txtChargerID, gbc);
-
-        // Reset for next row
         gbc.gridx = 0;
         gbc.gridy++;
+        fieldsPanel.add(lblChargerID, gbc);
 
-        // Date and Time Label and Field
+        txtChargerID = new JTextField(20);
+        txtChargerID.setFont(fieldFont);
+        gbc.gridx = 1;
+        fieldsPanel.add(txtChargerID, gbc);
+
         JLabel lblDateTime = new JLabel("Date and Time (YYYY-MM-DD HH:MM):");
         lblDateTime.setFont(fieldFont);
+        gbc.gridx = 0;
+        gbc.gridy++;
         fieldsPanel.add(lblDateTime, gbc);
 
-        gbc.gridx = 1;
         txtDateTime = new JTextField(20);
         txtDateTime.setFont(fieldFont);
+        gbc.gridx = 1;
         fieldsPanel.add(txtDateTime, gbc);
 
-        // Footer Panel setup
-        JPanel footerPanel = new JPanel(new BorderLayout());
-        footerPanel.setBackground(Color.WHITE);
 
-        // Button Panel for Save and Cancel buttons
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // Align buttons to the right
-        buttonPanel.setBackground(Color.WHITE); // Match the form's background
+        // Increase space before adding buttons
+        gbc.gridy++;
+        gbc.insets = new Insets(20, 10, 10, 10); // Increase top margin
 
-        // Initialize the Save button
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setBackground(Color.WHITE);
+
         btnSave = new JButton("Save");
-        UIUtils.customizeButton(btnSave); // method sets the desired styling
-        btnSave.addActionListener(this::saveReservationAction);
-        buttonPanel.add(btnSave);
-
-        // Initialize the Cancel button
         btnCancel = new JButton("Cancel");
+        UIUtils.customizeButton(btnSave);
         UIUtils.customizeButton(btnCancel);
-        btnCancel.addActionListener(e -> dispose());
+
+        Dimension buttonSize = new Dimension(Math.max(btnSave.getPreferredSize().width, btnCancel.getPreferredSize().width),
+                Math.max(btnSave.getPreferredSize().height, btnCancel.getPreferredSize().height));
+        btnSave.setPreferredSize(buttonSize);
+        btnCancel.setPreferredSize(buttonSize);
+
+        buttonPanel.add(btnSave);
         buttonPanel.add(btnCancel);
 
-        // back button
-        JButton backToReservationManagementButton = new JButton("Back to Reservation Management");
-        UIUtils.customizeButton(backToReservationManagementButton);
-        backToReservationManagementButton.addActionListener(e -> {
-            this.dispose(); // Close the current form
-
-        });
-        footerPanel.add(backToReservationManagementButton, BorderLayout.CENTER);
-        footerPanel.add(buttonPanel, BorderLayout.SOUTH); // Add the buttonPanel to the footerPanel
-
-        // Adding fieldsPanel and footerPanel to the form
-        this.add(fieldsPanel, BorderLayout.CENTER);
-        this.add(footerPanel, BorderLayout.SOUTH);
-    }
-
-
-    /*
-    {
-
-        add(new JLabel("Station ID:"));
-        txtStationID = new JTextField();
-        add(txtStationID);
-
-        add(new JLabel("Charger ID:"));
-        txtChargerID = new JTextField();
-        add(txtChargerID);
-
-        add(new JLabel("Date and Time (YYYY-MM-DD HH:MM):"));
-        txtDateTime = new JTextField();
-        add(txtDateTime);
-
-        btnSave = new JButton("Save");
         btnSave.addActionListener(this::saveReservationAction);
-        add(btnSave);
-
-        btnCancel = new JButton("Cancel");
         btnCancel.addActionListener(e -> dispose());
-        add(btnCancel);
 
-        pack();
-        setLocationRelativeTo(null);
-    }*/
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        fieldsPanel.add(buttonPanel, gbc);
+
+        mainPanel.add(fieldsPanel, BorderLayout.CENTER);
+
+        //
+        // Go Back button at the bottom
+        JButton btnGoBack = new JButton("Go Back");
+        UIUtils.customizeButton(btnGoBack);
+        btnGoBack.addActionListener(e -> dispose()); // Close this window
+        JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        backPanel.setBackground(Color.WHITE);
+        backPanel.add(btnGoBack);
+        mainPanel.add(backPanel, BorderLayout.SOUTH);
+
+        //
+
+
+
+        this.add(mainPanel, BorderLayout.CENTER);
+    }
 
 
     private void saveReservationAction(ActionEvent event) {
@@ -218,42 +205,4 @@ public class AddNewReservationForm extends JFrame {
         }
     }
 }//END CLASS
-    /*private void saveReservationAction(ActionEvent event) {
-        // Retrieve customerID from the UserSession
-        int customerID = UserSession.getInstance().getCustomerID();
-
-        try {
-            //  text fields  for stationID and reservationDateTime
-            int stationID = Integer.parseInt(txtStationID.getText().trim());
-            int chargerID = Integer.parseInt(txtChargerID.getText().trim());
-
-            // Assuming dateTime input is in the format "yyyy-MM-dd HH:mm"
-            LocalDateTime reservationDateTime = LocalDateTime.parse(txtDateTime.getText().trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            String status = "Confirmed";//set the status in reservations table
-
-            // Create the Reservation object with the collected data
-            Reservation newReservation = new Reservation();
-            newReservation.setStationID(stationID);
-            newReservation.setReservationDateTime(reservationDateTime);
-            newReservation.setCustomerID(customerID);
-            newReservation.setStatus(status);
-            newReservation.setChargerID(chargerID);
-
-            // Use the ReservationController to add the reservation to the database
-            ReservationController controller = new ReservationController();
-            if (controller.addReservation(newReservation)) {
-                JOptionPane.showMessageDialog(this, "Reservation added successfully.");
-                dispose(); // Optionally close the form or clear fields for a new entry
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to add reservation.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Invalid station ID. Please enter a valid number.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "Invalid date and time format. Please follow the format 'yyyy-MM-dd HH:mm'.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "An error occurred while saving the reservation. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
-
 

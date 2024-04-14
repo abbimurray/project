@@ -3,10 +3,8 @@ package dao;
 import model.Reservation;
 import utils.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +23,15 @@ public class ReservationDao {
             pstmt.setInt(4, reservation.getCustomerID());
             pstmt.setInt(5, reservation.getChargerID());
 
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
+            int affectedRows = pstmt.executeUpdate();//execute adding
+            return affectedRows > 0;//return true if successfully added
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
+    //CRUD RETRIEVE - View reservations
     public List<Reservation> getReservationsByCustomerId(int customerID) {
         List<Reservation> reservations = new ArrayList<>();
         String query = "SELECT * FROM reservations WHERE customerID = ? ORDER BY reservationDateTime DESC";
@@ -44,24 +43,22 @@ public class ReservationDao {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                System.out.println("Fetched data: " + rs.getInt("reservationID") + ", " + rs.getTimestamp("reservationDateTime") + rs.getString("status")+ rs.getInt("stationID") + rs.getInt("customerID") + rs.getInt("chargerID"));
+                System.out.println("Fetched data: " + rs.getInt("reservationID") + ", " + rs.getTimestamp("reservationDateTime") + rs.getString("status") + rs.getInt("stationID") + rs.getInt("customerID") + rs.getInt("chargerID"));
                 Reservation reservation = new Reservation();
                 reservation.setReservationID(rs.getInt("reservationID"));
                 reservation.setStationID(rs.getInt("stationID"));
-                reservation.setChargerID(rs.getInt("chargerID")); // Make sure this is correctly set
-                reservation.setCustomerID(rs.getInt("customerID")); // This seems redundant if you're querying by customerID
+                reservation.setChargerID(rs.getInt("chargerID"));
+                reservation.setCustomerID(rs.getInt("customerID"));
                 reservation.setReservationDateTime(rs.getTimestamp("reservationDateTime").toLocalDateTime());
                 reservation.setStatus(rs.getString("status"));
 
                 reservations.add(reservation);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Consider more robust error handling or logging for production.
+            e.printStackTrace();
         }
         return reservations;
     }
-
-    //CRUD RETRIEVE - View reservations
 
 
     //CRUD UPDATE--- UPDATE RESERVATION (PRESENT OR FUTURE)
@@ -86,19 +83,60 @@ public class ReservationDao {
 
     //CRUD DELETE -- DELETE RESERVATION (PRESENT DAY OR FUTURE)
     public boolean deleteReservation(int reservationID) {
-        String sql = "DELETE FROM reservations WHERE reservationID = ? AND reservationDateTime >= CURRENT_TIMESTAMP";
+        //  String sql = "DELETE FROM reservations WHERE reservationID = ? AND reservationDateTime >= CURRENT_TIMESTAMP";
+        String sql = "DELETE FROM reservations WHERE reservationID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, reservationID);
+            pstmt.setInt(1, reservationID);//set reservationID parameter
 
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
+            int affectedRows = pstmt.executeUpdate();//execute delete
+            return affectedRows > 0;//true is it was deleted successfully
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-}//end class
 
+    public int getChargerIDForReservation(int reservationID) {
+        String sql = "SELECT chargerID FROM reservations WHERE reservationID = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, reservationID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("chargerID");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Indicates not found or error
+    }
+
+
+    public boolean isChargerAvailable(int chargerID, LocalDateTime proposedStart, int durationInMinutes) {
+        LocalDateTime proposedEnd = proposedStart.plusMinutes(durationInMinutes);
+        String sql = "SELECT COUNT(*) FROM reservations WHERE chargerID = ? AND " +
+                "((reservationDateTime < ? AND ADDDATE(reservationDateTime, INTERVAL durationInMinutes MINUTE) > ?) " +
+                "OR (reservationDateTime < ? AND ADDDATE(reservationDateTime, INTERVAL durationInMinutes MINUTE) > ?))";
+        try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, chargerID);
+            pstmt.setTimestamp(2, Timestamp.valueOf(proposedStart));
+            pstmt.setTimestamp(3, Timestamp.valueOf(proposedEnd));
+            pstmt.setTimestamp(4, Timestamp.valueOf(proposedEnd));
+            pstmt.setTimestamp(5, Timestamp.valueOf(proposedStart));
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count == 0; // True if no overlapping reservations
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Default to false for safety
+    }
+
+
+}//end  class

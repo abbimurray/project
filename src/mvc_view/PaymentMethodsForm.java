@@ -1,6 +1,5 @@
 package mvc_view;
 
-
 import controller.UserSession;
 import utils.UIUtils;
 
@@ -9,55 +8,59 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ReservationManagementForm extends JFrame {
-    private JButton btnViewReservations, btnUpdateReservations, btnDeleteReservations, btnAddReservations;
+import static utils.UIUtils.customizeButton;
 
-    public ReservationManagementForm() {
-        setTitle("Manage Reservations");
+public class PaymentMethodsForm extends JFrame{
+
+    private JButton btnViewPayMethods, btnUpdatePayMethods, btnDeletePayMethods, btnAddPayMethods;
+
+    public PaymentMethodsForm() {
+        setTitle("Manage Payment Methods");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initializeButtons(); // Initialize buttons first
         initializeUI();
         setLocationRelativeTo(null); // Center on screen
-    }
-
+    }//end constructor
 
     private void initializeButtons() {
         // Initialize buttons with icons
-        btnAddReservations = new JButton("Add Reservation", new ImageIcon("src/images/add.png"));
-        btnViewReservations = new JButton(" View My Reservations", new ImageIcon("src/images/view.png"));
-        btnUpdateReservations = new JButton(" Update My Reservations", new ImageIcon("src/images/update.png"));
-        btnDeleteReservations = new JButton(" Delete My Reservations", new ImageIcon("src/images/delete.png"));
+        btnAddPayMethods = new JButton("Add A new Payment Method", new ImageIcon("src/images/add.png"));
+        btnViewPayMethods = new JButton(" View My Payment Methods", new ImageIcon("src/images/view.png"));
+        btnUpdatePayMethods = new JButton(" Update My Payment Methods", new ImageIcon("src/images/update.png"));
+        btnDeletePayMethods = new JButton(" Delete My Payment Methods", new ImageIcon("src/images/delete.png"));
 
         // Set font for buttons
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
 
         // Customize buttons
-        customizeButton(btnAddReservations);
-        customizeButton(btnViewReservations);
-        customizeButton(btnUpdateReservations);
-        customizeButton(btnDeleteReservations);
+        customizeButton(btnAddPayMethods);
+        customizeButton(btnViewPayMethods);
+        customizeButton(btnUpdatePayMethods);
+        customizeButton(btnDeletePayMethods);
 
         // add action listeners after buttons are initialized
         //Action listener for adding reservation
-        btnAddReservations.addActionListener(e -> {
+        btnAddPayMethods.addActionListener(e -> {
             EventQueue.invokeLater(() -> {
-                new AddNewReservationForm().setVisible(true);//Invoke AddNewReservation form
+               new AddPayMethod().setVisible(true);//Invoke AddNewReservation form
             });
         });
         // Action listener for viewing details
-        btnViewReservations.addActionListener(e -> {
-            ViewReservationsForm viewReservationsForm = new ViewReservationsForm();
-            viewReservationsForm.setVisible(true);
+        btnViewPayMethods.addActionListener(e -> {
+            ViewPaymentMethods viewPaymentMethods = new ViewPaymentMethods();
+            viewPaymentMethods.setVisible(true);
         });
+
+
         // Action listener for updating details
         // btnUpdateReservations.addActionListener(e -> updateReservationsAction());
 
 
         // Action listener for deleting reservations
-        btnDeleteReservations.addActionListener(e -> {
+        btnDeletePayMethods.addActionListener(e -> {
             EventQueue.invokeLater(() -> {
-                new DeleteAReservation().setVisible(true); // Invoke DeleteAReservation Form
+                new DeletePaymentMethod().setVisible(true); // Invoke DeleteAReservation Form
             });
         });
     }
@@ -79,9 +82,9 @@ public class ReservationManagementForm extends JFrame {
         // Header panel setup
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint color
-        JLabel titleLabel = new JLabel("Manage Reservations", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Manage Payment Methods", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        ImageIcon dashboardIcon = new ImageIcon("src/images/reserved.png");
+        ImageIcon dashboardIcon = new ImageIcon("src/images/paymethod.png");
         JLabel iconLabel = new JLabel(dashboardIcon);
 
         // Sign Out Icon on the right corner
@@ -106,14 +109,14 @@ public class ReservationManagementForm extends JFrame {
 
         // Buttons Panel
         JPanel buttonsPanel = new JPanel(new GridLayout(4, 1, 10, 10));
-        buttonsPanel.setBackground(Color.WHITE); // Ensure this panel's background is also white
+        buttonsPanel.setBackground(Color.WHITE);
         // Add some padding around the panel to move it down a bit
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
-        buttonsPanel.add(btnAddReservations);
-        buttonsPanel.add(btnViewReservations);
-        buttonsPanel.add(btnUpdateReservations);
-        buttonsPanel.add(btnDeleteReservations);
+        buttonsPanel.add(btnAddPayMethods);
+        buttonsPanel.add(btnViewPayMethods);
+        buttonsPanel.add(btnUpdatePayMethods);
+        buttonsPanel.add(btnDeletePayMethods);
 
         //Bottom panel with go back to dashboard
         JPanel bottomPanel = new JPanel();
@@ -136,5 +139,9 @@ public class ReservationManagementForm extends JFrame {
         add(buttonsPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
     }
-}
 
+
+
+
+
+}//end class

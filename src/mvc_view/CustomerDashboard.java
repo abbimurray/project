@@ -156,11 +156,17 @@ public class CustomerDashboard extends JFrame {
     private void openPayments() {
         System.out.println("Opening Payments...");//printing to terminal
         // Implementation to open the payments section
+        PaymentMethodsForm paymentMethodsForm = new PaymentMethodsForm();
+        paymentMethodsForm.setVisible(true);
+        this.setVisible(false);//temporarily hide dashboard
     }
 
     private void openCustomerSupport() {
         System.out.println("Opening Customer Support...");//printing to terminal
         // Implementation to open the customer support section
+        CustomerServiceForm customerServiceForm = new CustomerServiceForm();
+        customerServiceForm.setVisible(true);
+        this.setVisible(false);//temporarily hide dashboard
     }
 
     public static void main(String[] args) {
