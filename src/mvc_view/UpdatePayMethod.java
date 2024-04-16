@@ -5,16 +5,30 @@ import controller.UserSession;
 import model.PaymentMethod;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class UpdatePayMethod extends JFrame {
     private JComboBox<PaymentMethod> paymentMethodComboBox;
     private JTextField cardNumberField, nameOnCardField;
-    private JButton updateButton;
-    private JButton backButton;
+    private JButton updateButton, backButton;
     private PaymentMethodController paymentMethodController;
 
     public UpdatePayMethod() {
@@ -118,7 +132,7 @@ public class UpdatePayMethod extends JFrame {
         add(formPanel, BorderLayout.CENTER);
 
         // Bottom Panel with Back Button
-        backButton = new JButton("Back to Payment Methods");
+        backButton = new JButton("Back to Payment Method Dashboard");
         backButton.setFont(arialBold16);
         UIUtils.customizeButton(backButton);
         backButton.addActionListener(e -> {
@@ -141,23 +155,39 @@ public class UpdatePayMethod extends JFrame {
             nameOnCardField.setText(selectedMethod.getNameOnCard());
         }
     }
-
     private void updatePaymentMethodAction(ActionEvent event) {
         PaymentMethod selectedMethod = (PaymentMethod) paymentMethodComboBox.getSelectedItem();
         if (selectedMethod != null) {
-            selectedMethod.setCardNumber(cardNumberField.getText());
-            selectedMethod.setNameOnCard(nameOnCardField.getText());
+            String cardNumber = cardNumberField.getText();
+            String nameOnCard = nameOnCardField.getText();
 
-            boolean updated = paymentMethodController.updatePaymentMethod(selectedMethod);
-            if (updated) {
-                JOptionPane.showMessageDialog(this, "Payment method updated successfully.");
+            // Check if changes were made
+            if (!cardNumber.equals(selectedMethod.getCardNumber()) || !nameOnCard.equals(selectedMethod.getNameOnCard())) {
+                selectedMethod.setCardNumber(cardNumber);
+                selectedMethod.setNameOnCard(nameOnCard);
+
+                // Validate before updating
+                String validationResult = paymentMethodController.validatePaymentMethod(selectedMethod);
+                if (!validationResult.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, validationResult, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Stop the update if validation fails
+                }
+
+                // Proceed with update if validation passes
+                boolean updated = paymentMethodController.updatePaymentMethod(selectedMethod);
+                if (updated) {
+                    JOptionPane.showMessageDialog(this, "Payment method updated successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to update payment method.");
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to update payment method.");
+                JOptionPane.showMessageDialog(this, "No changes detected. Please modify the fields before updating.");
             }
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new UpdatePayMethod().setVisible(true));
-    }
-}
+
+
+
+
+}//end class

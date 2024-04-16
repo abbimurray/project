@@ -5,8 +5,19 @@ import controller.UserSession;
 import model.PaymentMethod;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.List;
 
 public class ViewPaymentMethods extends JFrame {
@@ -58,6 +69,7 @@ public class ViewPaymentMethods extends JFrame {
         add(headerPanel, BorderLayout.NORTH);
 
         JPanel contentPanel = new JPanel();
+        contentPanel.setBackground(Color.WHITE);
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         if (paymentMethods.isEmpty()) {
             contentPanel.add(new JLabel("No payment methods found."));
@@ -68,9 +80,10 @@ public class ViewPaymentMethods extends JFrame {
             }
         }
         JScrollPane scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setBackground(Color.WHITE);
         add(scrollPane, BorderLayout.CENTER);
 
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("Back to Payment Method Dashboard");
         backButton.addActionListener(e -> dispose());
         UIUtils.customizeButton(backButton);
         JPanel bottomPanel = new JPanel();
@@ -80,10 +93,12 @@ public class ViewPaymentMethods extends JFrame {
 
     private JPanel createPaymentMethodPanel(PaymentMethod method) {
         JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
         panel.setLayout(new FlowLayout());
         panel.add(new JLabel("Card Number: " + method.getCardNumber()));
         panel.add(new JLabel("Expiry: " + method.getExpiry()));
 
         return panel;
     }
-}
+
+}//end class

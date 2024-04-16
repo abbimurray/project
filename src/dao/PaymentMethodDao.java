@@ -2,7 +2,11 @@ package dao;
 
 import model.PaymentMethod;
 import utils.DBConnection;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +15,7 @@ public class PaymentMethodDao {
     //CRUD CREATE - ADD PAYMENT METHOD
     public boolean addPaymentMethod(PaymentMethod paymentMethod) {
         int customerID = paymentMethod.getCustomerID();  // Get customerID from payment method
-        System.out.println("Attempting to add payment method for customerID: " + customerID); // Debug print
+        System.out.println("Attempting to add payment method for customerID: " + customerID); //print to terminal, help debug
         String sql = "INSERT INTO PaymentMethods (customerID, cardNumber, expiry, securityCode, nameOnCard) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -44,7 +48,7 @@ public class PaymentMethodDao {
                 paymentMethod.setCustomerID(rs.getInt("CustomerID"));
                 paymentMethod.setCardNumber(rs.getString("CardNumber"));
                 paymentMethod.setExpiry(rs.getString("Expiry"));
-                paymentMethod.setSecurityCode(rs.getString("SecurityCode")); // Consider security practices
+                paymentMethod.setSecurityCode(rs.getString("SecurityCode"));
                 paymentMethod.setNameOnCard(rs.getString("NameOnCard"));
                 paymentMethods.add(paymentMethod);
             }
@@ -53,10 +57,6 @@ public class PaymentMethodDao {
         }
         return paymentMethods;
     }
-
-
-
-
 
 
     //CRUD UPDATE -- UPDATE PAYMENT METHODS
@@ -81,7 +81,6 @@ public class PaymentMethodDao {
 
 
     //CRUD DELETE -- DELETE PAYMENT METHODS
-
     public boolean deletePaymentMethod(int paymentMethodID, int customerID) {
         String sql = "DELETE FROM PaymentMethods WHERE paymentMethodID = ? AND customerID = ?";
         try (Connection conn = DBConnection.getConnection();

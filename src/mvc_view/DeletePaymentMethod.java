@@ -5,8 +5,22 @@ import controller.UserSession;
 import model.PaymentMethod;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
@@ -60,6 +74,9 @@ public class DeletePaymentMethod extends JFrame {
         JPanel formPanel = new JPanel(new FlowLayout());
         formPanel.setBackground(Color.WHITE);
 
+        // Add some vertical space before the first element
+        formPanel.add(Box.createVerticalStrut(300));
+
         List<PaymentMethod> paymentMethods = paymentMethodController.getPaymentMethodsForCustomer(UserSession.getInstance().getCustomerID());
         paymentMethodComboBox = new JComboBox<>(paymentMethods.toArray(new PaymentMethod[0]));
         paymentMethodComboBox.setPreferredSize(new Dimension(200, 30));
@@ -68,17 +85,17 @@ public class DeletePaymentMethod extends JFrame {
         UIUtils.customizeButton(deleteButton);
         deleteButton.addActionListener(this::deletePaymentMethodAction);
 
-        formPanel.add(new JLabel("Select Payment Method to Delete:"));
+        JLabel deleteLabel = new JLabel("Select Payment Method to Delete:");
+        deleteLabel.setFont(new Font("Arial", Font.BOLD, 16));  // Setting the font
+        formPanel.add(deleteLabel);
         formPanel.add(paymentMethodComboBox);
         formPanel.add(deleteButton);
 
         add(formPanel, BorderLayout.CENTER);
 
 
-
-
         // Go Back button at the bottom
-        JButton btnGoBack = new JButton("Go Back");
+        JButton btnGoBack = new JButton("Back to Payment Method Dashboard");
         UIUtils.customizeButton(btnGoBack);
         btnGoBack.addActionListener(e -> dispose()); // Close this window
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -103,7 +120,4 @@ public class DeletePaymentMethod extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new DeletePaymentMethod().setVisible(true));
-    }
-}
+}//end class

@@ -5,8 +5,24 @@ import controller.PaymentMethodController;
 import model.PaymentMethod;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 
 public class AddPayMethod extends JFrame {
@@ -77,7 +93,7 @@ public class AddPayMethod extends JFrame {
         add(formPanel, BorderLayout.CENTER);
 
         // Back Button at the bottom
-        backButton = new JButton("Back to Payment Methods");
+        backButton = new JButton("Back to Payment Method Dashboard");
         UIUtils.customizeButton(backButton);
         backButton.addActionListener(e -> {
             PaymentMethodsForm paymentMethodsForm = new PaymentMethodsForm();
@@ -107,11 +123,15 @@ public class AddPayMethod extends JFrame {
         paymentMethod.setNameOnCard(nameOnCardField.getText());
 
         PaymentMethodController controller = new PaymentMethodController();
-        if (controller.addPaymentMethod(paymentMethod)) {
+        String result = controller.addPaymentMethod(paymentMethod);
+
+        if ("success".equals(result)) {
             JOptionPane.showMessageDialog(this, "Payment Method Added Successfully!");
+            dispose();  // Optionally close the dialog or refresh the form for another entry.
         } else {
-            JOptionPane.showMessageDialog(this, "Failed to Add Payment Method.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-}
+
+}//end class
 

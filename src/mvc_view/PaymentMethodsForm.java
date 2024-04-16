@@ -3,8 +3,20 @@ package mvc_view;
 import controller.UserSession;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -27,7 +39,7 @@ public class PaymentMethodsForm extends JFrame{
         // Initialize buttons with icons
         btnAddPayMethods = new JButton("Add A new Payment Method", new ImageIcon("src/images/add.png"));
         btnViewPayMethods = new JButton(" View My Payment Methods", new ImageIcon("src/images/view.png"));
-        btnUpdatePayMethods = new JButton(" Update My Payment Methods", new ImageIcon("src/images/update.png"));
+        btnUpdatePayMethods = new JButton(" Update My Payment Methods", new ImageIcon("src/images/exchange.png"));
         btnDeletePayMethods = new JButton(" Delete My Payment Methods", new ImageIcon("src/images/delete.png"));
 
         // Set font for buttons
@@ -54,7 +66,6 @@ public class PaymentMethodsForm extends JFrame{
 
 
         // Action listener for updating details
-        // btnUpdateReservations.addActionListener(e -> updateReservationsAction());
         btnUpdatePayMethods.addActionListener(e->{
             UpdatePayMethod updatePayMethod = new UpdatePayMethod();
             updatePayMethod.setVisible(true);
@@ -142,8 +153,6 @@ public class PaymentMethodsForm extends JFrame{
         add(buttonsPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
     }
-
-
 
 
 
