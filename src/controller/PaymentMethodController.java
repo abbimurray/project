@@ -13,6 +13,7 @@ public class PaymentMethodController {
     }
 
     public boolean addPaymentMethod(PaymentMethod paymentMethod) {
+        //add logic to check conditions before adding such as fields are all have correct input type and not empty
         return paymentMethodDao.addPaymentMethod(paymentMethod);
     }
 

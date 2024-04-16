@@ -55,7 +55,10 @@ public class PaymentMethodsForm extends JFrame{
 
         // Action listener for updating details
         // btnUpdateReservations.addActionListener(e -> updateReservationsAction());
-
+        btnUpdatePayMethods.addActionListener(e->{
+            UpdatePayMethod updatePayMethod = new UpdatePayMethod();
+            updatePayMethod.setVisible(true);
+        });
 
         // Action listener for deleting reservations
         btnDeletePayMethods.addActionListener(e -> {

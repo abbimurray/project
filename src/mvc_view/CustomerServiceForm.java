@@ -66,7 +66,7 @@ public class CustomerServiceForm extends JFrame {
         Font titleFont = new Font("Arial", Font.BOLD, 24);
         // Contact Information
         JPanel contactPanel = new JPanel(new GridLayout(4, 1)); // Grid layout to stack contact info vertically
-        contactPanel.setBackground(Color.LIGHT_GRAY); // Set a different background to distinguish this section from faq panel
+        contactPanel.setBackground(new Color(204,255,204));
 
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Contact Us");
         titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 24)); // font for the title

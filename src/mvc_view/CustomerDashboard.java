@@ -63,7 +63,7 @@ public class CustomerDashboard extends JFrame {
         addSection(mainPanel, "Search for Charging Stations", "src/images/search.png");
         addSection(mainPanel, "Reserve a Charger", "src/images/reserved.png");
         addSection(mainPanel, "Charging History", "src/images/history.png");
-        addSection(mainPanel, "Payments", "src/images/transactionsicon.png");
+        addSection(mainPanel, "Payment Methods", "src/images/transactionsicon.png");
         addSection(mainPanel, "Customer Support", "src/images/customer-support.png");
 
         add(headerPanel, BorderLayout.NORTH);
@@ -110,7 +110,7 @@ public class CustomerDashboard extends JFrame {
                 // need to do
                 openChargingHistory();
                 break;
-            case "Payments":
+            case "Payment Methods":
                 // need to do
                 openPayments();
                 break;
