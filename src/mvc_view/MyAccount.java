@@ -11,11 +11,32 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MyAccount extends JFrame {
+    private Customer customer;
+
     private String customerEmail; // To hold the logged-in customer's email
     private CustomerModel customerModel;
     private JButton btnViewDetails, btnUpdateDetails, btnDeleteAccount;
 
     public MyAccount(String customerEmail) {
+        this.customerEmail = customerEmail;
+        this.customerModel = new CustomerModel();
+        this.customer = fetchCustomerDetails(customerEmail); // Fetch every time it's opened
+        if (this.customer == null) {
+            JOptionPane.showMessageDialog(this, "Customer details not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Optionally close the form or disable features
+        }
+        initializeButtons();
+        initializeUI();
+        setTitle("My Profile");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
+    private Customer fetchCustomerDetails(String email) {
+        return customerModel.getCustomerByEmail(email);
+    }
+    /////////
+    /*public MyAccount(String customerEmail) {
         this.customerEmail = customerEmail;
 
         this.customerModel = new CustomerModel();
@@ -28,8 +49,8 @@ public class MyAccount extends JFrame {
         initializeUI();
 
         setLocationRelativeTo(null);
-    }
-
+    }*/
+///////////
     private void initializeButtons() {
         // Initialize buttons with icons
         btnViewDetails = new JButton(" View My Details", new ImageIcon("src/images/view.png"));

@@ -1,32 +1,165 @@
-package mvc_view;
+/*package mvc_view;
 
+
+import controller.CustomerController;
 import controller.UserSession;
 import model.Customer;
-import model.CustomerModel;
 import utils.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 public class UpdateMyDetails extends JFrame {
     private Customer customer;
-    private JTextField customerIDField, firstNameField, lastNameField, emailField, phoneField;
-    private JButton saveButton, cancelButton;
-    private CustomerModel customerModel;
-    private final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
-    private final String DATABASE_USER = "root";
-    private final String DATABASE_PASSWORD = "pknv!47A";
-
+    private JTextField firstNameField, lastNameField, emailField, phoneField;
+    private JButton saveButton, cancelButton, goBackButton;
+    private CustomerController customerController;
 
     public UpdateMyDetails(Customer customer) {
         this.customer = customer;
-        this.customerModel = new CustomerModel();
+        this.customerController = new CustomerController();
+        initializeUI();
+        setTitle("Update My Details");
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void initializeUI() {
+        setLayout(new BorderLayout());
+        add(setupHeaderPanel(), BorderLayout.NORTH);
+        add(setupFormPanel(), BorderLayout.CENTER);
+        add(setupButtonPanel(), BorderLayout.SOUTH);
+    }
+
+    private JPanel setupHeaderPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(204, 255, 204));
+        headerPanel.add(new JLabel(new ImageIcon("src/images/myaccount.png")), BorderLayout.WEST);
+
+        JLabel headerLabel = new JLabel("Update My Details", SwingConstants.CENTER);
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerPanel.add(headerLabel, BorderLayout.CENTER);
+
+        JLabel signOutLabel = new JLabel(new ImageIcon("src/images/log-out.png"));
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                UserSession.getInstance().clearSession();
+                dispose();
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true);
+            }
+        });
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
+        return headerPanel;
+    }
+
+    private JPanel setupFormPanel() {
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.WHITE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        int row = 0;
+
+        firstNameField = new JTextField(customer.getFirstName(), 15);
+        lastNameField = new JTextField(customer.getLastName(), 15);
+        emailField = new JTextField(customer.getEmail(), 15);
+        phoneField = new JTextField(customer.getPhone(), 15);
+
+        addFormField(formPanel, "First Name:", firstNameField, row++, new Font("Arial", Font.BOLD, 18));
+        addFormField(formPanel, "Last Name:", lastNameField, row++, new Font("Arial", Font.BOLD, 18));
+        addFormField(formPanel, "Email:", emailField, row++, new Font("Arial", Font.BOLD, 18));
+        addFormField(formPanel, "Phone:", phoneField, row++, new Font("Arial", Font.BOLD, 18));
+
+        return formPanel;
+    }
+
+    private void addFormField(JPanel panel, String labelText, JTextField textField, int row, Font font) {
+        GridBagConstraints gbcLabel = new GridBagConstraints();
+        gbcLabel.gridx = 0;
+        gbcLabel.gridy = row;
+        gbcLabel.anchor = GridBagConstraints.WEST;
+
+        JLabel label = new JLabel(labelText);
+        label.setFont(font);
+        panel.add(label, gbcLabel);
+
+        GridBagConstraints gbcField = new GridBagConstraints();
+        gbcField.gridx = 1;
+        gbcField.gridy = row;
+        gbcField.weightx = 1.0;
+        gbcField.fill = GridBagConstraints.HORIZONTAL;
+
+        textField.setFont(font);
+        panel.add(textField, gbcField);
+    }
+
+    private JPanel setupButtonPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
+
+        saveButton = new JButton("Save");
+        cancelButton = new JButton("Cancel");
+        goBackButton = new JButton("Go Back to My Profile");
+
+        UIUtils.customizeButton(saveButton);
+        UIUtils.customizeButton(cancelButton);
+        UIUtils.customizeButton(goBackButton);
+
+        saveButton.addActionListener(e -> saveChanges());
+        cancelButton.addActionListener(e -> dispose());
+        goBackButton.addActionListener(e -> {
+            dispose();
+            MyAccount myAccountForm = new MyAccount(customer.getEmail());
+            myAccountForm.setVisible(true);
+        });
+
+        buttonPanel.add(saveButton);
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(goBackButton);
+
+        return buttonPanel;
+    }
+
+    private void saveChanges() {
+        customer.setFirstName(firstNameField.getText());
+        customer.setLastName(lastNameField.getText());
+        customer.setEmail(emailField.getText());
+        customer.setPhone(phoneField.getText().replaceAll("[^\\d\\s]", "")); // Validates to only digits and spaces
+
+        String result = customerController.updateCustomerDetails(customer);
+        JOptionPane.showMessageDialog(this, result);
+        if (result.contains("successfully")) {
+            dispose();
+            new UpdateMyDetails(customer).setVisible(true); // Reopen the update form with refreshed data
+        }
+    }
+}*/
+/////////////////////////////////////
+package mvc_view;
+import controller.CustomerController;
+import controller.UserSession;
+import model.Customer;
+import utils.UIUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class UpdateMyDetails extends JFrame {
+    private Customer customer;
+    private JTextField firstNameField, lastNameField, emailField, phoneField;
+    private JButton saveButton, cancelButton;
+    private CustomerController customerController;
+
+    public UpdateMyDetails(Customer customer) {
+        this.customer = customer;
+        this.customerController = new CustomerController();
         initializeUI();
         setTitle("Update My Details");
         setSize(800, 600);
@@ -37,175 +170,138 @@ public class UpdateMyDetails extends JFrame {
     private void initializeUI() {
         setLayout(new BorderLayout());
 
-        // Header Panel with Icon and Label
+        // Header Panel
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(new Color(204, 255, 204)); // Mint color
-
+        headerPanel.setBackground(new Color(204, 255, 204));
         ImageIcon icon = new ImageIcon("src/images/myaccount.png");
         JLabel iconLabel = new JLabel(icon);
         headerPanel.add(iconLabel, BorderLayout.WEST);
 
         JLabel headerLabel = new JLabel("Update My Details", SwingConstants.CENTER);
         headerLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerPanel.add(headerLabel, BorderLayout.CENTER);
 
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20)); //vertical gap to move text down a bit
-        titlePanel.setBackground(new Color(204, 255, 204)); // mint color
-        titlePanel.add(headerLabel);
-        headerPanel.add(titlePanel, BorderLayout.CENTER);
-
-        // Sign Out Icon on the right corner
         ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
         JLabel signOutLabel = new JLabel(signOutIcon);
         signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new MouseAdapter() {
-            @Override
             public void mouseClicked(MouseEvent e) {
-                // Logout action
-                UserSession.getInstance().clearSession(); // Clear user session
-                dispose(); // Close the dashboard
+                UserSession.getInstance().clearSession();
+                dispose();
                 LoginForm loginForm = new LoginForm();
-                loginForm.setVisible(true); // Show the login form again
+                loginForm.setVisible(true);
             }
         });
-
         headerPanel.add(signOutLabel, BorderLayout.EAST);
         add(headerPanel, BorderLayout.NORTH);
 
         // Form Panel
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(Color.WHITE); // Background color for the form
-
-        // Adjusting GridBagLayout constraints for better alignment
+        formPanel.setBackground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
+        int row = 0;
 
-        // Adjust how components are added to GridBagLayout
-        int row = 0; // Track rows for placement
-
-        // Ensure text fields are initialized here before any action listeners that use them
-        customerIDField = new JTextField(customer.getCustomerID());
-        firstNameField = new JTextField(customer.getFirstName());
-        lastNameField = new JTextField(customer.getLastName());
-        emailField = new JTextField(customer.getEmail());
-        phoneField = new JTextField(customer.getPhone());
-
-        // Font Definitions
-        Font labelFont = new Font("Arial", Font.BOLD, 18);
-        Font textFieldFont = new Font("Arial", Font.PLAIN, 18);
+        // Initialize text fields
+        firstNameField = new JTextField(customer.getFirstName(), 20);
+        lastNameField = new JTextField(customer.getLastName(), 20);
+        emailField = new JTextField(customer.getEmail(), 20);
+        phoneField = new JTextField(customer.getPhone(), 20);
 
         // Adding Form Fields with Labels and Text Fields
-        addFormField(formPanel, "Customer ID:", String.valueOf(customer.getCustomerID()), row++, labelFont, textFieldFont, false);
-        addFormField(formPanel, "First Name:", customer.getFirstName(), row++, labelFont, textFieldFont);
-        addFormField(formPanel, "Last Name:", customer.getLastName(), row++, labelFont, textFieldFont);
-        addFormField(formPanel, "Email:", customer.getEmail(), row++, labelFont, textFieldFont);
-        addFormField(formPanel, "Phone:", customer.getPhone(), row++, labelFont, textFieldFont);
-
+        addFormField(formPanel, "First Name:", firstNameField, row++, new Font("Arial", Font.BOLD, 18));
+        addFormField(formPanel, "Last Name:", lastNameField, row++, new Font("Arial", Font.BOLD, 18));
+        addFormField(formPanel, "Email:", emailField, row++, new Font("Arial", Font.BOLD, 18));
+        addFormField(formPanel, "Phone:", phoneField, row++, new Font("Arial", Font.BOLD, 18));
+        add(formPanel, BorderLayout.CENTER);
 
         // Button Panel
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
         saveButton = new JButton("Save");
-        UIUtils.customizeButton(saveButton); // Assuming UIUtils.customizeButton applies the desired styling
+        UIUtils.customizeButton(saveButton);
         saveButton.addActionListener(e -> saveChanges());
 
         cancelButton = new JButton("Cancel");
         UIUtils.customizeButton(cancelButton);
         cancelButton.addActionListener(e -> dispose());
 
-        JButton goBackButton = new JButton("Go Back to MyProfile");
+
+        // Go Back Button
+        JButton goBackButton = new JButton("Go Back to My Profile");
         UIUtils.customizeButton(goBackButton);
         goBackButton.addActionListener(e -> {
+            // Dispose the current window
             dispose();
-            MyAccount myAccount = new MyAccount(customer.getEmail());
-            myAccount.setVisible(true);
+            // Open the MyAccount form
+            MyAccount myAccountForm = new MyAccount(customer.getEmail());  // Assuming MyAccount needs the email to initialize
+            myAccountForm.setVisible(true);
         });
 
+// Add the goBackButton to your button panel
         buttonPanel.add(goBackButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(cancelButton);
-
-        add(formPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        saveButton.addActionListener(e -> saveChanges());
+
+
     }
 
-
-    // Adjust the helper method to accommodate row parameter and simplify GridBagConstraints usage
-    private void addFormField(JPanel panel, String labelText, String fieldValue, int row, Font labelFont, Font textFieldFont) {
-        addFormField(panel, labelText, fieldValue, row, labelFont, textFieldFont, true);
-    }
-
-    private void addFormField(JPanel panel, String labelText, String fieldValue, int row, Font labelFont, Font textFieldFont, boolean editable) {
+    private void addFormField(JPanel panel, String labelText, JTextField textField, int row, Font font) {
         GridBagConstraints gbcLabel = new GridBagConstraints();
-        gbcLabel.gridx = 0; // Label in the first column
+        gbcLabel.gridx = 0;
         gbcLabel.gridy = row;
         gbcLabel.anchor = GridBagConstraints.WEST;
-
         JLabel label = new JLabel(labelText);
-        label.setFont(labelFont);
+        label.setFont(font);
         panel.add(label, gbcLabel);
 
         GridBagConstraints gbcField = new GridBagConstraints();
-        gbcField.gridx = 1; // Field in the second column
+        gbcField.gridx = 1;
         gbcField.gridy = row;
-        gbcField.weightx = 1.0; // Give extra space to the text field
+        gbcField.weightx = 1.0;
         gbcField.fill = GridBagConstraints.HORIZONTAL;
-
-        JTextField textField = new JTextField(fieldValue, 20);
-        textField.setFont(textFieldFont);
-        textField.setEditable(editable);
+        textField.setFont(font);
         panel.add(textField, gbcField);
     }
 
 
-
     private void saveChanges() {
-        // Example of getting data from GUI text fields
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
-        String email = emailField.getText();
-        String phone = phoneField.getText();
+        // Set customer details from fields
+        customer.setFirstName(firstNameField.getText());
+        customer.setLastName(lastNameField.getText());
+        customer.setEmail(emailField.getText());
+        customer.setPhone(phoneField.getText());
 
-        Connection connection = null;
-        PreparedStatement pstat = null;
-
-        try {
-            // Establish connection to the database
-            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
-
-            // Prepare your SQL statement using input from GUI fields
-            String updateQuery = "UPDATE customer_accounts SET firstName=?, lastName=?, email=?, phone=? WHERE customerID=?";
-            pstat = connection.prepareStatement(updateQuery);
-
-            // Set parameters from the GUI fields
-            pstat.setString(1, firstName);
-            pstat.setString(2, lastName);
-            pstat.setString(3, email);
-            pstat.setString(4, phone);
-            pstat.setInt(5, customer.getCustomerID());
-
-            // Execute update
-            int affectedRows = pstat.executeUpdate();
-
-            if (affectedRows > 0) {
-                // Show success message
-                JOptionPane.showMessageDialog(null, "Customer details updated successfully.");
+        // Use controller to update details
+        String result = customerController.updateCustomerDetails(customer);
+        JOptionPane.showMessageDialog(this, result);
+        if (result.contains("successfully")) {
+            // Fetch the latest customer data from the database (this part needs a correct method)
+            Customer updatedCustomer = customerController.getCustomerByEmail(customer.getEmail()); // Assuming this method exists
+            if (updatedCustomer != null) {
+                updateFormFields(updatedCustomer);
+                JOptionPane.showMessageDialog(this, "Details updated. The form has been refreshed with the latest information.");
             } else {
-                // Show failure message
-                JOptionPane.showMessageDialog(null, "Failed to update customer details.");
-            }
-        } catch (SQLException sqlException) {
-            JOptionPane.showMessageDialog(null, "Update failed: " + sqlException.getMessage());
-            sqlException.printStackTrace();
-        } finally {
-            try {
-                if (pstat != null) pstat.close();
-                if (connection != null) connection.close();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed to fetch updated details.");
             }
         }
     }
 
+    private void updateFormFields(Customer updatedCustomer) {
+        // Refresh the current customer object and UI fields with the updated data
+        this.customer = updatedCustomer;
+        firstNameField.setText(customer.getFirstName());
+        lastNameField.setText(customer.getLastName());
+        emailField.setText(customer.getEmail());
+        phoneField.setText(customer.getPhone());
+    }
+
+
+
+
+
 }//end class
+
