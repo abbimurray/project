@@ -41,8 +41,11 @@ public class FindChargingStationForm extends JFrame {
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green color
-        ImageIcon searchIcon = new ImageIcon(getClass().getResource("src/images/search.png")); // Adjust path as needed
-        JLabel iconLabel = new JLabel(searchIcon);
+
+        ImageIcon leftIcon = new ImageIcon("src/images/search.png");
+        JLabel leftLabel = new JLabel(leftIcon);
+
+
         JLabel titleLabel = new JLabel("Search for Charging Stations", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
@@ -62,7 +65,7 @@ public class FindChargingStationForm extends JFrame {
             }
         });
         //Adding header panels
-        headerPanel.add(iconLabel, BorderLayout.WEST);
+        headerPanel.add(leftLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
         headerPanel.add(signOutLabel, BorderLayout.EAST);
         getContentPane().add(headerPanel, BorderLayout.NORTH);

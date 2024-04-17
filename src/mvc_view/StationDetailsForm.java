@@ -202,4 +202,3 @@ public class StationDetailsForm extends JFrame {
         String message = charger.getStatus().equals("Available") ? "Starting session for Charger ID: " + charger.getChargerID() : "Reserving Charger ID: " + charger.getChargerID();
         JOptionPane.showMessageDialog(this, message);
     }*/
-

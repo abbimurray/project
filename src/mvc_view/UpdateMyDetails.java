@@ -153,7 +153,7 @@ import java.awt.event.MouseEvent;
 
 public class UpdateMyDetails extends JFrame {
     private Customer customer;
-    private JTextField firstNameField, lastNameField, emailField, phoneField;
+    private JTextField firstNameField, lastNameField, phoneField;
     private JButton saveButton, cancelButton;
     private CustomerController customerController;
 
@@ -206,13 +206,11 @@ public class UpdateMyDetails extends JFrame {
         // Initialize text fields
         firstNameField = new JTextField(customer.getFirstName(), 20);
         lastNameField = new JTextField(customer.getLastName(), 20);
-        emailField = new JTextField(customer.getEmail(), 20);
         phoneField = new JTextField(customer.getPhone(), 20);
 
         // Adding Form Fields with Labels and Text Fields
         addFormField(formPanel, "First Name:", firstNameField, row++, new Font("Arial", Font.BOLD, 18));
         addFormField(formPanel, "Last Name:", lastNameField, row++, new Font("Arial", Font.BOLD, 18));
-        addFormField(formPanel, "Email:", emailField, row++, new Font("Arial", Font.BOLD, 18));
         addFormField(formPanel, "Phone:", phoneField, row++, new Font("Arial", Font.BOLD, 18));
         add(formPanel, BorderLayout.CENTER);
 
@@ -272,7 +270,6 @@ public class UpdateMyDetails extends JFrame {
         // Set customer details from fields
         customer.setFirstName(firstNameField.getText());
         customer.setLastName(lastNameField.getText());
-        customer.setEmail(emailField.getText());
         customer.setPhone(phoneField.getText());
 
         // Use controller to update details
@@ -295,7 +292,6 @@ public class UpdateMyDetails extends JFrame {
         this.customer = updatedCustomer;
         firstNameField.setText(customer.getFirstName());
         lastNameField.setText(customer.getLastName());
-        emailField.setText(customer.getEmail());
         phoneField.setText(customer.getPhone());
     }
 

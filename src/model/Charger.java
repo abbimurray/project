@@ -1,6 +1,8 @@
 package model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 
 
 public class Charger {
@@ -79,5 +81,4 @@ public class Charger {
     public void setCostPerKWH(BigDecimal costPerKWH) {
         this.costPerKWH = costPerKWH;
     }
-
 }

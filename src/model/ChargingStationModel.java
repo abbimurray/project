@@ -268,7 +268,7 @@ public class ChargingStationModel {
         updateChargerStatus(chargerID, "Available");
     }
 }*/
-    // End session method
+// End session method
     /*public void endSession(int transactionID) {
         LocalDateTime startTime = fetchStartTimeForTransaction(transactionID);
         LocalDateTime endTime = LocalDateTime.now();
