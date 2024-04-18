@@ -29,7 +29,7 @@ public class AddNewReservationForm extends JFrame {
         setTitle("Add New Reservation");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
-        setSize(800, 600); // This should work, ensure it's not overridden by pack()
+        setSize(800, 600);
 
         initializeHeader();
         initializeFormFieldsAndFooter();

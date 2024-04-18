@@ -115,8 +115,22 @@ public class StationDetailsForm extends JFrame {
             chargerPanel.add(startSessionButton);*/
 
             JButton startSessionButton = new JButton("Start Session");
+            UIUtils.customizeButton(startSessionButton);
 
-
+            ////
+            startSessionButton.addActionListener(e -> {
+                int customerID = UserSession.getInstance().getCustomerID(); // Retrieve the customer ID from the user session.
+                boolean sessionStarted = chargerController.startChargingSession(charger.getChargerID(), customerID);
+                if (sessionStarted) {
+                    StartSessionForm startSessionForm = new StartSessionForm(customerID, charger.getChargerID(), model);
+                    startSessionForm.setVisible(true);
+                    StationDetailsForm.this.dispose(); // Close the current form
+                } else {
+                    JOptionPane.showMessageDialog(this, "Charger is currently unavailable.", "Session Not Started", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+            /////
+            /*
             startSessionButton.addActionListener(e -> {
                 int customerID = UserSession.getInstance().getCustomerID(); // Assuming you have a method to get this
                 if (chargerController.startChargingSession(charger.getChargerID(), customerID)) {
@@ -126,12 +140,9 @@ public class StationDetailsForm extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Charger is currently unavailable.", "Session Not Started", JOptionPane.ERROR_MESSAGE);
                 }
-            });
+            });*/
 
             chargerPanel.add(startSessionButton);
-
-
-
             panel.add(chargerPanel);
         }
 

@@ -1,6 +1,7 @@
 package mvc_view;
 import controller.ChargerRatePower;
 import model.ChargingStationModel;
+import utils.UIUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +24,7 @@ public class StartSessionForm extends JFrame {
         this.customerID = customerID;
         this.chargerID = chargerID;
         this.model = model;
-        this.transactionID = model.startSession(chargerID, customerID); // Assuming this returns the transaction ID
+        this.transactionID = model.startSession(chargerID, customerID);
         initializeUI();
     }
 
@@ -37,6 +38,7 @@ public class StartSessionForm extends JFrame {
         add(timerLabel);
 
         JButton stopSessionButton = new JButton("Stop Session");
+        UIUtils.customizeButton(stopSessionButton);
         stopSessionButton.addActionListener(this::stopSession);
         add(stopSessionButton);
 
@@ -59,6 +61,8 @@ public class StartSessionForm extends JFrame {
         timerLabel.setText(String.format("%02d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, seconds % 60));
     }
 
+
+    //adjust calculation to get the rate from the charger table
     private BigDecimal calculateCost(Duration duration) {
         // Example calculation: cost per kWh is a fixed value, and energy consumption rate is based on the charger type
         BigDecimal costPerKWH = new BigDecimal("0.15"); // Example cost
@@ -75,7 +79,7 @@ public class StartSessionForm extends JFrame {
         // Use the model instance to calculate duration hours
         BigDecimal durationHours = model.calculateDurationHours(startTime, endTime);
 
-        // Assuming you need chargerID, ensure it's available in this scope
+
         ChargerRatePower ratePower = model.fetchChargerRateAndPower(chargerID);
         BigDecimal energyConsumed = ratePower.getKw().multiply(durationHours);
         BigDecimal totalCost = energyConsumed.multiply(ratePower.getCostPerKWH());
@@ -83,7 +87,9 @@ public class StartSessionForm extends JFrame {
         // Now use the model instance to update the transaction
         model.updateChargingTransaction(transactionID, endTime, energyConsumed, totalCost);
 
+        //need to update the status of the charger back to available
+
         JOptionPane.showMessageDialog(this, "Session Ended. Total Cost: " + totalCost);
-        this.dispose(); // Optionally, navigate back to StationDetailsForm
+        this.dispose();
     }
 }

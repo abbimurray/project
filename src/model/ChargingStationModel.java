@@ -19,6 +19,8 @@ public class ChargingStationModel {
     private final String DATABASE_PASSWORD = "pknv!47A";
 
 
+
+    //used in FindChargingStations class
     public List<String> getDistinctCounties() {
         List<String> counties = new ArrayList<>();
         String sql = "SELECT DISTINCT county FROM charging_stations ORDER BY county ASC";
@@ -39,6 +41,8 @@ public class ChargingStationModel {
         return counties;
     }
 
+
+    //used in FindChargingStations class
     public List<ChargingStation> getStationsByCounty(String county) {
         List<ChargingStation> stations = new ArrayList<>();
         String sql = "SELECT * FROM charging_stations WHERE county = ? ORDER BY address ASC";
@@ -64,6 +68,7 @@ public class ChargingStationModel {
     }
 
 
+    //used in stationdetails
     public List<Charger> getChargersByStationId(int stationId) {
         List<Charger> chargers = new ArrayList<>();
         String sql = "SELECT * FROM chargers WHERE stationID = ?";
@@ -122,7 +127,7 @@ public class ChargingStationModel {
         }
     }
 
-    // Method to update chargingTransactions record
+    // Method to update chargingTransactions record after the session has ended
     public void updateChargingTransaction(int transactionID, LocalDateTime endTime, BigDecimal energyConsumed, BigDecimal totalCost) {
         String query = "UPDATE chargingTransactions SET endTime = ?, energyConsumed = ?, totalCost = ? WHERE transactionID = ?";
         try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
@@ -155,6 +160,8 @@ public class ChargingStationModel {
         return null; // Consider handling this case
     }
 
+
+//method to get rate and power for calculating transaction cost
     public ChargerRatePower fetchChargerRateAndPower(int chargerID) {
         String query = "SELECT costPerKWH, kw FROM chargers WHERE chargerID = ?";
         try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
@@ -170,9 +177,11 @@ public class ChargingStationModel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Consider how you want to handle this case
+        return null;
     }
 
+
+    //duration of charging session needed for calculating the cost
     public BigDecimal calculateDurationHours(LocalDateTime startTime, LocalDateTime endTime) {
         long seconds = Duration.between(startTime, endTime).getSeconds();
         return BigDecimal.valueOf(seconds).divide(BigDecimal.valueOf(3600), 2, RoundingMode.HALF_UP);
@@ -184,6 +193,9 @@ public class ChargingStationModel {
     public int startSession(int chargerID, int customerID) {
         // Initialize transactionID to an invalid value
         int transactionID = -1;
+
+        //update the charger status ti 'in-use' so that the other users cannot also use the same charger at this time
+        //start newtransaction record with the start time, chargerid, customerid
         String updateStatusQuery = "UPDATE chargers SET status = 'In-Use' WHERE chargerID = ?";
         String insertSessionQuery = "INSERT INTO chargingTransactions (startTime, chargerID, customerID) VALUES (NOW(), ?, ?)";
 
