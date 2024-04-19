@@ -1,95 +1,142 @@
 package mvc_view;
-import controller.ChargerRatePower;
+
 import model.ChargingStationModel;
-import utils.UIUtils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class StartSessionForm extends JFrame {
-    private LocalDateTime startTime;
     private Timer timer;
-    private JLabel timerLabel;
-
+    private LocalDateTime startTime;
     private int chargerID;
-    private int customerID;
-
     private ChargingStationModel model;
+    private int customerID;
     private int transactionID;
 
     public StartSessionForm(int customerID, int chargerID, ChargingStationModel model) {
         this.customerID = customerID;
         this.chargerID = chargerID;
         this.model = model;
-        this.transactionID = model.startSession(chargerID, customerID);
-        initializeUI();
-    }
+        this.startTime = LocalDateTime.now();
+        this.transactionID = model.startChargingSession(chargerID, customerID);
 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(300, 100);
+        setLayout(new BorderLayout());
 
-    private void initializeUI() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200);
-        setLayout(new FlowLayout());
+        JLabel timerLabel = new JLabel("00:00:00", SwingConstants.CENTER);
+        add(timerLabel, BorderLayout.CENTER);
 
-        timerLabel = new JLabel("00:00:00");
-        add(timerLabel);
+        JButton stopButton = new JButton("Stop Session");
+        stopButton.addActionListener(e -> endSession());
+        add(stopButton, BorderLayout.SOUTH);
 
-        JButton stopSessionButton = new JButton("Stop Session");
-        UIUtils.customizeButton(stopSessionButton);
-        stopSessionButton.addActionListener(this::stopSession);
-        add(stopSessionButton);
-
-        setVisible(true);
-        startSession();
-    }
-
-    private void startSession() {
-        startTime = LocalDateTime.now();
-        // Start the timer to update the stopwatch every second
-        timer = new Timer(1000, e -> updateTimer());
+        timer = new Timer(1000, e -> {
+            Duration duration = Duration.between(startTime, LocalDateTime.now());
+            timerLabel.setText(String.format("Session Duration: %02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
+            if (duration.toMinutes() >= 10) {  // End session after 10 minutes
+                timer.stop();
+                endSession();
+            }
+        });
         timer.start();
-
+        setVisible(true);
     }
 
-
-    private void updateTimer() {
-        Duration duration = Duration.between(startTime, LocalDateTime.now());
-        long seconds = duration.getSeconds();
-        timerLabel.setText(String.format("%02d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, seconds % 60));
-    }
-
-
-    //adjust calculation to get the rate from the charger table
-    private BigDecimal calculateCost(Duration duration) {
-        // Example calculation: cost per kWh is a fixed value, and energy consumption rate is based on the charger type
-        BigDecimal costPerKWH = new BigDecimal("0.15"); // Example cost
-        BigDecimal hours = new BigDecimal(duration.getSeconds()).divide(new BigDecimal(3600), 2, BigDecimal.ROUND_HALF_UP);
-        return costPerKWH.multiply(hours); // Returns the total cost
-    }
-
-
-    private void stopSession(ActionEvent event) {
-
+    private void endSession() {
         timer.stop();
         LocalDateTime endTime = LocalDateTime.now();
-
-        // Use the model instance to calculate duration hours
         BigDecimal durationHours = model.calculateDurationHours(startTime, endTime);
-
-
-        ChargerRatePower ratePower = model.fetchChargerRateAndPower(chargerID);
-        BigDecimal energyConsumed = ratePower.getKw().multiply(durationHours);
-        BigDecimal totalCost = energyConsumed.multiply(ratePower.getCostPerKWH());
-
-        // Now use the model instance to update the transaction
+        BigDecimal energyConsumed = model.calculateEnergyConsumed(durationHours, chargerID);
+        BigDecimal totalCost = model.calculateTotalCost(energyConsumed, chargerID);
         model.updateChargingTransaction(transactionID, endTime, energyConsumed, totalCost);
+        model.updateChargerStatus(chargerID, "Available", null, null);
+        JOptionPane.showMessageDialog(this, "Thank you for charging, your total cost is: " + totalCost);
+        dispose();
+        new FindChargingStationForm().setVisible(true);  // Assuming this is the correct way to navigate back
+    }
 
-        //need to update the status of the charger back to available
 
-        JOptionPane.showMessageDialog(this, "Session Ended. Total Cost: " + totalCost);
-        this.dispose();
+
+
+}
+
+
+/*
+import model.ChargingStationModel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+public class StartSessionForm extends JFrame {
+    private Timer timer;
+    private LocalDateTime startTime;
+    private int chargerID;
+    private ChargingStationModel model;
+    private int customerID;
+    private int transactionID;
+
+    public StartSessionForm(int customerID, int chargerID, ChargingStationModel model) {
+        this.customerID = customerID;
+        this.chargerID = chargerID;
+        this.model = model;
+        this.startTime = LocalDateTime.now();
+        this.transactionID = startChargingTransaction();
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(300, 100);
+        setLayout(new BorderLayout());
+
+        JLabel timerLabel = new JLabel("00:00:00", SwingConstants.CENTER);
+        add(timerLabel, BorderLayout.CENTER);
+
+        JButton stopButton = new JButton("Stop Session");
+        stopButton.addActionListener(e -> endSession());
+        add(stopButton, BorderLayout.SOUTH);
+
+        timer = new Timer(1000, e -> {
+            Duration duration = Duration.between(startTime, LocalDateTime.now());
+            timerLabel.setText(String.format("Session Duration: %02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
+            if (duration.toHours() >= 1) {
+                timer.stop();
+                endSession();
+            }
+        });
+        timer.start();
+        setVisible(true);
+    }
+
+    private int startChargingTransaction() {
+        model.updateChargerStatus(chargerID, "In-Use", startTime, customerID);
+        return 1;
+    }
+
+    private void endSession() {
+        timer.stop();
+        LocalDateTime endTime = LocalDateTime.now();
+        BigDecimal energyConsumed = new BigDecimal(calculateEnergyConsumed(startTime, endTime));
+        BigDecimal totalCost = calculateCost(energyConsumed);
+        model.updateChargerStatus(chargerID, "Available", null, null);
+        model.updateChargingTransaction(transactionID, endTime, energyConsumed, totalCost);
+        dispose();
+    }
+
+    private double calculateEnergyConsumed(LocalDateTime start, LocalDateTime end) {
+        Duration duration = Duration.between(start, end);
+        return (duration.getSeconds() / 3600.0) * 11.0;  // Assuming 11 kW/h
+    }
+
+    private BigDecimal calculateCost(BigDecimal energyConsumed) {
+        BigDecimal rate = new BigDecimal("0.682");
+        return energyConsumed.multiply(rate).setScale(2, RoundingMode.HALF_UP);
     }
 }
+*/
