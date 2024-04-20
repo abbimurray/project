@@ -1,3 +1,5 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package model;
 
 public class ChargingStation {
@@ -57,7 +59,7 @@ public class ChargingStation {
 
     @Override
     public String toString() {
-        return county + " - " + address; // Customize this based on your class fields
+        return county + " - " + address;
     }
 
-}//end class
+}//end ChargingStation class

@@ -1,4 +1,4 @@
-package controller;
+/*package controller;
 
 import java.math.BigDecimal;
 
@@ -19,3 +19,4 @@ public class ChargerRatePower {
         return kw;
     }
 }
+*/

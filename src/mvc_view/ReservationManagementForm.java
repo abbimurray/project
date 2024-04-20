@@ -1,6 +1,5 @@
 package mvc_view;
 
-
 import controller.UserSession;
 import utils.UIUtils;
 
@@ -16,55 +15,44 @@ public class ReservationManagementForm extends JFrame {
         setTitle("Manage Reservations");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        initializeButtons(); // Initialize buttons first
+        initializeButtons();
         initializeUI();
         setLocationRelativeTo(null); // Center on screen
     }
 
-
     private void initializeButtons() {
         // Initialize buttons with icons
         btnAddReservations = new JButton("Add Reservation", new ImageIcon("src/images/add.png"));
-        btnViewReservations = new JButton(" View My Reservations", new ImageIcon("src/images/view.png"));
-        btnUpdateReservations = new JButton(" Update My Reservations", new ImageIcon("src/images/update.png"));
-        btnDeleteReservations = new JButton(" Delete My Reservations", new ImageIcon("src/images/delete.png"));
+        btnViewReservations = new JButton("View My Reservations", new ImageIcon("src/images/view.png"));
+        btnUpdateReservations = new JButton("Update My Reservations", new ImageIcon("src/images/update.png"));
+        btnDeleteReservations = new JButton("Delete My Reservations", new ImageIcon("src/images/delete.png"));
 
-        // Set font for buttons
+        // Set font and customize buttons
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
-
-        // Customize buttons
         customizeButton(btnAddReservations);
         customizeButton(btnViewReservations);
         customizeButton(btnUpdateReservations);
         customizeButton(btnDeleteReservations);
 
-        // add action listeners after buttons are initialized
-        //Action listener for adding reservation
-        btnAddReservations.addActionListener(e -> {
-            EventQueue.invokeLater(() -> {
-                new AddNewReservationForm().setVisible(true);//Invoke AddNewReservation form
-            });
-        });
-        // Action listener for viewing details
+        // Add action listeners
+        btnAddReservations.addActionListener(e -> new AddNewReservationForm().setVisible(true));
+
         btnViewReservations.addActionListener(e -> {
-            ViewReservationsForm viewReservationsForm = new ViewReservationsForm();
-            viewReservationsForm.setVisible(true);
+            ViewReservationsForm viewForm = new ViewReservationsForm();
+            viewForm.setVisible(true);
         });
-        // Action listener for updating details
-        // btnUpdateReservations.addActionListener(e -> updateReservationsAction());
 
-
-        // Action listener for deleting reservations
-        btnDeleteReservations.addActionListener(e -> {
-            EventQueue.invokeLater(() -> {
-                new DeleteAReservation().setVisible(true); // Invoke DeleteAReservation Form
-            });
-        });
+     btnUpdateReservations.addActionListener(e -> {
+         UpdateReservation updateReservation = new UpdateReservation();
+         updateReservation.setVisible(true);
+             }
+             );
+       // btnUpdateReservations.addActionListener(e -> new UpdateReservationForm().setVisible(true)); // Assuming UpdateReservationForm exists
+        //btnDeleteReservations.addActionListener(e -> new DeleteAReservation().setVisible(true));
     }
 
-    //styling for menu buttons
     private void customizeButton(JButton button) {
-        button.setBackground(new Color(63, 97, 45)); //dark green colour
+        button.setBackground(new Color(63, 97, 45));
         button.setForeground(Color.WHITE);
         button.setFont(new Font("Arial", Font.BOLD, 18));
         button.setOpaque(true);
@@ -73,52 +61,42 @@ public class ReservationManagementForm extends JFrame {
     }
 
     private void initializeUI() {
-        getContentPane().setBackground(Color.WHITE); // Set the background of the content pane to white
+        getContentPane().setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
         // Header panel setup
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(new Color(204, 255, 204)); // Mint color
+        headerPanel.setBackground(new Color(204, 255, 204));
         JLabel titleLabel = new JLabel("Manage Reservations", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        ImageIcon dashboardIcon = new ImageIcon("src/images/reserved.png");
-        JLabel iconLabel = new JLabel(dashboardIcon);
-
-        // Sign Out Icon on the right corner
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
-        JLabel signOutLabel = new JLabel(signOutIcon);
-        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JLabel iconLabel = new JLabel(new ImageIcon("src/images/reserved.png"));
+        JLabel signOutLabel = new JLabel(new ImageIcon("src/images/log-out.png"));
+        signOutLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new MouseAdapter() {
-            @Override
             public void mouseClicked(MouseEvent e) {
-                // Logout action
-                UserSession.getInstance().clearSession(); // Clear user session
-                dispose(); // Close the dashboard
-                LoginForm loginForm = new LoginForm();
-                loginForm.setVisible(true); // Show the login form again
+                UserSession.getInstance().clearSession();
+                dispose();
+                new LoginForm().setVisible(true);
             }
         });
 
-        //add to header panel
+        // Add components to header panel
         headerPanel.add(iconLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
         headerPanel.add(signOutLabel, BorderLayout.EAST);
 
         // Buttons Panel
         JPanel buttonsPanel = new JPanel(new GridLayout(4, 1, 10, 10));
-        buttonsPanel.setBackground(Color.WHITE); // Ensure this panel's background is also white
-        // Add some padding around the panel to move it down a bit
+        buttonsPanel.setBackground(Color.WHITE);
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
-
         buttonsPanel.add(btnAddReservations);
         buttonsPanel.add(btnViewReservations);
         buttonsPanel.add(btnUpdateReservations);
         buttonsPanel.add(btnDeleteReservations);
 
-        //Bottom panel with go back to dashboard
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setBackground(Color.WHITE); // Set the background color to white
-        bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Added spacing between buttons
+        // Bottom panel with go-back-to-dashboard button
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        bottomPanel.setBackground(Color.WHITE);
 
         JButton btnReturnToDashboard = new JButton("Return to Dashboard");
         UIUtils.customizeButton(btnReturnToDashboard);
@@ -137,4 +115,3 @@ public class ReservationManagementForm extends JFrame {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 }
-

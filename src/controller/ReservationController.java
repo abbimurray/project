@@ -2,6 +2,112 @@ package controller;
 
 import dao.ReservationDao;
 import model.Reservation;
+import java.util.List;
+
+public class ReservationController {
+    private ReservationDao reservationDao;
+
+    public ReservationController() {
+        this.reservationDao = new ReservationDao();
+    }
+
+    // Get reservations for a specific customer
+    public List<Reservation> getReservationsForCustomer(int customerID) {
+        return reservationDao.getReservationsByCustomerId(customerID);
+    }
+
+    // Add a new reservation
+    public boolean addReservation(Reservation reservation) {
+        if (!reservationDao.isChargerAvailable(reservation.getChargerID(), reservation.getReservationStartTime(), reservation.getReservationEndTime())) {
+            System.out.println("Charger is not available at the requested time.");
+            return false;
+        }
+        if (reservationDao.addReservation(reservation)) {
+            return reservationDao.updateChargerStatus(reservation.getChargerID(), "Reserved");
+        }
+        return false;
+    }
+
+    // Delete an existing reservation
+    public boolean deleteReservation(int reservationID) {
+        int chargerID = reservationDao.getChargerIDForReservation(reservationID);
+        if (chargerID == -1) {
+            System.out.println("Charger ID for the given reservation not found.");
+            return false;
+        }
+        if (reservationDao.deleteReservation(reservationID)) {
+            return reservationDao.updateChargerStatus(chargerID, "Available");
+        }
+        System.out.println("Failed to delete the reservation.");
+        return false;
+    }
+
+    // Update an existing reservation
+    public boolean updateReservation(Reservation reservation) {
+        if (!reservationDao.isChargerAvailable(reservation.getChargerID(), reservation.getReservationStartTime(), reservation.getReservationEndTime())) {
+            System.out.println("Charger is not available at the requested new time.");
+            return false;
+        }
+        return reservationDao.updateReservation(reservation);
+    }
+}
+
+/*package controller;
+
+import dao.ReservationDao;
+import model.Reservation;
+import utils.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+
+public class ReservationController {
+    private ReservationDao reservationDao;
+
+    public ReservationController() {
+        this.reservationDao = new ReservationDao();
+    }
+
+    public List<Reservation> getReservationsForCustomer(int customerID) {
+        return reservationDao.getReservationsByCustomerId(customerID);
+    }
+
+
+
+    public boolean addReservation(Reservation reservation) {
+        if (!reservationDao.isChargerAvailable(reservation.getChargerID(), reservation.getReservationStartTime(), reservation.getReservationEndTime())) {
+            System.out.println("Charger is not available at the requested time.");
+            return false;
+        }
+        if (reservationDao.addReservation(reservation)) {
+            return reservationDao.updateChargerStatus(reservation.getChargerID(), "Reserved");
+        }
+        return false;
+    }
+
+    public boolean deleteReservation(int reservationID) {
+        int chargerID = reservationDao.getChargerIDForReservation(reservationID);
+        if (chargerID == -1) {
+            System.out.println("Charger ID for the given reservation not found.");
+            return false;
+        }
+        if (reservationDao.deleteReservation(reservationID)) {
+            return reservationDao.updateChargerStatus(chargerID, "Available");
+        }
+        System.out.println("Failed to delete the reservation.");
+        return false;
+    }
+
+
+}
+*/
+
+/*package controller;
+
+import dao.ReservationDao;
+import model.Reservation;
 import utils.DBConnection;
 
 import java.sql.Connection;
@@ -33,7 +139,7 @@ public class ReservationController {
             return updateChargerStatus(reservation.getChargerID(), "Reserved");
         }
         return false;
-    }*/
+    }
     public boolean addReservation(Reservation reservation) {
         // Check if the charger is available for the proposed reservation time
         if (!reservationDao.isChargerAvailable(reservation.getChargerID(), reservation.getReservationDateTime(), 60)) { // Assuming a 1-hour block for simplicity
@@ -69,7 +175,7 @@ public class ReservationController {
 
 
 
-//used when you add or cancel or even update a reservation
+    //used when you add or cancel or even update a reservation
     private boolean updateChargerStatus(int chargerID, String newStatus) {
         String updateQuery = "UPDATE chargers SET status = ? WHERE chargerID = ?";
         try (Connection conn = dbConnection.getConnection();
@@ -84,6 +190,15 @@ public class ReservationController {
             return false;
         }
     }
+
+
+
+
+
+
+
+
+
 
     public boolean isChargerAvailableAtStation(int chargerID, int stationID) {
         boolean existsAtStation = false;
@@ -122,4 +237,4 @@ public class ReservationController {
         }
     }
 
-}//end class
+}*/

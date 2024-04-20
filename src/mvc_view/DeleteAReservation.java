@@ -1,4 +1,4 @@
-package mvc_view;
+/*package mvc_view;
 
 import controller.ReservationController;
 import model.Reservation;
@@ -125,7 +125,7 @@ public class DeleteAReservation extends JFrame {
         formPanel.add(buttonPanel, BorderLayout.CENTER); // Add button panel to the center of formPanel
 
         add(formPanel, BorderLayout.CENTER); // Add formPanel to the center of the frame
-    }
+    }*/
 
 
 
@@ -238,6 +238,7 @@ public class DeleteAReservation extends JFrame {
         formPanel.add(backPanel, BorderLayout.SOUTH);
         add(formPanel,BorderLayout.CENTER);
     }*/
+/*
 
     private void deleteReservationAction(ActionEvent event) {
         Reservation selectedReservation = (Reservation) reservationComboBox.getSelectedItem();
@@ -258,4 +259,4 @@ public class DeleteAReservation extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new DeleteAReservation().setVisible(true));
     }
-}
+}*/

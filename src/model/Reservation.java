@@ -4,23 +4,15 @@ import java.time.LocalDateTime;
 
 public class Reservation {
     private int reservationID; // Unique identifier for the reservation
-    private LocalDateTime reservationDateTime; // Date and time of the reservation
     private String status; // Status of the reservation (e.g., "Confirmed", "Cancelled")
     private int stationID; // Identifier for the charging station
     private int customerID; // Identifier for the customer who made the reservation
-    private int chargerID;
+    private int chargerID; // Identifier for the charger at the station
+    private LocalDateTime reservationStartTime; // Start time of the reservation
+    private LocalDateTime reservationEndTime; // End time of the reservation
 
     // Constructor
     public Reservation() {
-    }
-
-    // Overloaded constructor for creating a new Reservation instance
-    public Reservation(LocalDateTime reservationDateTime, String status, int stationID, int customerID, int chargerID) {
-        this.reservationDateTime = reservationDateTime;
-        this.status = status;
-        this.stationID = stationID;
-        this.customerID = customerID;
-        this.chargerID = chargerID;
     }
 
     // Getters and setters
@@ -30,22 +22,6 @@ public class Reservation {
 
     public void setReservationID(int reservationID) {
         this.reservationID = reservationID;
-    }
-
-
-    public int getChargerID() {
-        return chargerID;
-    }
-
-    public void setChargerID(int chargerID) {
-        this.chargerID = chargerID;
-    }
-    public LocalDateTime getReservationDateTime() {
-        return reservationDateTime;
-    }
-
-    public void setReservationDateTime(LocalDateTime reservationDateTime) {
-        this.reservationDateTime = reservationDateTime;
     }
 
     public String getStatus() {
@@ -72,16 +48,41 @@ public class Reservation {
         this.customerID = customerID;
     }
 
-    // toString method for debugging purposes
+    public int getChargerID() {
+        return chargerID;
+    }
+
+    public void setChargerID(int chargerID) {
+        this.chargerID = chargerID;
+    }
+
+    public LocalDateTime getReservationStartTime() {
+        return reservationStartTime;
+    }
+
+    public void setReservationStartTime(LocalDateTime reservationStartTime) {
+        this.reservationStartTime = reservationStartTime;
+    }
+
+    public LocalDateTime getReservationEndTime() {
+        return reservationEndTime;
+    }
+
+    public void setReservationEndTime(LocalDateTime reservationEndTime) {
+        this.reservationEndTime = reservationEndTime;
+    }
+
+    // For debugging purposes
     @Override
     public String toString() {
         return "Reservation{" +
                 "reservationID=" + reservationID +
-                ", reservationDateTime=" + reservationDateTime +
                 ", status='" + status + '\'' +
                 ", stationID=" + stationID +
-                ", customerID=" + customerID +
                 ", chargerID=" + chargerID +
+                ", customerID=" + customerID +
+                ", reservationStartTime=" + reservationStartTime +
+                ", reservationEndTime=" + reservationEndTime +
                 '}';
     }
 }

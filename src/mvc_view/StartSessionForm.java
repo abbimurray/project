@@ -139,7 +139,7 @@ public class StartSessionForm extends JFrame {
         model.updateChargingTransaction(transactionID, endTime, energyConsumed, totalCost);
         model.updateChargerStatus(chargerID, "Available", null, null);
 
-        JOptionPane.showMessageDialog(this, "Session ended. Total Cost: " + totalCost);
+        JOptionPane.showMessageDialog(this, "Session ended. Total Cost: €" + totalCost);
         dispose(); // Close the window
     }
 

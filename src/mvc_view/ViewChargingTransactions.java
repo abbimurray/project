@@ -82,7 +82,7 @@ public class ViewChargingTransactions extends JFrame {
         panel.setBackground(Color.WHITE);
         panel.add(new JLabel("Transaction ID: " + transaction.getTransactionId()));
         panel.add(new JLabel("Date: " + transaction.getStartTime().toString()));
-        panel.add(new JLabel("Total Cost: $" + transaction.getTotalCost()));
+        panel.add(new JLabel("Total Cost: €" + transaction.getTotalCost()));
         return panel;
     }
 

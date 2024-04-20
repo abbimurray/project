@@ -1,5 +1,6 @@
-package model;
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 
+package model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -53,4 +54,4 @@ public class ChargingTransaction {
         return customerID;
     }
 
-}//end chargingtransactions
+}//end ChargingTransaction class

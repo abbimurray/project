@@ -1,9 +1,9 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
+
 package model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-
 
 public class Charger {
     private int chargerID;
@@ -28,7 +28,7 @@ public class Charger {
     }
 
     // Getters and setters
-    //chargeriD
+    //chargerID
     public int getChargerID() {
         return chargerID;
     }
@@ -81,4 +81,5 @@ public class Charger {
     public void setCostPerKWH(BigDecimal costPerKWH) {
         this.costPerKWH = costPerKWH;
     }
-}
+
+}//end Charger class

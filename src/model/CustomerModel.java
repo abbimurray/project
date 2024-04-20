@@ -1,6 +1,12 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package model;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CustomerModel {
     private final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";

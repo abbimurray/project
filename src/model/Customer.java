@@ -1,3 +1,5 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package model;
 
 public class Customer {
@@ -11,7 +13,7 @@ public class Customer {
 
 
 
-    /*constructor methods*/
+    //constructor methods
     public Customer() {
     }
 
@@ -22,9 +24,6 @@ public class Customer {
         this.email = email;
         this.phone = phone;
         this.password = password;
-    }
-
-    public Customer(String text, String text1, String text2, String text3, String s) {
     }
 
     // Getters and setters
@@ -88,4 +87,4 @@ public class Customer {
         this.salt = salt;
     }
 
-}//end class
+}//end Customer class
