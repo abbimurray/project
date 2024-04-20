@@ -103,19 +103,15 @@ public class CustomerDashboard extends JFrame {
                 openSearchForChargingStations();
                 break;
             case "Reserve a Charger":
-                // need to do
                 openReserveACharger();
                 break;
             case "Charging History":
-                // need to do
                 openChargingHistory();
                 break;
             case "Payment Methods":
-                // need to do
                 openPayments();
                 break;
             case "Customer Support":
-                // need to do
                 openCustomerSupport();
                 break;
             default:
@@ -149,8 +145,10 @@ public class CustomerDashboard extends JFrame {
 
     private void openChargingHistory() {
         System.out.println("Opening Charging History...");//printing to terminal
-
-        // Implementation to open the charging history section
+        // Implementation to view the charging transactions
+        ViewChargingTransactions viewChargingTransactions= new ViewChargingTransactions();
+        viewChargingTransactions.setVisible(true);
+        this.setVisible(false);//temporarily hide dashboard
     }
 
     private void openPayments() {

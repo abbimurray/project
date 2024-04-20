@@ -1,53 +1,113 @@
 package mvc_view;
 
+import controller.UserSession;
 import model.ChargingStationModel;
+import utils.UIUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Duration;
 
 public class StartSessionForm extends JFrame {
-    private Timer timer;
+    private Timer timer; //timer
     private LocalDateTime startTime;
     private int chargerID;
     private int customerID;
     private int transactionID;
     private ChargingStationModel model;
-    private JLabel timerLabel;  // JLabel to display the timer
+    private JLabel timerLabel;  // to display the timer
 
+    //constructor method
     public StartSessionForm(int customerID, int chargerID, ChargingStationModel model) {
         this.customerID = customerID;
         this.chargerID = chargerID;
         this.model = model;
         setupUI();
     }
-
     private void setupUI() {
-        setTitle("Start Session");
-        setSize(300, 200);  // Adjusted the size to better fit components
-        setLayout(new FlowLayout());
+        setTitle("Manage Session");
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JButton startButton = new JButton("Start Session");
-        JButton endButton = new JButton("End Session");
-        endButton.setEnabled(false); // Disable end session button until session starts
-
-        timerLabel = new JLabel("00:00:00");  // Initialize the timer label
-        timerLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
-        startButton.addActionListener(e -> startSession(endButton, startButton));
-        endButton.addActionListener(this::endSession);
-
-        add(timerLabel);
-        add(startButton);
-        add(endButton);
+        setLayout(new BorderLayout());
+        getContentPane().setBackground(Color.WHITE);
+        add(createHeaderPanel(), BorderLayout.NORTH);
+        add(createMainPanel(), BorderLayout.CENTER);
+        add(createFooterPanel(), BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+
+    private JPanel createHeaderPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(new Color(204, 255, 204));  // Mint green background
+
+        ImageIcon stationIcon = new ImageIcon("src/images/charging-station.png");
+        JLabel iconLabel = new JLabel(stationIcon);
+        headerPanel.add(iconLabel, BorderLayout.WEST);
+
+        JLabel titleLabel = new JLabel("Manage Session", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+        // Sign out icon
+        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        JLabel signOutLabel = new JLabel(signOutIcon);
+        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signOutLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                UserSession.getInstance().clearSession();
+                dispose();
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true);
+            }
+        });
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
+
+        return headerPanel;
+    }
+
+    private JPanel createMainPanel() {
+        JPanel mainPanel = new JPanel(new FlowLayout());
+        mainPanel.setBackground(Color.WHITE);
+        JButton startButton = new JButton("Start Session");
+        UIUtils.customizeButton(startButton);
+        JButton endButton = new JButton("End Session");
+        UIUtils.customizeButton(endButton);
+        endButton.setEnabled(false);
+
+        timerLabel = new JLabel("00:00:00");
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        startButton.addActionListener(e -> startSession(endButton, startButton));
+        endButton.addActionListener(this::endSession);
+
+        mainPanel.add(timerLabel);
+        mainPanel.add(startButton);
+        mainPanel.add(endButton);
+
+        return mainPanel;
+    }
+
+    private JPanel createFooterPanel() {
+        JPanel footerPanel = new JPanel();
+        footerPanel.setBackground(Color.WHITE);
+        JButton backButton = new JButton("Go Back");
+        UIUtils.customizeButton(backButton);
+        backButton.addActionListener(e -> {
+            dispose(); // Assuming you have a previous form to return to
+        });
+        footerPanel.add(backButton);
+        return footerPanel;
+    }
+
+    //method for start
     private void startSession(JButton endButton, JButton startButton) {
         if (model.checkChargerAvailability(chargerID)) {
             startTime = LocalDateTime.now();
@@ -65,6 +125,8 @@ public class StartSessionForm extends JFrame {
         }
     }
 
+
+    //method for end session
     private void endSession(ActionEvent e) {
         if (timer != null) {
             timer.stop();
@@ -98,143 +160,7 @@ public class StartSessionForm extends JFrame {
         timerLabel.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
     }
 
-}//end
+}//end startsessionform
 
 
 
-
-
-/*package mvc_view;
-
-import model.ChargingStationModel;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-public class StartSessionForm extends JFrame {
-    private Timer timer;
-    private LocalDateTime startTime;
-    private int chargerID;
-    private ChargingStationModel model;
-    private int customerID;
-    private int transactionID;
-
-    /*public StartSessionForm(int customerID, int chargerID, ChargingStationModel model) {
-        this.customerID = customerID;
-        this.chargerID = chargerID;
-        this.model = model;
-        this.startTime = LocalDateTime.now();//change this to irish time?
-        this.transactionID = model.startChargingSession(chargerID, customerID);
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 600);
-        setLayout(new BorderLayout());
-
-        JLabel timerLabel = new JLabel("00:00:00", SwingConstants.CENTER);
-        add(timerLabel, BorderLayout.CENTER);
-
-        JButton stopButton = new JButton("Stop Session");
-        stopButton.addActionListener(e -> endSession());
-        add(stopButton, BorderLayout.SOUTH);
-
-        timer = new Timer(1000, e -> {
-            Duration duration = Duration.between(startTime, LocalDateTime.now());
-            timerLabel.setText(String.format("Session Duration: %02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
-            if (duration.toMinutes() >= 5) {  // End session after 5 minutes-- just for display of concept-- would be after 1 hour IRL
-                timer.stop();
-                endSession();
-            }
-        });
-        timer.start();
-        setVisible(true);
-    }
-    public void startSession() {
-        try {
-            // Set start time to now
-            LocalDateTime sessionStartTime = LocalDateTime.now();
-            // Fetch rate based on chargerID
-            BigDecimal rate = model.fetchChargerCostPerKWH(chargerID);
-
-            // Attempt to start the charging session and create a transaction
-            int transactionID = model.startChargingSession(chargerID, customerID, sessionStartTime, rate);
-
-            if (transactionID != -1) {
-                this.transactionID = transactionID;  // Set the global transactionID for this form
-                // Update UI to reflect the session start
-                JOptionPane.showMessageDialog(this, "Session started successfully with Transaction ID: " + transactionID);
-                // Start the timer to update the session duration
-                startTime = sessionStartTime;
-                timer.start();
-            } else {
-                // Inform the user of failure
-                JOptionPane.showMessageDialog(this, "Failed to start session, please try again or contact support.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error during session start: " + e.getMessage());
-        }
-    }*/
-/*
-
-    public StartSessionForm(int customerID, int chargerID, ChargingStationModel model) {
-        this.customerID = customerID;
-        this.chargerID = chargerID;
-        this.model = model;
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 600);
-        setLayout(new BorderLayout());
-
-        JLabel timerLabel = new JLabel("00:00:00", SwingConstants.CENTER);
-        add(timerLabel, BorderLayout.CENTER);
-
-        // Start Session button
-        JButton startButton = new JButton("Start Session");
-        startButton.addActionListener(e -> startSession(timerLabel));
-        add(startButton, BorderLayout.NORTH);
-
-        JButton stopButton = new JButton("Stop Session");
-        stopButton.addActionListener(e -> endSession());
-        stopButton.setEnabled(false); // Disabled until session starts
-        add(stopButton, BorderLayout.SOUTH);
-
-        setVisible(true);
-    }
-
-    public void startSession(JLabel timerLabel) {
-        LocalDateTime sessionStartTime = LocalDateTime.now();
-        BigDecimal rate = model.fetchChargerCostPerKWH(chargerID);
-        int transactionID = model.startChargingSession(chargerID, customerID, sessionStartTime, rate);
-
-        if (transactionID != -1) {
-            this.transactionID = transactionID;
-            this.startTime = sessionStartTime;
-            JOptionPane.showMessageDialog(this, "Session started successfully with Transaction ID: " + transactionID);
-            timer = new Timer(1000, e -> {
-                Duration duration = Duration.between(startTime, LocalDateTime.now());
-                timerLabel.setText(String.format("Session Duration: %02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart()));
-            });
-            timer.start();
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to start session, please try again or contact support.");
-        }
-    }
-    private void endSession() {
-        timer.stop();
-        LocalDateTime endTime = LocalDateTime.now();
-        BigDecimal durationHours = model.calculateDurationHours(startTime, endTime); //calculate duration in hours
-        BigDecimal energyConsumed = model.calculateEnergyConsumed(durationHours, chargerID);//calc energy consumed
-        BigDecimal totalCost = model.calculateTotalCost(energyConsumed, chargerID);//calc totalcost of transaction
-        model.updateChargingTransaction(transactionID, endTime, energyConsumed, totalCost);//update chargerTransaction
-        model.updateChargerStatus(chargerID, "Available", null, null);//set status and other fields back in chargers
-        System.out.print("updated using model.updatechargingstation and updatechargerstatus");
-
-        JOptionPane.showMessageDialog(this, "Thank you for charging, your total cost is: " + totalCost);
-        dispose();//dispose this form
-        new FindChargingStationForm().setVisible(true);  //back to findchargingstationform
-    }*/
-//end of startsessionform class
