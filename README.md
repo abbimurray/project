@@ -1,6 +1,2 @@
-In the src folder there is ADD, DELETE,VIEW AND UPDATE pacakages which follow the CRUD format.
-For the moment I am using scanner to take in values until i get my GUI to implement these.
-
-UPDATED
-Trying to implement model, view, controller etc format
-Will place old code which uses terminal into old folder once i get the full system implemented through the gui
+In the SRC folder there are controller, dao, images, model, mvc_view and utils packages which are used. 
+Can ignore the pcakage OLD_DB_IGNORE which contains older classes which took in data from and out to the terminal. 
