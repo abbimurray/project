@@ -1,3 +1,5 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package utils;
 
 
@@ -17,7 +19,7 @@ public class DBConnection {
             // optional for modern JDBC drivers
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace(); // Consider logging this exception as well
+            e.printStackTrace();
         }
     }
 
@@ -25,4 +27,4 @@ public class DBConnection {
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
     }
-}
+}//end class
