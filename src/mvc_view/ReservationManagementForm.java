@@ -45,10 +45,12 @@ public class ReservationManagementForm extends JFrame {
      btnUpdateReservations.addActionListener(e -> {
          UpdateReservation updateReservation = new UpdateReservation();
          updateReservation.setVisible(true);
-             }
-             );
-       // btnUpdateReservations.addActionListener(e -> new UpdateReservationForm().setVisible(true)); // Assuming UpdateReservationForm exists
-        //btnDeleteReservations.addActionListener(e -> new DeleteAReservation().setVisible(true));
+             });
+
+     btnDeleteReservations.addActionListener(e->{
+         DeleteAReservation deleteAReservation = new DeleteAReservation();
+         deleteAReservation.setVisible(true);
+     });
     }
 
     private void customizeButton(JButton button) {

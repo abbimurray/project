@@ -75,14 +75,13 @@ public class Reservation {
     // For debugging purposes
     @Override
     public String toString() {
-        return "Reservation{" +
-                "reservationID=" + reservationID +
-                ", status='" + status + '\'' +
+        return
+                "reservationID=" + reservationID  +
                 ", stationID=" + stationID +
                 ", chargerID=" + chargerID +
                 ", customerID=" + customerID +
                 ", reservationStartTime=" + reservationStartTime +
-                ", reservationEndTime=" + reservationEndTime +
-                '}';
+                ", reservationEndTime=" + reservationEndTime;
     }
+
 }

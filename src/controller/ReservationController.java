@@ -12,10 +12,10 @@ public class ReservationController {
     }
 
     // Get reservations for a specific customer
+
     public List<Reservation> getReservationsForCustomer(int customerID) {
         return reservationDao.getReservationsByCustomerId(customerID);
     }
-
     // Add a new reservation
     public boolean addReservation(Reservation reservation) {
         if (!reservationDao.isChargerAvailable(reservation.getChargerID(), reservation.getReservationStartTime(), reservation.getReservationEndTime())) {
@@ -36,7 +36,8 @@ public class ReservationController {
             return false;
         }
         if (reservationDao.deleteReservation(reservationID)) {
-            return reservationDao.updateChargerStatus(chargerID, "Available");
+            reservationDao.updateChargerStatus(chargerID, "Available");
+            return true;
         }
         System.out.println("Failed to delete the reservation.");
         return false;
