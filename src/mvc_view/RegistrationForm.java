@@ -1,16 +1,21 @@
+
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
 
+//imports
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import model.Customer;/*import customer class in model*/
+//imported classes from other packages
+import model.Customer;
 import model.CustomerModel;
 import controller.UserSession;
 import utils.HashingUtils;
 import utils.UIUtils;
-import utils.ValidationUtils; /*importing validation class for email and password*/
+import utils.ValidationUtils;
 
 public class RegistrationForm extends JDialog {
 
@@ -22,11 +27,13 @@ public class RegistrationForm extends JDialog {
     private JTextField phoneTextField = new JTextField(30);
     private JButton registerButton = new JButton("Register");
     private JButton cancelButton = new JButton("Cancel");
+    private JButton backButton = new JButton("Back to Login");
+
 
 
     public RegistrationForm(JFrame parent) {
         super(parent);
-        setTitle("Registration Form");
+        setTitle("| PowerFlow | EV Charging System | Registration Form |");
         setSize(800, 600);
         setModal(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -109,8 +116,10 @@ public class RegistrationForm extends JDialog {
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(registerButton);
         buttonPanel.add(cancelButton);
+        buttonPanel.add(backButton);
         UIUtils.customizeButton(cancelButton);
         UIUtils.customizeButton(registerButton);
+        UIUtils.customizeButton(backButton);
 
         //add form panel and button panel to main panel
         mainPanel.add(formPanel);
@@ -126,23 +135,31 @@ public class RegistrationForm extends JDialog {
             }
         });
 
+
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the dialog
+                // Clear the fields
+                emailTextField.setText("");
+                passwordField.setText("");
+                confirmPasswordField.setText("");
+                firstNameTextField.setText("");
+                lastNameTextField.setText("");
+                phoneTextField.setText("");
+
             }
         });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose(); // Close the registration form
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true);
+            }
+        });
+
     }
-
-   /* private void customizeButton(JButton button) {
-        Color mintGreen = new Color(204, 255, 204); // Mint green color
-        button.setOpaque(true);
-        button.setBackground(mintGreen); // Set background to mint green
-        button.setForeground(new Color(36, 35, 37)); // Set text color
-        button.setFont(new Font("Arial", Font.BOLD, 16)); // Set font to Arial, Bold, size 16
-
-        button.setPreferredSize(new Dimension(100, 40)); // Adjust width and height as needed
-    }*/
 
     private void register() {
         String firstName = firstNameTextField.getText().trim();
@@ -176,6 +193,18 @@ public class RegistrationForm extends JDialog {
             return;
         }
 
+        //name validation
+        if (!ValidationUtils.isValidName(firstName) || !ValidationUtils.isValidName(lastName)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid name.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!ValidationUtils.isValidPhone(phoneTextField.getText().trim())) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid phone number.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
         //hashing password
         // Hash the password with a new salt
         String salt = HashingUtils.getSalt();
@@ -189,6 +218,7 @@ public class RegistrationForm extends JDialog {
         newCustomer.setPhone(phone);
         newCustomer.setPassword(hashedPassword); // Store the hashed password
         newCustomer.setSalt(salt);
+
         // Use CustomerModel to save the new customer
         CustomerModel customerModel = new CustomerModel();
         boolean isRegistered = customerModel.addCustomer(newCustomer);
