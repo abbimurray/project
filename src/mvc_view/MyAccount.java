@@ -1,14 +1,32 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
+
+//imports
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+//imports from my other packages
 import controller.UserSession;
 import model.Customer;
 import model.CustomerModel;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class MyAccount extends JFrame {
     private Customer customer;
@@ -23,11 +41,11 @@ public class MyAccount extends JFrame {
         this.customer = fetchCustomerDetails(customerEmail); // Fetch every time it's opened
         if (this.customer == null) {
             JOptionPane.showMessageDialog(this, "Customer details not found.", "Error", JOptionPane.ERROR_MESSAGE);
-            return; // Optionally close the form or disable features
+            return;
         }
         initializeButtons();
         initializeUI();
-        setTitle("My Profile");
+        setTitle("| PowerFlow | EV Charging System | My Profile |");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -35,30 +53,12 @@ public class MyAccount extends JFrame {
     private Customer fetchCustomerDetails(String email) {
         return customerModel.getCustomerByEmail(email);
     }
-    /////////
-    /*public MyAccount(String customerEmail) {
-        this.customerEmail = customerEmail;
 
-        this.customerModel = new CustomerModel();
-
-        setTitle("My Profile");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        initializeButtons(); // Initialize buttons first
-        initializeUI();
-
-        setLocationRelativeTo(null);
-    }*/
-///////////
     private void initializeButtons() {
         // Initialize buttons with icons
         btnViewDetails = new JButton(" View My Details", new ImageIcon("src/images/view.png"));
-        btnUpdateDetails = new JButton(" Update My Details", new ImageIcon("src/images/update.png"));
+        btnUpdateDetails = new JButton(" Update My Details", new ImageIcon("src/images/updated.png"));
         btnDeleteAccount = new JButton(" Delete My Account", new ImageIcon("src/images/delete.png"));
-
-        // Set font for buttons
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
 
         // Customize buttons
         customizeButton(btnViewDetails);
@@ -78,7 +78,7 @@ public class MyAccount extends JFrame {
     private void customizeButton(JButton button) {
         button.setBackground(new Color(63, 97, 45)); //dark green colour
         button.setForeground(Color.WHITE);
-        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setFont(new Font("Arial", Font.BOLD, 20));
         button.setOpaque(true);
         button.setBorderPainted(false);
         button.setFocusPainted(false);
@@ -86,7 +86,7 @@ public class MyAccount extends JFrame {
 
 
     private void initializeUI() {
-        getContentPane().setBackground(Color.WHITE); // Set the background of the content pane to white
+        getContentPane().setBackground(Color.WHITE);
         setLayout(new BorderLayout());
 
         // Header panel setup
@@ -94,7 +94,7 @@ public class MyAccount extends JFrame {
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint color
         JLabel titleLabel = new JLabel("My Profile", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        ImageIcon dashboardIcon = new ImageIcon("src/images/myaccount.png");
+        ImageIcon dashboardIcon = new ImageIcon("src/images/myprofileicon.png");
         JLabel iconLabel = new JLabel(dashboardIcon);
 
         // Sign Out Icon on the right corner
@@ -111,6 +111,7 @@ public class MyAccount extends JFrame {
                 loginForm.setVisible(true); // Show the login form again
             }
         });
+
         //add to header panel
         headerPanel.add(iconLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
@@ -118,7 +119,7 @@ public class MyAccount extends JFrame {
 
         // Buttons Panel
         JPanel buttonsPanel = new JPanel(new GridLayout(3, 1, 10, 10));
-        buttonsPanel.setBackground(Color.WHITE); // Ensure this panel's background is also white
+        buttonsPanel.setBackground(Color.WHITE);
         // Add some padding around the panel to move it down a bit
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
@@ -128,21 +129,21 @@ public class MyAccount extends JFrame {
 
         //Bottom panel with go back to dashboard
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setBackground(Color.WHITE); // Set the background color to white
+        bottomPanel.setBackground(Color.WHITE);
         bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Added spacing between buttons
 
         JButton btnReturnToDashboard = new JButton("Return to Dashboard");
         UIUtils.customizeButton(btnReturnToDashboard);
         btnReturnToDashboard.addActionListener(e -> {
             // Action to return to the dashboard
-            dispose(); // Close the current view
+            dispose(); // Close the current form
             CustomerDashboard dashboard = new CustomerDashboard();
             dashboard.setVisible(true);
         });
 
     bottomPanel.add(btnReturnToDashboard);
 
-    // Layout the components
+    // Layout the panels
         add(headerPanel, BorderLayout.NORTH);
         add(buttonsPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);

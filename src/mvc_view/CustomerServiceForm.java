@@ -1,10 +1,26 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 package mvc_view;
 
+//imports from other packages
 import controller.UserSession;
 import utils.UIUtils;
-import javax.swing.*;
+
+//imports
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -13,7 +29,7 @@ public class CustomerServiceForm extends JFrame {
     private FAQ faqPanel;  // Declare the FAQ panel
 
     public CustomerServiceForm() {
-        setTitle("Customer Service");
+        setTitle("| PowerFlow | EV Charging System | Customer Service |");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -57,23 +73,23 @@ public class CustomerServiceForm extends JFrame {
     private void setupContentPanel() {
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(Color.WHITE);
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));//create space
 
         faqPanel = new FAQ();  // instantiate the FAQ panel
         contentPanel.add(faqPanel, BorderLayout.CENTER);
 
         Font arialFont = new Font("Arial", Font.PLAIN, 16);
-        Font titleFont = new Font("Arial", Font.BOLD, 24);
+
         // Contact Information
         JPanel contactPanel = new JPanel(new GridLayout(4, 1)); // Grid layout to stack contact info vertically
-        contactPanel.setBackground(new Color(204,255,204));
+        contactPanel.setBackground(new Color(204, 255, 204));//mint background
 
         TitledBorder titledBorder = BorderFactory.createTitledBorder("Contact Us");
         titledBorder.setTitleFont(new Font("Arial", Font.BOLD, 24)); // font for the title
         // Apply the TitledBorder to the contactPanel
         contactPanel.setBorder(titledBorder);
 
-        JLabel emailLabel = new JLabel("Email: support@evcharge.com");
+        JLabel emailLabel = new JLabel("Email: support@powerflow.com");
         emailLabel.setFont(arialFont);
         contactPanel.add(emailLabel);
 
@@ -81,7 +97,7 @@ public class CustomerServiceForm extends JFrame {
         phoneLabel.setFont(arialFont);
         contactPanel.add(phoneLabel);
 
-        JLabel websiteLabel = new JLabel("Website: www.evcharge.com");
+        JLabel websiteLabel = new JLabel("Website: www.powerflowevcharging.com");
         websiteLabel.setFont(arialFont);
         contactPanel.add(websiteLabel);
 
@@ -90,7 +106,6 @@ public class CustomerServiceForm extends JFrame {
 
         add(contentPanel, BorderLayout.CENTER);
     }
-
 
 
     private void setupBottomPanel() {
@@ -109,96 +124,4 @@ public class CustomerServiceForm extends JFrame {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(CustomerServiceForm::new);
-    }
-}
-
-/*
-import controller.UserSession;
-import utils.UIUtils;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class CustomerServiceForm extends JFrame {
-    public CustomerServiceForm() {
-        setTitle("Customer Service");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        initializeHeader();
-
-
-        // Content Panel
-        JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(Color.WHITE);
-        JButton callButton = new JButton("Call Us");
-        JButton emailButton = new JButton("Email Us");
-        JButton messageButton = new JButton("Send a Message");
-        contentPanel.add(callButton);
-        contentPanel.add(emailButton);
-        contentPanel.add(messageButton);
-
-
-        // Bottom Panel
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        bottomPanel.setBackground(Color.WHITE);
-        JButton btnGoBack = new JButton("Return to Dashboard");
-        UIUtils.customizeButton(btnGoBack);
-        btnGoBack.addActionListener(e -> {
-            // Action to return to the dashboard
-            dispose(); // Close the current view
-            CustomerDashboard dashboard = new CustomerDashboard();
-            dashboard.setVisible(true);
-        });
-
-        bottomPanel.add(btnGoBack);//add button to bottom panel
-
-
-        // Add panels to frame
-        add(contentPanel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
-
-        setVisible(true);
-    }
-
-    private void initializeHeader() {
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
-
-        // Left icon
-        ImageIcon leftIcon = new ImageIcon("src/images/customer-support.png");
-        JLabel leftLabel = new JLabel(leftIcon);
-        headerPanel.add(leftLabel, BorderLayout.WEST);
-
-        // Title
-        JLabel titleLabel = new JLabel("Customer Service", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        headerPanel.add(titleLabel, BorderLayout.CENTER);
-
-        // Sign out icon
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
-        JLabel signOutLabel = new JLabel(signOutIcon);
-        signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        signOutLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Logout action
-                UserSession.getInstance().clearSession(); // Clear user session
-                dispose(); // Close this window
-                LoginForm loginForm = new LoginForm();
-                loginForm.setVisible(true); // Show the login form again
-            }
-        });
-        headerPanel.add(signOutLabel, BorderLayout.EAST);
-
-        this.add(headerPanel, BorderLayout.NORTH);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(CustomerServiceForm::new);
-    }
-}*/
+}//end class

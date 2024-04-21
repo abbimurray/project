@@ -81,7 +81,7 @@ public class DeleteAReservation extends JFrame {
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.setBackground(Color.WHITE);
 
-        btnGoBack = new JButton("Back to Reservation Dashboard");
+        btnGoBack = new JButton("Go Back ");
         UIUtils.customizeButton(btnGoBack);
         btnGoBack.addActionListener(e -> dispose()); // Close this window
         bottomPanel.add(btnGoBack);

@@ -1,8 +1,12 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
 
+//imports from other packages
 import controller.UserSession;
 import utils.UIUtils;
 
+//imports
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,17 +24,16 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import static utils.UIUtils.customizeButton;
 
 public class PaymentMethodsForm extends JFrame{
 
     private JButton btnViewPayMethods, btnUpdatePayMethods, btnDeletePayMethods, btnAddPayMethods;
 
     public PaymentMethodsForm() {
-        setTitle("Manage Payment Methods");
+        setTitle("| PowerFlow | EV Charging System | Manage Payment Methods |");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        initializeButtons(); // Initialize buttons first
+        initializeButtons();
         initializeUI();
         setLocationRelativeTo(null); // Center on screen
     }//end constructor
@@ -39,11 +42,11 @@ public class PaymentMethodsForm extends JFrame{
         // Initialize buttons with icons
         btnAddPayMethods = new JButton("Add A new Payment Method", new ImageIcon("src/images/add.png"));
         btnViewPayMethods = new JButton(" View My Payment Methods", new ImageIcon("src/images/view.png"));
-        btnUpdatePayMethods = new JButton(" Update My Payment Methods", new ImageIcon("src/images/exchange.png"));
+        btnUpdatePayMethods = new JButton(" Update My Payment Methods", new ImageIcon("src/images/updated.png"));
         btnDeletePayMethods = new JButton(" Delete My Payment Methods", new ImageIcon("src/images/delete.png"));
 
         // Set font for buttons
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
+        Font buttonFont = new Font("Arial", Font.BOLD, 20);
 
         // Customize buttons
         customizeButton(btnAddPayMethods);
@@ -83,7 +86,7 @@ public class PaymentMethodsForm extends JFrame{
     private void customizeButton(JButton button) {
         button.setBackground(new Color(63, 97, 45)); //dark green colour
         button.setForeground(Color.WHITE);
-        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setFont(new Font("Arial", Font.BOLD, 20));
         button.setOpaque(true);
         button.setBorderPainted(false);
         button.setFocusPainted(false);

@@ -1,10 +1,14 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
 
+//imports from other packages
 import controller.UserSession;
 import model.ChargingStation;
 import model.ChargingStationModel;
 import utils.UIUtils;
 
+//imports
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,17 +17,15 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class FindChargingStationForm extends JFrame {
-    private JComboBox<String> countyComboBox;
-    //private JList<String> stationList;
-    //private DefaultListModel<String> stationListModel;
+    private JComboBox<String> countyComboBox; //combo box for selecting a county
 
-    private DefaultListModel<ChargingStation> stationListModel;//using objects - to directly use the selected station without having to fetch it again from the database or map it from a string representation.
-    private JList<ChargingStation> stationList;
+    private DefaultListModel<ChargingStation> stationListModel;//list model  for managing ChargingStation objects
+    private JList<ChargingStation> stationList;// list -- the GUI component.
 
     private JButton viewDetailsButton;
 
     public FindChargingStationForm() {
-        setTitle("Find Charging Stations");
+        setTitle("| PowerFlow | EV Charging System | Find Charging Stations |");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initializeUI();
@@ -31,10 +33,8 @@ public class FindChargingStationForm extends JFrame {
     }
 
 
-
-
     private void initializeUI() {
-        getContentPane().setLayout(new BorderLayout(10, 10));
+        getContentPane().setLayout(new BorderLayout(10, 10));// 10 pixel gaps in both dimensions
         getContentPane().setBackground(Color.WHITE);
 
         // Header Panel
@@ -64,6 +64,7 @@ public class FindChargingStationForm extends JFrame {
                 loginForm.setVisible(true); // Show the login form again
             }
         });
+
         //Adding header panels
         headerPanel.add(leftLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
@@ -73,9 +74,9 @@ public class FindChargingStationForm extends JFrame {
         // Wrapper Panel for centering components
         JPanel wrapperPanel = new JPanel(new GridBagLayout());
         wrapperPanel.setBackground(Color.WHITE);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.anchor = GridBagConstraints.NORTH;
+        GridBagConstraints gbc = new GridBagConstraints();   //using gridbagconstarints for positioning components -- more detailed positioning
+        gbc.gridwidth = GridBagConstraints.REMAINDER;//Remainder -- each newly added compoenet will be the last in its row
+        gbc.anchor = GridBagConstraints.NORTH;///* anchor set to NORTH -- to align components to the top of their display area
 
         // County Selection
         JLabel selectCountyLabel = new JLabel("Select a county:");
@@ -85,7 +86,7 @@ public class FindChargingStationForm extends JFrame {
         countyComboBox = new JComboBox<>();
         countyComboBox.setFont(new Font("Arial", Font.PLAIN, 16));
         countyComboBox.setMaximumSize(new Dimension(200, 25));
-        wrapperPanel.add(countyComboBox, gbc);
+        wrapperPanel.add(countyComboBox, gbc);//Add county selection label and combo box to the wrapper panel using the grid bag constraints.
 
         // Adding a vertical space
         gbc.insets = new Insets(10, 0, 10, 0); // Top, left, bottom, right padding
@@ -107,19 +108,20 @@ public class FindChargingStationForm extends JFrame {
         JScrollPane listScrollPane = new JScrollPane(stationList);
         listScrollPane.setPreferredSize(new Dimension(600, 200));
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        //Wraps the station list in a scroll pane, sets its preferred size, and modifies the grid bag constraints to fill horizontally
         wrapperPanel.add(listScrollPane, gbc);
-        //stationList = new JList<>(stationListModel);
         stationList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-
+        //triggers when the selection changes
+        // If the selection is valid and not adjusting, it retrieves the selected ChargingStation object
         stationList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && !stationList.isSelectionEmpty()) {
                 ChargingStation selectedStation = stationList.getSelectedValue(); // Directly gets the selected ChargingStation object
-                System.out.println("Selected Station: " + selectedStation); // This is just for debugging.
+                System.out.println("Selected Station: " + selectedStation); // for debugging.
                 EventQueue.invokeLater(() -> {
                     StationDetailsForm detailsForm = new StationDetailsForm(selectedStation);
                     detailsForm.setVisible(true);
-                    this.setVisible(false); // Hide this form, assuming 'this' refers to the FindChargingStationForm instance
+                    this.setVisible(false); // Hide this form
                 });
             }
         });
@@ -170,6 +172,7 @@ public class FindChargingStationForm extends JFrame {
             }
         });
     }
+
     private void populateStationsAction(ActionEvent e) {
         String selectedCounty = (String) countyComboBox.getSelectedItem();
         populateStations(selectedCounty);
@@ -200,11 +203,7 @@ public class FindChargingStationForm extends JFrame {
             stationListModel.addElement(station); // Add each station to the list model
         }
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new FindChargingStationForm().setVisible(true));
-    }
-}
+}//end
 
 
 

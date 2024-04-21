@@ -1,12 +1,28 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
 
+//imports from other packages
 import model.ChargingTransaction;
 import model.ChargingStationModel;
 import controller.UserSession;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+//imports
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -15,7 +31,7 @@ public class ViewChargingTransactions extends JFrame {
     private List<ChargingTransaction> transactions;
 
     public ViewChargingTransactions() {
-        setTitle("Charging History");
+        setTitle("| PowerFlow | EV Charging System | Charging History |");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -99,8 +115,4 @@ public class ViewChargingTransactions extends JFrame {
         return footerPanel;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ViewChargingTransactions().setVisible(true));
-    }
-}
-
+}//end class

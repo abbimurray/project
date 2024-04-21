@@ -1,18 +1,22 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
 
-import controller.UserSession;
-import utils.UIUtils;
-
+//imports
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+//imports from my other packages
+import controller.UserSession;
+import utils.UIUtils;
+
 public class ReservationManagementForm extends JFrame {
     private JButton btnViewReservations, btnUpdateReservations, btnDeleteReservations, btnAddReservations;
 
     public ReservationManagementForm() {
-        setTitle("Manage Reservations");
+        setTitle("| PowerFlow | EV Charging System | Manage Reservations |");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initializeButtons();
@@ -24,11 +28,11 @@ public class ReservationManagementForm extends JFrame {
         // Initialize buttons with icons
         btnAddReservations = new JButton("Add Reservation", new ImageIcon("src/images/add.png"));
         btnViewReservations = new JButton("View My Reservations", new ImageIcon("src/images/view.png"));
-        btnUpdateReservations = new JButton("Update My Reservations", new ImageIcon("src/images/update.png"));
+        btnUpdateReservations = new JButton("Update My Reservations", new ImageIcon("src/images/updated.png"));
         btnDeleteReservations = new JButton("Delete My Reservations", new ImageIcon("src/images/delete.png"));
 
         // Set font and customize buttons
-        Font buttonFont = new Font("Arial", Font.BOLD, 18);
+        Font buttonFont = new Font("Arial", Font.BOLD, 20);
         customizeButton(btnAddReservations);
         customizeButton(btnViewReservations);
         customizeButton(btnUpdateReservations);
@@ -56,7 +60,7 @@ public class ReservationManagementForm extends JFrame {
     private void customizeButton(JButton button) {
         button.setBackground(new Color(63, 97, 45));
         button.setForeground(Color.WHITE);
-        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setFont(new Font("Arial", Font.BOLD, 20));
         button.setOpaque(true);
         button.setBorderPainted(false);
         button.setFocusPainted(false);
@@ -116,4 +120,5 @@ public class ReservationManagementForm extends JFrame {
         add(buttonsPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
     }
-}
+
+}//end class

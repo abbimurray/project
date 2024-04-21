@@ -70,7 +70,7 @@ public class ViewReservationsForm extends JFrame {
 
     private JPanel createFooterPanel() {
         JPanel footerPanel = new JPanel();
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton(" Go Back");
         backButton.addActionListener(e -> dispose());
         UIUtils.customizeButton(backButton);
         footerPanel.add(backButton);
