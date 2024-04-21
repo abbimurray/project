@@ -1,3 +1,5 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package controller;
 
 public class UserSession {
@@ -58,4 +60,4 @@ public class UserSession {
         firstName = null;
         lastName = null;
     }
-}
+}//end class

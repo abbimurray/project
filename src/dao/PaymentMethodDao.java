@@ -1,3 +1,5 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package dao;
 
 import model.PaymentMethod;
@@ -65,7 +67,7 @@ public class PaymentMethodDao {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, paymentMethod.getCardNumber()); // Consider security implications
+            pstmt.setString(1, paymentMethod.getCardNumber());
             pstmt.setString(2, paymentMethod.getExpiry());
             pstmt.setString(3, paymentMethod.getNameOnCard());
             pstmt.setInt(4, paymentMethod.getPaymentMethodID());

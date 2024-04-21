@@ -76,4 +76,4 @@ public class PaymentMethod {
                 "card Number=" + cardNumber
               ;
     }
-}//end class
+}//end payment class

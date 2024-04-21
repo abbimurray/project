@@ -62,4 +62,4 @@ public class ChargingStation {
         return county + " - " + address;
     }
 
-}//end ChargingStation class
+}//end class

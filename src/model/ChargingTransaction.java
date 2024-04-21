@@ -54,4 +54,4 @@ public class ChargingTransaction {
         return customerID;
     }
 
-}//end ChargingTransaction class
+}//end  class

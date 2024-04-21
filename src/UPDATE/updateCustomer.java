@@ -1,4 +1,4 @@
-package model;
+package UPDATE;
 
 /*works*/
 import java.sql.Connection;

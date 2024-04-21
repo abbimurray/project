@@ -1,3 +1,4 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 package controller;
 
 import dao.PaymentMethodDao;
@@ -41,7 +42,6 @@ public class PaymentMethodController {
     }
 
     //Delete a payment method
-    //in delete class ask user are they sure they want to delete before they actually delete
     public boolean deletePaymentMethod(int paymentMethodId) {
         // Retrieve the customerID from the UserSession
         int customerID = UserSession.getInstance().getCustomerID();

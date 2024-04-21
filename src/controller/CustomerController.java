@@ -1,12 +1,13 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package controller;
 
+//imports
 import model.Customer;
 import model.CustomerModel;
 
 
-/*customer controller - handle all logical operations like fetching updating deleting
-calls methods from customer model,
-doesn't have direct access or sql */
+
 public class CustomerController {
     private CustomerModel customerModel;
 

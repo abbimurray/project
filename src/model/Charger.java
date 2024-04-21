@@ -82,4 +82,4 @@ public class Charger {
         this.costPerKWH = costPerKWH;
     }
 
-}//end Charger class
+}//end  class

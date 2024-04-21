@@ -274,4 +274,4 @@ public class ChargingStationModel {
 
 
 
-}// end ChargingStationModel
+}// end class

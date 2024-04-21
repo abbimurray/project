@@ -87,4 +87,4 @@ public class Customer {
         this.salt = salt;
     }
 
-}//end Customer class
+}//end class

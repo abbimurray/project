@@ -87,24 +87,7 @@ public class CustomerModel {
             return false;
         }
     }
-    // Method to DELETE a customer
-    /*public boolean deleteCustomer(int customerID) {
-        String sql = "DELETE FROM customer_accounts WHERE customerID = ?";
-
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, customerID);
-
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }*/
-
+    //delete
     public boolean deleteCustomerByEmail(String email) {
         String sql = "DELETE FROM customer_accounts WHERE email = ?";
         try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
