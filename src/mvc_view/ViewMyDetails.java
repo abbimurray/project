@@ -1,10 +1,23 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 package mvc_view;
 import controller.UserSession;
 import model.Customer;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -24,7 +37,7 @@ public class ViewMyDetails extends JFrame {
         setLayout(new BorderLayout(10, 10)); // Add some spacing
 
         // Icon
-        ImageIcon userIcon = new ImageIcon("src/images/myaccount.png"); // Ensure this path is correct
+        ImageIcon userIcon = new ImageIcon("src/images/myprofileicon.png");
         JLabel iconLabel = new JLabel(userIcon);
 
         // Title Label

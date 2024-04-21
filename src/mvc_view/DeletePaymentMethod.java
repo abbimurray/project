@@ -1,3 +1,4 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 package mvc_view;
 
 import controller.PaymentMethodController;
@@ -14,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;

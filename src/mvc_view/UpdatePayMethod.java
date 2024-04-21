@@ -1,3 +1,4 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 package mvc_view;
 
 import controller.PaymentMethodController;
@@ -122,7 +123,7 @@ public class UpdatePayMethod extends JFrame {
 
         updateButton = new JButton("Update");
         updateButton.setFont(arialBold16);
-        UIUtils.customizeButton(updateButton);  // Ensure this method doesn't overwrite font settings
+        UIUtils.customizeButton(updateButton);
         updateButton.addActionListener(this::updatePaymentMethodAction);
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.setBackground(Color.WHITE);

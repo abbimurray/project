@@ -1,3 +1,5 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
 
 import controller.PaymentMethodController;

@@ -1,14 +1,28 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
 
+//imports from my other packages
 import controller.UserSession;
-//import controller.ChargerController;
 import model.Charger;
 import model.ChargingStation;
 import model.ChargingStationModel;
 import utils.UIUtils;
 
-import javax.swing.*;
-import java.awt.*;
+//other imports
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -16,21 +30,17 @@ import java.util.List;
 public class StationDetailsForm extends JFrame {
     private ChargingStation selectedStation;
     private List<Charger> chargers;
-    //private ChargerController chargerController;
-
     private ChargingStationModel model;
 
     public StationDetailsForm(ChargingStation selectedStation) {
         this.selectedStation = selectedStation;
         this.model = new ChargingStationModel(); // Initialize the model
-        //this.chargerController = new ChargerController(model);
-        //this.chargerController = new ChargerController(new ChargingStationModel());
         setTitle("Station Details - " + selectedStation.getAddress());
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE); // Set background colour to white
-        fetchChargersForStation(); // Ensure this is called before initializeComponents
+        fetchChargersForStation();
         initializeComponents();
     }
 
@@ -41,7 +51,7 @@ public class StationDetailsForm extends JFrame {
         add(createChargersPanel(), BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Stations List");
-        UIUtils.customizeButton(backButton); // Customize button appearance
+        UIUtils.customizeButton(backButton);
         backButton.addActionListener(e -> {
             this.dispose(); // Close the current StationDetailsForm
             EventQueue.invokeLater(() -> {
@@ -120,8 +130,6 @@ public class StationDetailsForm extends JFrame {
                 // Open the StartSessionForm with the necessary parameters
                 StartSessionForm startSessionForm = new StartSessionForm(customerID, charger.getChargerID(), model);
                 startSessionForm.setVisible(true);
-
-                //StationDetailsForm.this.dispose();
             });
 
             chargerPanel.add(startSessionButton);
@@ -137,4 +145,5 @@ public class StationDetailsForm extends JFrame {
         ChargingStationModel model = new ChargingStationModel();
         this.chargers = model.getChargersByStationId(selectedStation.getStationID());
     }
-}
+
+}//end

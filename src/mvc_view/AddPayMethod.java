@@ -1,5 +1,7 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 package mvc_view;
 
+//imports from other packages
 import controller.UserSession;
 import controller.PaymentMethodController;
 import model.PaymentMethod;
@@ -127,7 +129,7 @@ public class AddPayMethod extends JFrame {
 
         if ("success".equals(result)) {
             JOptionPane.showMessageDialog(this, "Payment Method Added Successfully!");
-            dispose();  // Optionally close the dialog or refresh the form for another entry.
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
         }
