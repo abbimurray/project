@@ -88,7 +88,7 @@ public class ViewChargingTransactions extends JFrame {
 
     private JPanel createFooterPanel() {
         JPanel footerPanel = new JPanel();
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("Return to Dashboard");
         UIUtils.customizeButton(backButton);
         backButton.addActionListener(e -> {
             this.dispose(); // Close the current form

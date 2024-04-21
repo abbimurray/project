@@ -1,17 +1,19 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 
 package mvc_view;
 
-import controller.UserSession;
-
+//imports
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+//imports from other packages
+import controller.UserSession;
 
 public class CustomerDashboard extends JFrame {
 
     public CustomerDashboard() {
-        setTitle("Customer Dashboard");
+        setTitle("| PowerFlow | EV Charging System | Customer Dashboard |");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         initializeUI();
@@ -24,7 +26,7 @@ public class CustomerDashboard extends JFrame {
         // Header panel
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BorderLayout());
-        headerPanel.setBackground(new Color(204, 255, 204)); //Mint color
+        headerPanel.setBackground(new Color(204, 255, 204)); //Mint
 
         // Header label
         JLabel titleLabel = new JLabel("Customer Dashboard", SwingConstants.CENTER);
@@ -77,7 +79,7 @@ public class CustomerDashboard extends JFrame {
         ImageIcon icon = new ImageIcon(iconPath);
         JLabel labelIcon = new JLabel(icon);
         JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Arial", Font.PLAIN, 18));
+        label.setFont(new Font("Arial", Font.PLAIN, 20));
 
         sectionPanel.add(labelIcon);
         sectionPanel.add(label);
@@ -121,7 +123,8 @@ public class CustomerDashboard extends JFrame {
 
     private void openMyAccount() {
         System.out.println("Opening My Profile");//printing to terminal
-        String userEmail = UserSession.getInstance().getUserEmail();
+        // Implementation for MyAccount - view, update, delete
+        String userEmail = UserSession.getInstance().getUserEmail();//get user details
         MyAccount myAccountForm = new MyAccount(userEmail);
         myAccountForm.setVisible(true);//make my account form visible
         CustomerDashboard.this.setVisible(false); // Temporarily hide the dashboard
@@ -130,7 +133,8 @@ public class CustomerDashboard extends JFrame {
 
     private void openSearchForChargingStations() {
         System.out.println("Opening Search for Charging Stations...");//printing to terminal
-        FindChargingStationForm findChargingStationForm = new FindChargingStationForm();  // Creating an instance of the FindChargingStationForm
+        //Implementation for finding a charger - search,start and end charging session
+        FindChargingStationForm findChargingStationForm = new FindChargingStationForm();// Creating an instance of the FindChargingStationForm
         findChargingStationForm.setVisible(true);//make find charging station form visible
          this.setVisible(false);//Temporarily hide the dashboard
 
@@ -138,6 +142,7 @@ public class CustomerDashboard extends JFrame {
 
     private void openReserveACharger() {
         System.out.println("Opening Reserve a Charger...");//printing to terminal
+        //Implementation for reservations management - add, cancel, update, view
         ReservationManagementForm reservationManagementForm = new ReservationManagementForm();
         reservationManagementForm.setVisible(true);
         this.setVisible(false);//temporarily hide dashboard
@@ -145,7 +150,7 @@ public class CustomerDashboard extends JFrame {
 
     private void openChargingHistory() {
         System.out.println("Opening Charging History...");//printing to terminal
-        // Implementation to view the charging transactions
+        // Implementation to view the charging transactions - view only
         ViewChargingTransactions viewChargingTransactions= new ViewChargingTransactions();
         viewChargingTransactions.setVisible(true);
         this.setVisible(false);//temporarily hide dashboard
@@ -153,7 +158,7 @@ public class CustomerDashboard extends JFrame {
 
     private void openPayments() {
         System.out.println("Opening Payments...");//printing to terminal
-        // Implementation to open the payments section
+        // Implementation to open the payments section - add , update, delete, view
         PaymentMethodsForm paymentMethodsForm = new PaymentMethodsForm();
         paymentMethodsForm.setVisible(true);
         this.setVisible(false);//temporarily hide dashboard
@@ -161,7 +166,7 @@ public class CustomerDashboard extends JFrame {
 
     private void openCustomerSupport() {
         System.out.println("Opening Customer Support...");//printing to terminal
-        // Implementation to open the customer support section
+        // Implementation to open the customer support section - view only
         CustomerServiceForm customerServiceForm = new CustomerServiceForm();
         customerServiceForm.setVisible(true);
         this.setVisible(false);//temporarily hide dashboard
@@ -170,5 +175,6 @@ public class CustomerDashboard extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new CustomerDashboard().setVisible(true));
     }
-}
+
+}//end
 
