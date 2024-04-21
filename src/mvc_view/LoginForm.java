@@ -1,26 +1,46 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package mvc_view;
-
-import javax.swing.*;
-import java.awt.*;
-
+//swing imports
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+//awt imports
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+//imports from my other packages
 import controller.UserSession;
-import model.Customer;/*import customer class in model*/
-import model.CustomerModel;/*import classes in model*/
+import model.Customer;
+import model.CustomerModel;
 import utils.UIUtils;
-import utils.ValidationUtils; /*importing validation class for email and password*/
-import utils.HashingUtils;/*import class for hashing passwords*/
+import utils.ValidationUtils; // importing validation class for email and password
+import utils.HashingUtils;// import class for hashing passwords
+
 public class LoginForm extends JFrame {
     private JTextField emailTextField;
-    private JPasswordField passwordField;
-    private JButton loginButton;
-    private JButton registerButton;//register will take them to register as new user
-    private JButton cancelButton;  //reset form
+    private JPasswordField passwordField;//passwordField to ensure cannot be seen when inputting password
+    private JButton loginButton, registerButton, cancelButton;  //cancel button will reset form fields
 
 
     public LoginForm() {
-        setTitle("EV Charging System Login");
+        setTitle("| PowerFlow | EV Charging System | Login|");
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         try {
@@ -36,40 +56,41 @@ public class LoginForm extends JFrame {
         splitpane.setDividerLocation(400);//1/2 of the width
         splitpane.setEnabled(false);// can't move divider
 
-        //Left Panel
+        //Left Panel - mint background, logo and text
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(new Color(204, 255, 204));//MINT GREEN
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png"); //logo for login page
         JLabel logoLabel = new JLabel(logoIcon);
-        JLabel evChargingLabel = new JLabel("EV Charging");
+        JLabel evChargingLabel = new JLabel("Power Flow");
         evChargingLabel.setForeground(new Color(36,35,37));
         evChargingLabel.setFont(new Font("Arial", Font.BOLD, 24));
         evChargingLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         //add to left panel
         leftPanel.add(Box.createVerticalGlue());//create space
         leftPanel.add(logoLabel);
         leftPanel.add(evChargingLabel);
-        leftPanel.add(Box.createVerticalGlue());
+        leftPanel.add(Box.createVerticalGlue());//create space
 
-        //Right Panel
+        //Right Panel - white background,message, form fields to log in, login,cancel and register buttons
         JPanel rightPanel = new JPanel();
         rightPanel.setBackground(Color.WHITE);
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.add(Box.createRigidArea(new Dimension(0, 50)));//to create space at the top
-
+        //login label
         JLabel loginLabel = new JLabel("Login ");
         loginLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         loginLabel.setFont(new Font("Arial", Font.BOLD, 24));
         rightPanel.add(loginLabel);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 10))); //to create  space
-
-        JLabel welcomeLabel = new JLabel("Welcome back!");
+        //welcome back message
+        JLabel welcomeLabel = new JLabel("Welcome Back!");
         welcomeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         welcomeLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        //add to right panel
         rightPanel.add(welcomeLabel);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 60))); // space between login message and text fields
-
         //Images
         ImageIcon keyIcon = new ImageIcon("src/GUI/Images/key.png");
         JLabel emailIconLabel = new JLabel(new ImageIcon("src/images/email.png"));
@@ -157,7 +178,6 @@ public class LoginForm extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Perform login validation
                 login();
             }
         });
@@ -212,7 +232,6 @@ public class LoginForm extends JFrame {
 
                 // Hide the LoginForm
                 this.setVisible(false);
-                //this.dispose(); // Dispose of the login form if you no longer need it
 
                 // Open the CustomerDashboard
                 CustomerDashboard dashboard = new CustomerDashboard();
@@ -225,8 +244,6 @@ public class LoginForm extends JFrame {
             JOptionPane.showMessageDialog(this, "Invalid email or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
 
 
     private void openRegistrationForm() {

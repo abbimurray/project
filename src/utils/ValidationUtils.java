@@ -1,13 +1,11 @@
+//Student number:C00260073, Student name: Abigail Murray, Semester two
+
 package utils;
 
 import java.util.regex.Matcher;/*for email validation using regex*/
 import java.util.regex.Pattern;
 
 public class ValidationUtils {
-
-
-
-
 
     // Email validation method
     public static boolean isValidEmail(String email) {
@@ -38,9 +36,6 @@ public class ValidationUtils {
 
         return password.length() >= 8 && hasLetter && hasDigit && hasSpecialChar;
     }//end isValidPassword
-
-
-
 
 
 }//end class
