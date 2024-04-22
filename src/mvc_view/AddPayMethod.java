@@ -6,6 +6,11 @@ import controller.UserSession;
 import controller.PaymentMethodController;
 import model.PaymentMethod;
 import utils.UIUtils;
+//imports for exceptions
+import mvc_view.exceptions.InvalidCardNumberException;
+import mvc_view.exceptions.CardExpiredException;
+import mvc_view.exceptions.InvalidSecurityCodeException;
+import utils.LoggerUtility;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +31,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
 
 public class AddPayMethod extends JFrame {
     private JTextField cardNumberField, expiryField, nameOnCardField;
@@ -116,24 +125,61 @@ public class AddPayMethod extends JFrame {
         panel.add(field, gbc);
     }
 
+
     private void processAddPaymentMethod(ActionEvent e) {
-        PaymentMethod paymentMethod = new PaymentMethod();
-        paymentMethod.setCustomerID(UserSession.getInstance().getCustomerID());
-        paymentMethod.setCardNumber(cardNumberField.getText());
-        paymentMethod.setExpiry(expiryField.getText());
-        paymentMethod.setSecurityCode(new String(securityCodeField.getPassword()));
-        paymentMethod.setNameOnCard(nameOnCardField.getText());
+        try {
+            String cardNumber = cardNumberField.getText();
+            if (!cardNumber.matches("\\d{16}")) {
+                throw new InvalidCardNumberException("Invalid card number. Please enter a valid 16 digit card number.");
+            }
 
-        PaymentMethodController controller = new PaymentMethodController();
-        String result = controller.addPaymentMethod(paymentMethod);
+            String expiryDate = expiryField.getText();
+            if (!expiryDate.matches("^(0[1-9]|1[0-2])/\\d{2}$") || !isValidExpiryDate(expiryDate)) {
+                throw new CardExpiredException("Invalid or expired card. Please enter a valid and non-expired card MM/YY.");
+            }
 
-        if ("success".equals(result)) {
-            JOptionPane.showMessageDialog(this, "Payment Method Added Successfully!");
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
+            String securityCode = new String(securityCodeField.getPassword());
+            if (!securityCode.matches("\\d{3,4}")) {
+                throw new InvalidSecurityCodeException("Invalid security code. Please enter a valid 3 or 4 digit CVV.");
+            }
+
+            PaymentMethod paymentMethod = new PaymentMethod();
+            paymentMethod.setCustomerID(UserSession.getInstance().getCustomerID());
+            paymentMethod.setCardNumber(cardNumber);
+            paymentMethod.setExpiry(expiryDate);
+            paymentMethod.setSecurityCode(securityCode);
+            paymentMethod.setNameOnCard(nameOnCardField.getText());
+
+            PaymentMethodController controller = new PaymentMethodController();
+            String result = controller.addPaymentMethod(paymentMethod);
+
+            if ("success".equals(result)) {
+                JOptionPane.showMessageDialog(this, "Payment Method Added Successfully!");
+                dispose();
+            } else {
+                throw new Exception("Database error occurred while adding payment method.");
+            }
+        } catch (InvalidCardNumberException | CardExpiredException | InvalidSecurityCodeException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.WARNING, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.SEVERE, "Unexpected error in adding payment method", ex);
         }
     }
+
+    private boolean isValidExpiryDate(String expiryDate) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/yy");
+            sdf.setLenient(false);
+            Date expiry = sdf.parse(expiryDate);
+            Date now = new Date();
+            return expiry.after(now);
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
 
 }//end class
 
