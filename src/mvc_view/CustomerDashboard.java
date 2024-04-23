@@ -7,8 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.logging.Level;
 //imports from other packages
 import controller.UserSession;
+import mvc_view.exceptions.ResourceNotFoundException;
+import mvc_view.exceptions.SessionExpiredException;
+import utils.LoggerUtility;
 
 public class CustomerDashboard extends JFrame {
 
@@ -121,23 +125,37 @@ public class CustomerDashboard extends JFrame {
         }
     }
 
-    private void openMyAccount() {
-        System.out.println("Opening My Profile");//printing to terminal
-        // Implementation for MyAccount - view, update, delete
-        String userEmail = UserSession.getInstance().getUserEmail();//get user details
-        MyAccount myAccountForm = new MyAccount(userEmail);
-        myAccountForm.setVisible(true);//make my account form visible
-        CustomerDashboard.this.setVisible(false); // Temporarily hide the dashboard
 
+
+    private void openMyAccount() {
+        try {
+            System.out.println("Opening My Profile");
+            String userEmail = UserSession.getInstance().getUserEmail();
+            if (userEmail == null) {
+                throw new ResourceNotFoundException("User profile not found.");
+            }
+            MyAccount myAccountForm = new MyAccount(userEmail);
+            myAccountForm.setVisible(true);
+            this.setVisible(false);
+        } catch (ResourceNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.SEVERE, "Error accessing My Account", ex);
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.SEVERE, "Unexpected error in accessing My Account", ex);
+        }
     }
 
-    private void openSearchForChargingStations() {
-        System.out.println("Opening Search for Charging Stations...");//printing to terminal
-        //Implementation for finding a charger - search,start and end charging session
-        FindChargingStationForm findChargingStationForm = new FindChargingStationForm();// Creating an instance of the FindChargingStationForm
-        findChargingStationForm.setVisible(true);//make find charging station form visible
-         this.setVisible(false);//Temporarily hide the dashboard
 
+    private void openSearchForChargingStations() {
+            System.out.println("Opening Search for Charging Stations...");//printing to terminal
+            //Implementation for finding a charger - search,start and end charging session
+            FindChargingStationForm findChargingStationForm = new FindChargingStationForm();// Creating an instance of the FindChargingStationForm
+            findChargingStationForm.setVisible(true);//make find charging station form visible
+            this.setVisible(false);//Temporarily hide the dashboard
     }
 
     private void openReserveACharger() {

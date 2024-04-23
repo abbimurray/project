@@ -4,11 +4,16 @@ package mvc_view;
 import controller.ReservationController;
 import controller.UserSession;
 import model.Reservation;
+import utils.LoggerUtility;
 import utils.UIUtils;
+import mvc_view.exceptions.ReservationNotFoundException;
+import mvc_view.exceptions.ReservationDeletionException;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
 
 public class DeleteAReservation extends JFrame {
     private JComboBox<Reservation> reservationComboBox;
@@ -98,19 +103,31 @@ public class DeleteAReservation extends JFrame {
         reservationComboBox.setModel(model);
     }
 
+
+
     private void deleteReservation(ActionEvent e) {
-        Reservation selectedReservation = (Reservation) reservationComboBox.getSelectedItem();
-        if (selectedReservation != null) {
+        try {
+            Reservation selectedReservation = (Reservation) reservationComboBox.getSelectedItem();
+            if (selectedReservation == null) {
+                throw new ReservationNotFoundException("No reservation selected.");
+            }
+
             int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this reservation?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION && controller.deleteReservation(selectedReservation.getReservationID())) {
+            if (confirm == JOptionPane.YES_OPTION) {
+                if (!controller.deleteReservation(selectedReservation.getReservationID())) {
+                    throw new ReservationDeletionException("Failed to cancel reservation.");
+                }
                 JOptionPane.showMessageDialog(this, "Reservation canceled successfully.");
                 loadReservations(); // Refresh the list after deletion
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to cancel reservation.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } catch (ReservationNotFoundException | ReservationDeletionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.SEVERE, ex.getMessage(), ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.SEVERE, "Unexpected error in deleting reservation", ex);
         }
     }
-
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> new DeleteAReservation().setVisible(true));
     }

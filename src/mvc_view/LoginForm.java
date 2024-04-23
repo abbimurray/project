@@ -1,6 +1,6 @@
 //Student number:C00260073, Student name: Abigail Murray, Semester two
-
 package mvc_view;
+
 //swing imports
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -32,6 +32,9 @@ import model.CustomerModel;
 import utils.UIUtils;
 import utils.ValidationUtils; // importing validation class for email and password
 import utils.HashingUtils;// import class for hashing passwords
+import mvc_view.exceptions.InvalidCredentialsException;
+import mvc_view.exceptions.DatabaseConnectionException;
+import mvc_view.exceptions.InputValidationException;
 
 public class LoginForm extends JFrame {
     private JTextField emailTextField;

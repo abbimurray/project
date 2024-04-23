@@ -4,12 +4,7 @@ import controller.UserSession;
 import model.Customer;
 import utils.UIUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -21,16 +16,42 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import mvc_view.exceptions.CustomerDetailsNotFoundException;
+import mvc_view.exceptions.InputValidationException;
+import utils.LoggerUtility;
+
+import java.util.logging.Level;
+
+
 public class ViewMyDetails extends JFrame {
     private Customer customer;
 
     public ViewMyDetails(Customer customer) {
-        this.customer = customer;
-        initializeUI();
         setTitle("Viewing My Details");
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        if (customer == null) {
+            LoggerUtility.log(Level.SEVERE, "Customer details are null", new CustomerDetailsNotFoundException("Customer details not provided."));
+            JOptionPane.showMessageDialog(null, "Customer details not provided", "Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
+            return;  // Stop further execution
+        }
+
+        this.customer = customer;
+
+        //direct validation
+        try {
+            if (customer.getFirstName() == null || customer.getLastName() == null || customer.getEmail() == null) {
+                throw new InputValidationException("One or more required fields are empty.");
+            }
+            initializeUI(); // Initialize the UI if all checks pass
+        } catch (InputValidationException e) {
+            LoggerUtility.log(Level.SEVERE, "Invalid customer data", e);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Data Error", JOptionPane.ERROR_MESSAGE);
+            dispose(); // Dispose the frame and stop further execution
+        }
     }
 
     private void initializeUI() {

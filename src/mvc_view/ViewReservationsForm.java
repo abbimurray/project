@@ -4,11 +4,15 @@ package mvc_view;
 import controller.ReservationController;
 import model.Reservation;
 import controller.UserSession;
+import mvc_view.exceptions.ReservationNotFoundException;
+import mvc_view.exceptions.UserNotFoundException;
+import utils.LoggerUtility;
 import utils.UIUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.logging.Level;
 
 public class ViewReservationsForm extends JFrame {
     private ReservationController controller;
@@ -59,20 +63,32 @@ public class ViewReservationsForm extends JFrame {
         return headerPanel;
     }
 
-    private JScrollPane createContentPanel() {
-        List<Reservation> reservations = controller.getReservationsForCustomer(UserSession.getInstance().getCustomerID());
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBackground(Color.WHITE);
 
-        if (reservations.isEmpty()) {
-            contentPanel.add(new JLabel("No reservations found."));
-        } else {
+
+    private JScrollPane createContentPanel() {
+        try {
+            String customerId = String.valueOf(UserSession.getInstance().getCustomerID());
+            if (customerId == null || customerId.isEmpty()) {
+                throw new UserNotFoundException("Customer ID is null or empty.");
+            }
+
+            List<Reservation> reservations = controller.getReservationsForCustomer(Integer.parseInt(customerId));
+            JPanel contentPanel = new JPanel();
+            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+            contentPanel.setBackground(Color.WHITE);
+
+            if (reservations.isEmpty()) {
+                throw new ReservationNotFoundException("No reservations found for customer ID: " + customerId);
+            }
+
             for (Reservation reservation : reservations) {
                 contentPanel.add(createReservationPanel(reservation));
             }
+            return new JScrollPane(contentPanel);
+        } catch (Exception e) {
+            LoggerUtility.log(Level.SEVERE, "Error fetching reservations", e);
+            return new JScrollPane(new JLabel("Error displaying reservations. Please try again."));
         }
-        return new JScrollPane(contentPanel);
     }
 
     private JPanel createReservationPanel(Reservation reservation) {

@@ -5,6 +5,7 @@ package mvc_view;
 import controller.ReservationController;
 import controller.UserSession;
 import model.Reservation;
+import utils.LoggerUtility;
 import utils.UIUtils;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.logging.Level;
 
 public class UpdateReservation extends JFrame {
     private JLabel lblStationID, lblChargerID;
@@ -158,10 +160,14 @@ public class UpdateReservation extends JFrame {
                 JOptionPane.showMessageDialog(this, "Reservation updated successfully.");
                 loadReservations();  // Refresh the ComboBox to reflect the update
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to update reservation.", "Error", JOptionPane.ERROR_MESSAGE);
+                throw new IllegalStateException("Failed to update reservation.");
             }
         } catch (DateTimeParseException ex) {
+            LoggerUtility.log(Level.WARNING, "Invalid date format", ex);
             JOptionPane.showMessageDialog(this, "Please enter valid dates in the format 'yyyy-MM-dd HH:mm'.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            LoggerUtility.log(Level.SEVERE, "Unexpected error updating reservation", ex);
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

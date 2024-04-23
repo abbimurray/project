@@ -5,6 +5,10 @@ import controller.PaymentMethodController;
 import controller.UserSession;
 import model.PaymentMethod;
 import utils.UIUtils;
+import utils.LoggerUtility;
+
+import mvc_view.exceptions.PaymentMethodDeletionException;
+
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -23,6 +27,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.logging.Level;
 
 public class DeletePaymentMethod extends JFrame {
     private JComboBox<PaymentMethod> paymentMethodComboBox;
@@ -106,18 +111,31 @@ public class DeletePaymentMethod extends JFrame {
 
     private void deletePaymentMethodAction(ActionEvent event) {
         PaymentMethod selectedMethod = (PaymentMethod) paymentMethodComboBox.getSelectedItem();
-        if (selectedMethod != null) {
-            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this payment method?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
+        if (selectedMethod == null) {
+            LoggerUtility.log(Level.WARNING, "No payment method selected for deletion.", new IllegalStateException("No selection made"));
+            JOptionPane.showMessageDialog(this, "Please select a payment method to delete.", "Selection Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this payment method?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
                 boolean deleted = paymentMethodController.deletePaymentMethod(selectedMethod.getPaymentMethodID());
-                if (deleted) {
-                    JOptionPane.showMessageDialog(this, "Payment method deleted successfully.");
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Failed to delete payment method.");
+                if (!deleted) {
+                    throw new PaymentMethodDeletionException("Failed to delete payment method due to a server error.");
                 }
+                JOptionPane.showMessageDialog(this, "Payment method deleted successfully.");
+                dispose();
+            } catch (PaymentMethodDeletionException ex) {
+                LoggerUtility.log(Level.SEVERE, ex.getMessage(), ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Deletion Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
+
+
+
+
+
 
 }//end class

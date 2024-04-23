@@ -5,22 +5,19 @@ package mvc_view;
 import controller.PaymentMethodController;
 import controller.UserSession;
 import model.PaymentMethod;
+import mvc_view.exceptions.PaymentMethodNotFoundException;
+import mvc_view.exceptions.SessionExpiredException;
+import utils.LoggerUtility;
 import utils.UIUtils;
 
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.util.List;
+import java.util.logging.Level;
 
 public class ViewPaymentMethods extends JFrame {
     private List<PaymentMethod> paymentMethods;
@@ -31,10 +28,27 @@ public class ViewPaymentMethods extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        PaymentMethodController controller = new PaymentMethodController();
-        paymentMethods = controller.getPaymentMethodsForCustomer(UserSession.getInstance().getCustomerID());
 
-        initializeUI();
+        try {
+            String customerId = String.valueOf(UserSession.getInstance().getCustomerID());
+            if (customerId == null || customerId.isEmpty()) {
+                throw new SessionExpiredException("Session is invalid or expired.");
+            }
+
+            PaymentMethodController controller = new PaymentMethodController();
+            paymentMethods = controller.getPaymentMethodsForCustomer(Integer.parseInt(customerId));
+            if (paymentMethods.isEmpty()) {
+                throw new PaymentMethodNotFoundException("No payment methods found for customer ID: " + customerId);
+            }
+
+            initializeUI();
+        } catch (SessionExpiredException | PaymentMethodNotFoundException e) {
+            LoggerUtility.log(Level.SEVERE, e.getMessage(), e);
+            dispose();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+        }
     }
 
     private void initializeUI() {

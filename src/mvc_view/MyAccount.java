@@ -26,8 +26,11 @@ import controller.UserSession;
 import model.Customer;
 import model.CustomerModel;
 import utils.UIUtils;
-
-
+import utils.LoggerUtility;
+import java.util.logging.Level;
+import mvc_view.exceptions.DataNotFoundException;
+import mvc_view.exceptions.AccountUpdateException;
+import mvc_view.exceptions.AccountDeletionException;
 public class MyAccount extends JFrame {
     private Customer customer;
 
@@ -149,48 +152,58 @@ public class MyAccount extends JFrame {
         add(bottomPanel, BorderLayout.SOUTH);
 }
 
-
     private void viewDetailsAction(ActionEvent e) {
-        Customer customer = customerModel.getCustomerByEmail(customerEmail);
-        if (customer != null) {
+        try {
+            Customer customer = customerModel.getCustomerByEmail(customerEmail);
+            if (customer == null) {
+                throw new DataNotFoundException("Customer details not found.");
+            }
             ViewMyDetails detailsPage = new ViewMyDetails(customer);
             detailsPage.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Customer details not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (DataNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.WARNING, ex.getMessage(), ex);
         }
     }
+
+
     private void updateDetailsAction() {
-        Customer customer = customerModel.getCustomerByEmail(customerEmail);
-        if (customer != null) {
+        try {
+            Customer customer = customerModel.getCustomerByEmail(customerEmail);
+            if (customer == null) {
+                throw new DataNotFoundException("Unable to fetch customer details for update.");
+            }
             UpdateMyDetails updateDetailsPage = new UpdateMyDetails(customer);
             updateDetailsPage.setVisible(true);
             this.setVisible(false); // hide the MyAccount form
-        } else {
-            JOptionPane.showMessageDialog(this, "Unable to fetch customer details for update.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (DataNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.WARNING, ex.getMessage(), ex);
         }
     }
+
 
     private void deleteAccountAction() {
-        // Ask for confirmation before deleting the account
-        int confirmation = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to delete your account? This action cannot be undone.",
-                "Delete Account",
-                JOptionPane.YES_NO_OPTION);
+        try {
+            int confirmation = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to delete your account? This action cannot be undone.",
+                    "Delete Account",
+                    JOptionPane.YES_NO_OPTION);
 
-        if (confirmation == JOptionPane.YES_OPTION) {
-            boolean deleted = customerModel.deleteCustomerByEmail(customerEmail);
-            if (deleted) {
+            if (confirmation == JOptionPane.YES_OPTION) {
+                boolean deleted = customerModel.deleteCustomerByEmail(customerEmail);
+                if (!deleted) {
+                    throw new AccountDeletionException("Failed to delete your account. Please try again.");
+                }
                 JOptionPane.showMessageDialog(this, "Your account has been successfully deleted.", "Account Deleted", JOptionPane.INFORMATION_MESSAGE);
-                dispose(); // Close the MyAccount form
-                // redirect to the login page or close the application
+                dispose();
                 LoginForm loginForm = new LoginForm();
                 loginForm.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to delete your account. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        } catch (AccountDeletionException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            LoggerUtility.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
-
-
 }//end class
 

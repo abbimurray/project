@@ -5,6 +5,8 @@ import controller.PaymentMethodController;
 import controller.UserSession;
 import model.PaymentMethod;
 import utils.UIUtils;
+import utils.LoggerUtility;
+
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,6 +27,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.logging.Level;
 
 public class UpdatePayMethod extends JFrame {
     private JComboBox<PaymentMethod> paymentMethodComboBox;
@@ -156,34 +159,41 @@ public class UpdatePayMethod extends JFrame {
             nameOnCardField.setText(selectedMethod.getNameOnCard());
         }
     }
+
+
     private void updatePaymentMethodAction(ActionEvent event) {
         PaymentMethod selectedMethod = (PaymentMethod) paymentMethodComboBox.getSelectedItem();
-        if (selectedMethod != null) {
-            String cardNumber = cardNumberField.getText();
-            String nameOnCard = nameOnCardField.getText();
+        if (selectedMethod == null) {
+            JOptionPane.showMessageDialog(this, "No payment method selected.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            // Check if changes were made
+        String cardNumber = cardNumberField.getText();
+        String nameOnCard = nameOnCardField.getText();
+
+        try {
             if (!cardNumber.equals(selectedMethod.getCardNumber()) || !nameOnCard.equals(selectedMethod.getNameOnCard())) {
                 selectedMethod.setCardNumber(cardNumber);
                 selectedMethod.setNameOnCard(nameOnCard);
 
-                // Validate before updating
                 String validationResult = paymentMethodController.validatePaymentMethod(selectedMethod);
                 if (!validationResult.isEmpty()) {
                     JOptionPane.showMessageDialog(this, validationResult, "Validation Error", JOptionPane.ERROR_MESSAGE);
-                    return; // Stop the update if validation fails
+                    return;
                 }
 
-                // Proceed with update if validation passes
                 boolean updated = paymentMethodController.updatePaymentMethod(selectedMethod);
                 if (updated) {
                     JOptionPane.showMessageDialog(this, "Payment method updated successfully.");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Failed to update payment method.");
+                    throw new Exception("Failed to update payment method."); // Trigger an error log
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "No changes detected. Please modify the fields before updating.");
             }
+        } catch (Exception e) {
+            LoggerUtility.log(Level.SEVERE, "Error updating payment method", e);
+            JOptionPane.showMessageDialog(this, "An error occurred while updating the payment method: " + e.getMessage(), "Update Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

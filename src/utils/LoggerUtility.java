@@ -23,4 +23,9 @@ public class LoggerUtility {
     public static void log(Level level, String message, Throwable thrown) {
         logger.log(level, message, thrown);
     }
+
+    // Log message without throwable
+    public static void log(Level level, String message) {
+        logger.log(level, message);
+    }
 }

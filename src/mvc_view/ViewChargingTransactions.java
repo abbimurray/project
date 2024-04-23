@@ -7,17 +7,11 @@ import model.ChargingTransaction;
 import model.ChargingStationModel;
 import controller.UserSession;
 import utils.UIUtils;
+import utils.LoggerUtility;
+import mvc_view.exceptions.TransactionsNotFoundException;
 
 //imports
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -26,9 +20,12 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.logging.Level;
+
 
 public class ViewChargingTransactions extends JFrame {
     private List<ChargingTransaction> transactions;
+
 
     public ViewChargingTransactions() {
         setTitle("| PowerFlow | EV Charging System | Charging History |");
@@ -36,12 +33,25 @@ public class ViewChargingTransactions extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        ChargingStationModel model = new ChargingStationModel();
-        transactions = model.getTransactionsForCustomer(UserSession.getInstance().getCustomerID());
-
-        initializeUI();
+        try {
+            String customerId = String.valueOf(UserSession.getInstance().getCustomerID());
+            if (customerId == null || customerId.isEmpty()) {
+                throw new IllegalStateException("Session is invalid or expired.");
+            }
+            ChargingStationModel model = new ChargingStationModel();
+            transactions = model.getTransactionsForCustomer(Integer.parseInt(customerId));
+            if (transactions.isEmpty()) {
+                throw new TransactionsNotFoundException("No transactions found for customer ID: " + customerId);
+            }
+            initializeUI();
+        } catch (IllegalStateException | TransactionsNotFoundException e) {
+            LoggerUtility.log(Level.SEVERE, "Failed to retrieve transactions or session invalid", e);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            dispose();
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+        }
     }
-
     private void initializeUI() {
         setLayout(new BorderLayout());
         add(createHeaderPanel(), BorderLayout.NORTH);

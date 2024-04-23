@@ -7,14 +7,39 @@ import controller.UserSession;
 import model.ChargingStation;
 import model.ChargingStationModel;
 import utils.UIUtils;
+import utils.LoggerUtility;
 
+import mvc_view.exceptions.DataRetrievalException;
+import mvc_view.exceptions.InvalidInputException;
 //imports
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.logging.Level;
 
 public class FindChargingStationForm extends JFrame {
     private JComboBox<String> countyComboBox; //combo box for selecting a county
@@ -33,7 +58,10 @@ public class FindChargingStationForm extends JFrame {
     }
 
 
-    private void initializeUI() {
+
+
+
+   private void initializeUI() {
         getContentPane().setLayout(new BorderLayout(10, 10));// 10 pixel gaps in both dimensions
         getContentPane().setBackground(Color.WHITE);
 
