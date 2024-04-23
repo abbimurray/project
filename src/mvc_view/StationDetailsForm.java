@@ -8,7 +8,6 @@ import model.Charger;
 import model.ChargingStation;
 import model.ChargingStationModel;
 import utils.UIUtils;
-import utils.LoggerUtility;
 
 //other imports
 import javax.swing.BoxLayout;
@@ -27,7 +26,6 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.logging.Level;
 
 public class StationDetailsForm extends JFrame {
     private ChargingStation selectedStation;
@@ -42,15 +40,8 @@ public class StationDetailsForm extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.WHITE); // Set background colour to white
-        //fetchChargersForStation();
-        //initializeComponents();
-        try {
-            fetchChargersForStation();
-            initializeComponents();
-        } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to initialize StationDetailsForm", e);
-
-        }
+        fetchChargersForStation();
+        initializeComponents();
     }
 
     private void initializeComponents() {
@@ -149,15 +140,10 @@ public class StationDetailsForm extends JFrame {
     }
 
 
-
-
     private void fetchChargersForStation() {
-        try {
-            this.chargers = model.getChargersByStationId(selectedStation.getStationID());
-        } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to fetch chargers for station: " + selectedStation.getStationID(), e);
-            throw new RuntimeException("Failed to fetch chargers."); // or handle more gracefully
-        }
+        // This method should fetch chargers for the selected station
+        ChargingStationModel model = new ChargingStationModel();
+        this.chargers = model.getChargersByStationId(selectedStation.getStationID());
     }
 
 }//end

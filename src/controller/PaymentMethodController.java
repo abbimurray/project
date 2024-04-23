@@ -3,8 +3,6 @@ package controller;
 
 import dao.PaymentMethodDao;
 import model.PaymentMethod;
-import utils.LoggerUtility;
-import java.util.logging.Level;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -21,7 +19,7 @@ public class PaymentMethodController {
     }
 
     //Adding new payment method, 1st checks the fields are valid
-   public String addPaymentMethod(PaymentMethod paymentMethod) {
+    public String addPaymentMethod(PaymentMethod paymentMethod) {
         String validationResult = validatePaymentMethod(paymentMethod);
         if (!validationResult.isEmpty()) {
             return validationResult;  // Fields are invalid, Return validation error message.
@@ -29,42 +27,27 @@ public class PaymentMethodController {
         if (paymentMethodDao.addPaymentMethod(paymentMethod)) {
             return "success";  // Fields are valid
         } else {
-            return "Database error occurred while adding payment method.";  // Indicates database failure.
+            return "Database error occurred while adding payment method.";  // Indicate database failure.
         }
     }
-
-
 
     public List<PaymentMethod> getPaymentMethodsForCustomer(int customerID) {
-        try {
-            return paymentMethodDao.getPaymentMethodsByCustomerId(customerID);
-        } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to retrieve payment methods for customer ID: " + customerID, e);
-            return null;
-        }
+        return paymentMethodDao.getPaymentMethodsByCustomerId(customerID);
     }
-
 
     //Update payment method, checks fields for card number and name
     public boolean updatePaymentMethod(PaymentMethod paymentMethod) {
-        try {
-            return paymentMethodDao.updatePaymentMethod(paymentMethod);
-        } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to update payment method " , e);
-            return false;
-        }
-    }
 
+        return paymentMethodDao.updatePaymentMethod(paymentMethod);
+    }
 
     //Delete a payment method
     public boolean deletePaymentMethod(int paymentMethodId) {
-        try {
-            int customerID = UserSession.getInstance().getCustomerID();
-            return paymentMethodDao.deletePaymentMethod(paymentMethodId, customerID);
-        } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to delete payment method with ID: " + paymentMethodId, e);
-            return false;
-        }
+        // Retrieve the customerID from the UserSession
+        int customerID = UserSession.getInstance().getCustomerID();
+
+        // Call the DAO method to delete the payment method for this customerID
+        return paymentMethodDao.deletePaymentMethod(paymentMethodId, customerID);
     }
 
 
@@ -101,7 +84,7 @@ public class PaymentMethodController {
     // the date has to be in the format mm/yy and should be in the future
     private boolean isValidExpiryDate(String expiryDate) {
         try {
-            DateFormat formatter = new SimpleDateFormat("MM/yy");  // for MM/YY format
+            DateFormat formatter = new SimpleDateFormat("MM/yy");  // Adjusted for MM/YY format
             formatter.setLenient(false);
             Date expiry = formatter.parse(expiryDate);
             Calendar expCal = Calendar.getInstance();
@@ -120,7 +103,7 @@ public class PaymentMethodController {
         } catch (ParseException e) {
             return false;
         }
-
     }
+
 
 }//end class

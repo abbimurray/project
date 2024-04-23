@@ -5,9 +5,6 @@ package model;
 
 //imports from my other packages
 import utils.DBConnection;
-import utils.LoggerUtility;
-import java.util.logging.Level;
-
 //imports
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -42,7 +39,7 @@ public class ChargingStationModel {
                 }
             }
         } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Error fetching distinct counties", e);
+            e.printStackTrace();
         }
         return counties;
     }//end
@@ -64,7 +61,7 @@ public class ChargingStationModel {
                 stations.add(station);
             }
         } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Error fetching stations by counties", e);
+            e.printStackTrace();
         }
         return stations;
     }//end
@@ -90,7 +87,7 @@ public class ChargingStationModel {
                 chargers.add(charger);
             }
         } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Error fetching chargers by stationID", e);
+            e.printStackTrace();
         }
         return chargers;
     }//end
@@ -108,7 +105,7 @@ public class ChargingStationModel {
                 return "Available".equals(rs.getString("status"));
             }
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error checking charger availability", e);
+            e.printStackTrace();
         }
         return false;
     }//end
@@ -129,7 +126,7 @@ public class ChargingStationModel {
             pstmt.setInt(4, chargerID);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error updating charger status", e);
+            e.printStackTrace();
             return false;
         }
     }//end
@@ -146,7 +143,7 @@ public class ChargingStationModel {
             pstmt.setInt(4, transactionID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error updating charging transaction", e);
+            e.printStackTrace();
         }
     }//end
 
@@ -161,7 +158,7 @@ public class ChargingStationModel {
                 return rs.getTimestamp("startTime").toLocalDateTime();
             }
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error fetching start time for transaction", e);
+            e.printStackTrace();
         }
         return null;
     }//end
@@ -198,7 +195,7 @@ public class ChargingStationModel {
                 return BigDecimal.valueOf(rs.getInt("kw"));
             }
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error fetching charger kW", e);
+            e.printStackTrace();
         }
         return BigDecimal.ZERO; // Default value if not found
     }//end
@@ -214,7 +211,7 @@ public class ChargingStationModel {
                 return rs.getBigDecimal("costPerKWH");
             }
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error fetching COSTPERKWH", e);
+            e.printStackTrace();
         }
         return BigDecimal.ZERO; // Default value if not found
     }//end
@@ -244,7 +241,7 @@ public class ChargingStationModel {
                 }
             }
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error CREATING CHARGING TRANSACTION", e);
+            e.printStackTrace();
             return -1;  // Return -1 if transaction creation fails
         }
     }//end
@@ -270,7 +267,7 @@ public class ChargingStationModel {
                 ));
             }
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Error fetching transactions", e);
+            e.printStackTrace();
         }
         return transactions;
     }//end

@@ -2,49 +2,24 @@
 
 package model;
 
-import utils.LoggerUtility;
-import utils.DBConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 public class CustomerModel {
+    private final String DATABASE_URL = "jdbc:mysql://localhost:3306/EVCharging";
+    private final String DATABASE_USER = "root";
+    private final String DATABASE_PASSWORD = "pknv!47A";
 
 
-
-    // Method to ADD a new customer
-    public boolean addCustomer(Customer customer) {
-        String sql = "INSERT INTO customer_accounts (firstName, lastName, email, phone, password,salt) VALUES (?, ?, ?, ?, ?,?)";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, customer.getFirstName());
-            pstmt.setString(2, customer.getLastName());
-            pstmt.setString(3, customer.getEmail());
-            pstmt.setString(4, customer.getPhone());
-            pstmt.setString(5, customer.getPassword());
-            pstmt.setString(6, customer.getSalt());
-
-            int affectedRows = pstmt.executeUpdate();
-            return affectedRows > 0;
-
-        } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to add customer", e);
-            return false;
-        }
-
-    }
-
-    // Method to retrieve a customer by email
+    // Method to RETRIEVE a customer by email
     public Customer getCustomerByEmail(String email) {
         Customer customer = null;
         String sql = "SELECT * FROM customer_accounts WHERE email = ?";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
@@ -59,18 +34,44 @@ public class CustomerModel {
                 customer.setPhone(rs.getString("phone"));
                 customer.setPassword(rs.getString("password"));
                 customer.setSalt(rs.getString("salt")); // Retrieve the salt
+                return customer;
             }
 
-        }  catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to retrieve customer by email: " + email, e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
+
+        return customer;
+    }
+
+    // Method to ADD a new customer
+    public boolean addCustomer(Customer customer) {
+        String sql = "INSERT INTO customer_accounts (firstName, lastName, email, phone, password,salt) VALUES (?, ?, ?, ?, ?,?)";
+
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, customer.getFirstName());
+            pstmt.setString(2, customer.getLastName());
+            pstmt.setString(3, customer.getEmail());
+            pstmt.setString(4, customer.getPhone());
+            pstmt.setString(5, customer.getPassword());
+            pstmt.setString(6, customer.getSalt());
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
 
     public boolean updateCustomer(Customer customer) {
         String sql = "UPDATE customer_accounts SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE customerID = ?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, customer.getFirstName());
@@ -82,21 +83,21 @@ public class CustomerModel {
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to update customer by email: ", e);
+            e.printStackTrace();
             return false;
         }
     }
     //delete
     public boolean deleteCustomerByEmail(String email) {
         String sql = "DELETE FROM customer_accounts WHERE email = ?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, email);
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to delete customer  ", e);
+            e.printStackTrace();
             return false;
         }
     }

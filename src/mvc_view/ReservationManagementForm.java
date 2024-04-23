@@ -1,4 +1,5 @@
 //Student number:C00260073, Student name: Abigail Murray, Semester two
+//Student number:C00260073, Student name: Abigail Murray, Semester two
 
 package mvc_view;
 
@@ -7,12 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.logging.Level;
 
 //imports from my other packages
 import controller.UserSession;
 import utils.UIUtils;
-import utils.LoggerUtility;
 
 public class ReservationManagementForm extends JFrame {
     private JButton btnViewReservations, btnUpdateReservations, btnDeleteReservations, btnAddReservations;
@@ -41,49 +40,24 @@ public class ReservationManagementForm extends JFrame {
         customizeButton(btnDeleteReservations);
 
         // Add action listeners
-
-        btnAddReservations.addActionListener(e -> {
-            try {
-                AddNewReservationForm addNewReservationForm = new AddNewReservationForm();
-                addNewReservationForm.setVisible(true);
-            } catch (Exception ex) {
-                LoggerUtility.log(Level.SEVERE, "Failed to open AddNewReservationForm.", ex);
-                JOptionPane.showMessageDialog(this, "Error opening the add new reservation form.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        btnAddReservations.addActionListener(e -> new AddNewReservationForm().setVisible(true));
 
         btnViewReservations.addActionListener(e -> {
-            try {
-                ViewReservationsForm viewForm = new ViewReservationsForm();
-                viewForm.setVisible(true);
-            }catch (Exception ex ){
-                LoggerUtility.log(Level.SEVERE, "FAILED TO OPEN VIEW RESERVATIONS", ex);
-                JOptionPane.showMessageDialog(this, "Error opening the view reservation form.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            ViewReservationsForm viewForm = new ViewReservationsForm();
+            viewForm.setVisible(true);
         });
-
 
         btnUpdateReservations.addActionListener(e -> {
-            try {
-                UpdateReservation updateReservation = new UpdateReservation();
-                updateReservation.setVisible(true);
-            } catch (Exception ex) {
-                LoggerUtility.log(Level.SEVERE, "Failed to open UpdateReservation form.", ex);
-                JOptionPane.showMessageDialog(this, "Error opening the update reservation form.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            UpdateReservation updateReservation = new UpdateReservation();
+            updateReservation.setVisible(true);
         });
 
-        btnDeleteReservations.addActionListener(e -> {
-            try {
-                DeleteAReservation deleteAReservation = new DeleteAReservation();
-                deleteAReservation.setVisible(true);
-            } catch (Exception ex) {
-                LoggerUtility.log(Level.SEVERE, "Failed to open DeleteAReservation form.", ex);
-                JOptionPane.showMessageDialog(this, "Error opening the delete reservation form.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+        btnDeleteReservations.addActionListener(e->{
+            DeleteAReservation deleteAReservation = new DeleteAReservation();
+            deleteAReservation.setVisible(true);
         });
-
     }
+
     private void customizeButton(JButton button) {
         button.setBackground(new Color(63, 97, 45));
         button.setForeground(Color.WHITE);

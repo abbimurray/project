@@ -1,10 +1,8 @@
-
 ////Student number:C00260073, Student name: Abigail Murray, Semester two
 package mvc_view;
 import controller.CustomerController;
 import controller.UserSession;
 import model.Customer;
-import utils.LoggerUtility;
 import utils.UIUtils;
 
 import javax.swing.*;
@@ -13,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.logging.Level;
 
 public class UpdateMyDetails extends JFrame {
     private Customer customer;
@@ -137,28 +134,17 @@ public class UpdateMyDetails extends JFrame {
     }
 
 
-
     private void saveChanges() {
-        try {
-            customer.setFirstName(firstNameField.getText());
-            customer.setLastName(lastNameField.getText());
-            customer.setPhone(phoneField.getText());
-            String result = customerController.updateCustomerDetails(customer);
-            JOptionPane.showMessageDialog(this, result);
-            if (result.toLowerCase().contains("successfully")) {
-                refreshCustomerDetails();
-            }
-        } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to update customer details", e);
-            JOptionPane.showMessageDialog(this, "Failed to update details: " + e.getMessage(), "Update Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+        // Set customer details from fields
+        customer.setFirstName(firstNameField.getText());
+        customer.setLastName(lastNameField.getText());
+        customer.setPhone(phoneField.getText());
 
-
-
-
-    private void refreshCustomerDetails() {
-        try {
+        // Use controller to update details
+        String result = customerController.updateCustomerDetails(customer);
+        JOptionPane.showMessageDialog(this, result);
+        if (result.contains("successfully")) {
+            // Fetch the latest customer data from the database (this part needs a correct method)
             Customer updatedCustomer = customerController.getCustomerByEmail(customer.getEmail());
             if (updatedCustomer != null) {
                 updateFormFields(updatedCustomer);
@@ -166,9 +152,6 @@ public class UpdateMyDetails extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Failed to fetch updated details.");
             }
-        } catch (Exception e) {
-            LoggerUtility.log(Level.SEVERE, "Failed to fetch customer details", e);
-            JOptionPane.showMessageDialog(this, "Error fetching updated details: " + e.getMessage(), "Fetch Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -180,11 +163,5 @@ public class UpdateMyDetails extends JFrame {
         phoneField.setText(customer.getPhone());
     }
 
-    private void clearFormFields() {
-        firstNameField.setText("");
-        lastNameField.setText("");
-        phoneField.setText("");
-    }
 
 }//end class
-
