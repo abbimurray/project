@@ -203,6 +203,15 @@ public class LoginForm extends JFrame {
 
     }
 
+
+    /**
+     * Handles the user login process by validating credentials and navigating to the CustomerDashboard if successful
+     *
+     * This method retrieves the user-entered email and password, validates the email format, and then fetches the corresponding
+     * customer details from the database. If the customer exists and the password (after hashing with the stored salt) matches
+     * the stored password, it updates the UserSession with the user's details and navigates to the CustomerDashboard.
+     * If the credentials do not match or the email format is invalid, it displays an error message.
+     */
     private void login() {
         String email = emailTextField.getText().trim();
         String inputPassword = new String(passwordField.getPassword());
@@ -246,6 +255,12 @@ public class LoginForm extends JFrame {
     }
 
 
+    /**
+     * Opens the registration form and hides the login form.
+     *
+     * This method instantiates the RegistrationForm and makes it visible to the user, allowing them to register.
+     * It also hides the current LoginForm, ensuring that only the registration form is visible to the user at this time.
+     */
     private void openRegistrationForm() {
         // Instantiate and show the registration form
         RegistrationForm registrationForm = new RegistrationForm(this);

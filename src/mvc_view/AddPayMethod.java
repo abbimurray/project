@@ -126,6 +126,24 @@ public class AddPayMethod extends JFrame {
     }
 
 
+    /**
+     * Add a new payment method
+     *Validates the card first
+     * - Ensures the card number is exactly 16 digits.
+     * - Checks that the expiry date is in the correct format (MM/YY) and has not expired.
+     * - Validates that the security code is either 3 or 4 digits.
+     *
+     * If all validations pass, it creates a new {@link PaymentMethod} object, fills it with the input data, and attempts to add
+     * it to the database using {@link PaymentMethodController}. If the addition is successful, it informs the user of success;
+     * otherwise, it handles various exceptions by showing appropriate messages and logs them.
+     *
+     * @param e The {@link ActionEvent} triggered by the user's action.
+     * @throws InvalidCardNumberException If the card number does not meet the required format or length.
+     * @throws CardExpiredException If the card expiry date is invalid or the card is expired.
+     * @throws InvalidSecurityCodeException If the security code does not meet the required format or length.
+     * @throws Exception Covers other general errors such as database failures or unexpected errors.
+     */
+
     private void processAddPaymentMethod(ActionEvent e) {
         try {
             String cardNumber = cardNumberField.getText();
@@ -168,6 +186,15 @@ public class AddPayMethod extends JFrame {
         }
     }
 
+
+    /**
+     * Checks if the expiry date is valid and is in the future
+     * attempts to parse a String representing an expiry date in the format "MM/yy" and
+     * checks if this date is after the current date, implying that the date is still valid.
+     * @param expiryDate The expiry date as a String in the format "MM/yy" to be validated.
+     * @return boolean Returns true if the expiry date is successfully parsed + it is after the current date.
+     *                 Returns false if the parsing fails due to format issues or the date has already expired.
+     */
     private boolean isValidExpiryDate(String expiryDate) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/yy");

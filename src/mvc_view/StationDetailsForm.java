@@ -140,6 +140,15 @@ public class StationDetailsForm extends JFrame {
     }
 
 
+    /**
+     * Fetches the list of chargers associated with the selected charging station.
+     *
+     * This method retrieves the chargers belonging to the currently selected charging station
+     * from the database using the ChargingStationModel. It updates the 'chargers' field
+     * of the class
+     *
+     */
+
     private void fetchChargersForStation() {
         // This method should fetch chargers for the selected station
         ChargingStationModel model = new ChargingStationModel();

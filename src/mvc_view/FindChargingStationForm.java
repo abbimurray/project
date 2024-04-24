@@ -201,11 +201,28 @@ public class FindChargingStationForm extends JFrame {
         });
     }
 
+
+    /**
+     * Handles the action triggered by selecting a county from a combo box, and populates the station list accordingly.
+     * This method retrieves the currently selected county from a combo box and passes it to another method
+     * to populate stations.
+     * @param e The {@link ActionEvent} triggered by the user's selection action, not used directly in the method.
+     */
     private void populateStationsAction(ActionEvent e) {
         String selectedCounty = (String) countyComboBox.getSelectedItem();
         populateStations(selectedCounty);
     }
 
+
+    /**
+     * Handles the action triggered by selecting a charging station from the list, displaying its details.
+     *retrieves the charging station currently selected in the station list. If a station is selected,
+     * it shows a dialog containing detailed information about the station. If no station is selected,
+     * the method does nothing.
+     *
+     * @param e The {@link ActionEvent} triggered by the user's view details action, typically from a button click
+     *          or similar user interaction.
+     */
     private void viewDetailsAction(ActionEvent e) {
         ChargingStation selectedStation = stationList.getSelectedValue();
         if (selectedStation != null) {
@@ -213,6 +230,13 @@ public class FindChargingStationForm extends JFrame {
         }
     }
 
+
+    /**
+     * Populates the countyComboBox with distinct county names retrieved from the ChargingStationModel.
+     * fetches a list of unique counties where charging stations are available and populates
+     * the countyComboBox for user selection. It ensures the comboBox is cleared before adding new items to
+     * prevent duplication and ensure current data representation.
+     */
     private void populateCounties() {
         ChargingStationModel model = new ChargingStationModel();
         List<String> counties = model.getDistinctCounties();
@@ -222,7 +246,14 @@ public class FindChargingStationForm extends JFrame {
         }
     }
 
-
+    /**
+     * Populates the station list model with stations based on the selected county.
+     * This method retrieves a list of charging stations from the ChargingStationModel that are located within
+     * the specified county and updates the stationListModel to reflect this. Before adding new stations, the
+     * list is cleared to ensure that it only displays stations relevant to the selected county.
+     *
+     * @param county The county based on which the stations are filtered and retrieved.
+     */
     private void populateStations(String county) {
         ChargingStationModel model = new ChargingStationModel();
         List<ChargingStation> stations = model.getStationsByCounty(county);
@@ -231,6 +262,7 @@ public class FindChargingStationForm extends JFrame {
             stationListModel.addElement(station); // Add each station to the list model
         }
     }
+
 }//end
 
 

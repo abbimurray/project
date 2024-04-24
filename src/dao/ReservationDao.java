@@ -18,6 +18,12 @@ import java.util.List;
 public class ReservationDao {
 
     // Add a new reservation
+
+    /**
+     * Add a reservtaion to the reservations table in the database
+     * @param reservation
+     * @return true if successfully add a new reservation to the database, false otherwise
+     */
     public boolean addReservation(Reservation reservation) {
         String sql = "INSERT INTO reservations (reservationStartTime, reservationEndTime, status, stationID, customerID, chargerID) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -38,6 +44,13 @@ public class ReservationDao {
     }
 
     // Retrieve all reservations for a specific customer
+
+    /**
+     * Retrieve all reservations from the reservations table in the database for a particular customer,
+     * based on customerID provided
+     * @param customerID
+     * @return reservations that the particular customer has made
+     */
     public List<Reservation> getReservationsByCustomerId(int customerID) {
         List<Reservation> reservations = new ArrayList<>();
         String query = "SELECT * FROM reservations WHERE customerID = ? ORDER BY reservationStartTime DESC";
@@ -68,6 +81,13 @@ public class ReservationDao {
 
 
     // Update a reservation
+
+    /**
+     * Update the reservations table in the database, based on the reservation provided. Can update the start time and end time only.
+     * Cannot update the reservation if teh reservation is already in the past
+     * @param reservation
+     * @return true if successfully update the reservation, false otherwise
+     */
     public boolean updateReservation(Reservation reservation) {
         String sql = "UPDATE reservations SET reservationStartTime = ?, reservationEndTime = ?, status = ? WHERE reservationID = ? AND reservationStartTime >= CURRENT_TIMESTAMP";
         try (Connection conn = DBConnection.getConnection();
@@ -86,6 +106,13 @@ public class ReservationDao {
     }
 
     // Delete a reservation
+
+    /**
+     * Delete a reservation from the reservations table based of fthe reservationID provided
+     * cannot delete/cancel a reservation which is in the past
+     * @param reservationID
+     * @return true if the reservation was successfully deleted, false otherwise
+     */
     public boolean deleteReservation(int reservationID) {
         String sql = "DELETE FROM reservations WHERE reservationID = ? AND reservationStartTime >= CURRENT_TIMESTAMP";
         try (Connection conn = DBConnection.getConnection();
@@ -100,6 +127,14 @@ public class ReservationDao {
     }
 
     // Check if a charger is available
+
+    /**
+     * Check if the charger is available based on the chargerID, startTime, endTime provided
+     * @param chargerID
+     * @param startTime
+     * @param endTime
+     * @return true if teh charger is available, false otherwise
+     */
     public boolean isChargerAvailable(int chargerID, LocalDateTime startTime, LocalDateTime endTime) {
         String sql = "SELECT COUNT(*) FROM reservations WHERE chargerID = ? AND NOT (reservationEndTime <= ? OR reservationStartTime >= ?)";
         try (Connection conn = DBConnection.getConnection();
@@ -118,6 +153,13 @@ public class ReservationDao {
     }
 
     // Update charger status
+
+    /**
+     * To update the charger Status - used with reservations
+     * @param chargerID
+     * @param status
+     * @return true if updated successfully, false otherwise
+     */
     public boolean updateChargerStatus(int chargerID, String status) {
         String sql = "UPDATE chargers SET status = ? WHERE chargerID = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -132,6 +174,12 @@ public class ReservationDao {
     }
 
     // This method retrieves the chargerID for a given reservationID
+
+    /**
+     * Get the charger ID for a given reservation.
+     * @param reservationID
+     * @return -1 if an error occurs or if the chargerID  or reservationID is not found
+     */
     public int getChargerIDForReservation(int reservationID) {
         String sql = "SELECT chargerID FROM reservations WHERE reservationID = ?";
         try (Connection conn = DBConnection.getConnection();

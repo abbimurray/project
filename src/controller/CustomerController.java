@@ -11,9 +11,22 @@ import model.CustomerModel;
 public class CustomerController {
     private CustomerModel customerModel;
 
+    /**
+     * Constructs a new instance of CustomerController. This constructor initializes a new
+     * CustomerModel to handle data operations related to customers. It ensures that the
+     * controller has all necessary setups to manage customer data interactions effectively.
+     */
+
     public CustomerController() {
         this.customerModel = new CustomerModel();
     }
+
+    /**
+     *Updates the details of an existing customer in the customer_accounts table. Checks firstly that the details are validated.
+     * If the details are valid, updates the customers details. if not valid it will not update the details
+     * @param customer
+     * @return String syaing if the validation was successful or not
+     */
 
     public String updateCustomerDetails(Customer customer) {
         if (!isValidCustomer(customer)) {
@@ -23,6 +36,12 @@ public class CustomerController {
         return success ? "Customer details updated successfully." : "Failed to update customer details.";
     }
 
+    /**
+     * Method to check if the customer is valid.
+     * The customer is valid if all fields such as lastname,firstname and phone number meet the required format
+     * @param customer
+     * @return true if the customer details are valid, false otherwise
+     */
     private boolean isValidCustomer(Customer customer) {
         // Validate first name and last name (allowing alphabetic characters, spaces, hyphens, and apostrophes)
         String nameRegex = "^[a-zA-Z\\s'-]+$";
@@ -47,6 +66,12 @@ public class CustomerController {
 
         return true;
     }
+
+    /**
+     * Get the customer by email
+     * @param email the email address used to search for the customer. It must be a valid email format.
+     * @return the Customer object associated with the given email if found; otherwise, null.
+     */
 
     public Customer getCustomerByEmail(String email) {
         return customerModel.getCustomerByEmail(email);

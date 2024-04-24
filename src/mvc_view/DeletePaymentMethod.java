@@ -109,6 +109,18 @@ public class DeletePaymentMethod extends JFrame {
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
+
+    /**
+     * Handles the action event triggered for deleting a payment method.
+     *
+     * first ensures that a payment method is selected from a combo box.
+     * attempts to delete the payment method using the controller.
+     * If deletion is successful, it confirms to the customer that the deletion was successful
+     * If the deletion fails, it logs the error and notifies the customer of the failure.
+     *
+     * @param event The {@link ActionEvent} triggered by the delete action.
+     * @throws PaymentMethodDeletionException If there is a failure in deleting the payment method from the server.
+     */
     private void deletePaymentMethodAction(ActionEvent event) {
         PaymentMethod selectedMethod = (PaymentMethod) paymentMethodComboBox.getSelectedItem();
         if (selectedMethod == null) {

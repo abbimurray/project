@@ -152,6 +152,16 @@ public class UpdatePayMethod extends JFrame {
     }
 
 
+
+    /**
+     * Populates the text fields with details from the selected payment method.
+     *
+     * This method retrieves the selected payment method from the combo box, and if a
+     * method is selected, it populates the card number and name on card fields with
+     * the corresponding values from the selected payment method.
+     *
+     * @param e The ActionEvent triggered when populating the fields, typically from a user action.
+     */
     private void populateFields(ActionEvent e) {
         PaymentMethod selectedMethod = (PaymentMethod) paymentMethodComboBox.getSelectedItem();
         if (selectedMethod != null) {
@@ -161,6 +171,18 @@ public class UpdatePayMethod extends JFrame {
     }
 
 
+
+    /**
+     * Updates the details of the selected payment method
+     *
+     * This method retrieves the selected payment method from the combo box and attempts to update
+     * its details based on the values in the card number and name on card fields. It checks
+     * if any changes are made before updating the payment method. If changes are detected, it validates
+     * the modified payment method and then updates it using the payment method controller. It displays
+     * appropriate success or error messages based on the outcome of the update operation.
+     *
+     * @param event The ActionEvent triggered when updating the payment method, typically from a user action.
+     */
     private void updatePaymentMethodAction(ActionEvent event) {
         PaymentMethod selectedMethod = (PaymentMethod) paymentMethodComboBox.getSelectedItem();
         if (selectedMethod == null) {

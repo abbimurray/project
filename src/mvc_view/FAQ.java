@@ -72,30 +72,18 @@ public class FAQ extends JPanel {
     }
 
 
-    // method displayAnswer --  updates answerArea based on the question selected
-    //Each case corresponds to an index in the questions array.
-//    private void displayAnswer(int questionIndex) {
-//        String answer = "";
-//        switch (questionIndex) {
-//            case 0:
-//                answer = "You can find available charging stations by using our app's \"Search for Station\" feature";
-//                break;//a1
-//            case 1:
-//                answer = "Our stations support various types of charging ports including CCS, CHAdeMO, and Type 2";
-//                break;//a2
-//            case 2:
-//                answer = "To start a charging session, connect your vehicle to the charger, open our app and press start session";
-//                break;//a3
-//
-//            case 3:
-//                answer = "Our customer service team is available 24/7. Our contact details are below";
-//                break;//a4
-//        }
-//        answerArea.setText(answer);
-//    }
-
-
-
+    /**
+     * Displays the answer to a specified FAQ question in a text area
+     *
+     * This method uses a switch statement to select the appropriate answer based on the question index provided.
+     * Each case in the switch corresponds to a specific FAQ question. If the question index does not match any
+     * predefined case, the method throws an {@link FAQDataException} indicating an invalid question index.
+     *
+     * @param questionIndex The index of the FAQ question which determines the answer to display.
+     *                      This index should be between 0 and 3, inclusive.
+     * @throws FAQDataException If the question index is outside the valid range, this exception is thrown with a
+     *                          message specifying the invalid index.
+     */
     private void displayAnswer(int questionIndex) throws FAQDataException {
         String answer = "";
         switch (questionIndex) {

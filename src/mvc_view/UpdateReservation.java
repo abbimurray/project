@@ -140,6 +140,18 @@ public class UpdateReservation extends JFrame {
         }
     }
 
+
+    /**
+     * Updates the selected reservation with the new start and end times.
+     *
+     * This method retrieves the selected reservation from the combo box and attempts to update
+     * its reservation start and end times based on the values entered in the text fields. It validates
+     * that the end time is after the start time before updating the reservation. If the update is successful,
+     * it displays a success message and refreshes the reservations in the combo box. If an error occurs during
+     * the update process, it displays an error message.
+     *
+     * @param e The ActionEvent triggered when saving the reservation, typically from a user action.
+     */
     private void saveReservation(ActionEvent e) {
         try {
             Reservation selectedReservation = (Reservation) reservationComboBox.getSelectedItem();

@@ -95,6 +95,14 @@ public class DeleteAReservation extends JFrame {
         return bottomPanel;
     }
 
+    /**
+     * Loads all reservations for the currently logged-in customer and updates the reservations combo box.
+     *
+     * This method retrieves the customer ID from the UserSession fetches all reservations associated
+     * with this customer ID, and populates them into a combo box model. This model is then set to a combo box
+     * for display, allowing the user to select from their current reservations. It ensures the UI element reflects
+     * the most up-to-date reservation data.
+     */
     private void loadReservations() {
         DefaultComboBoxModel<Reservation> model = new DefaultComboBoxModel<>();
         int customerId = UserSession.getInstance().getCustomerID();
@@ -104,6 +112,19 @@ public class DeleteAReservation extends JFrame {
     }
 
 
+
+    /**
+     * Handles the deletion of a selected reservation.
+     *
+     * This method retrieves the currently selected reservation from a combo box. If no reservation is selected,
+     * it throws a {@link ReservationNotFoundException}.
+     * If the deletion fails, it throws a {@link ReservationDeletionException}.
+     * Successful deletion results in a confirmation message to the customer
+     * @param e The {@link ActionEvent} triggered by the user's action
+     * @throws ReservationNotFoundException If no reservation is selected when attempting to delete.
+     * @throws ReservationDeletionException If the reservation cannot be deleted successfully.
+     * @throws Exception Covers other general errors that could occur during the operation
+     */
 
     private void deleteReservation(ActionEvent e) {
         try {

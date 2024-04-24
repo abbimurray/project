@@ -15,6 +15,12 @@ public class CustomerModel {
 
 
     // Method to RETRIEVE a customer by email
+
+    /**
+     * Retrieves the customer based off of email provided. Connects with database and gets the customer based off their email address. this is because this is the field they login with.
+     * @param email
+     * @return  returns details of teh customer
+     */
     public Customer getCustomerByEmail(String email) {
         Customer customer = null;
         String sql = "SELECT * FROM customer_accounts WHERE email = ?";
@@ -45,6 +51,12 @@ public class CustomerModel {
     }
 
     // Method to ADD a new customer
+
+    /**
+     * Add a new customer to the database. Take in all needed parameters bwlow an dinserts new customer record into the customer_accounts table.
+     * @param customer the Customer object containing the data to be added to the database
+     * @return true if the record was successfully added (i.e., one row was affected), false if the insertion failed
+     */
     public boolean addCustomer(Customer customer) {
         String sql = "INSERT INTO customer_accounts (firstName, lastName, email, phone, password,salt) VALUES (?, ?, ?, ?, ?,?)";
 
@@ -68,6 +80,11 @@ public class CustomerModel {
 
     }
 
+    /**
+     * Updates the customer details
+     * @param customer customer object
+     * @return true if record was successfully updated, false if customer details could not be updated
+     */
 
     public boolean updateCustomer(Customer customer) {
         String sql = "UPDATE customer_accounts SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE customerID = ?";
@@ -87,7 +104,15 @@ public class CustomerModel {
             return false;
         }
     }
+
+
     //delete
+
+    /**
+     * Deletes a customer from the customer_accounts table in the database, based off the customer email which is provided.
+     * @param email
+     * @return true if successfully deleted, false if not successfully deleted
+     */
     public boolean deleteCustomerByEmail(String email) {
         String sql = "DELETE FROM customer_accounts WHERE email = ?";
         try (Connection conn = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);

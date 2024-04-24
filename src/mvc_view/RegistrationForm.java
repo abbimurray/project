@@ -162,6 +162,17 @@ public class RegistrationForm extends JDialog {
 
     }
 
+
+
+    /**
+     * Handles the registration process for a new user.
+     *
+     * This method collects user inputs such as first name, last name, email, password, and phone number from the UI.
+     * performs several validations to ensure that all fields are filled, passwords match, and inputs meet specified
+     * If any validation fails, an error message is displayed
+     *
+     * Upon successful validation, the password is hashed with a newly generated salt, and a new Customer object is created
+     */
     private void register() {
         String firstName = firstNameTextField.getText().trim();
         String lastName = lastNameTextField.getText().trim();

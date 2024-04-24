@@ -134,6 +134,14 @@ public class UpdateMyDetails extends JFrame {
     }
 
 
+    /**
+     * Saves changes made to customer details.
+     *
+     * This method retrieves the updated customer details from the input fields
+     * in the UI, sets them to the current customer object, and then uses the
+     * customer controller to update these details in the database.
+     *
+     */
     private void saveChanges() {
         // Set customer details from fields
         customer.setFirstName(firstNameField.getText());
@@ -155,6 +163,16 @@ public class UpdateMyDetails extends JFrame {
         }
     }
 
+
+
+    /**
+     * Updates the UI fields with the details of the provided Customer object.
+     *
+     * This method updates the text fields in the UI with the details (first name,
+     * last name, and phone) of the provided Customer object.
+     *
+     * @param updatedCustomer The Customer object containing the updated details.
+     */
     private void updateFormFields(Customer updatedCustomer) {
         // Refresh the current customer object and UI fields with the updated data
         this.customer = updatedCustomer;

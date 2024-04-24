@@ -118,6 +118,17 @@ public class StartSessionForm extends JFrame {
     }
 
     //method for start
+    /**
+     * Initiates a charging session if the charger is available.
+     *
+     * checks the availability of a specified charger. If available, it records the start time,
+     * fetches the charging rate, and creates a charging transaction. It then updates the charger's status to "In-Use".
+     * Upon successful initiation, it disables the start button, enables the end button, and starts the session timer.
+     * If any part of the process fails, it displays an error message.
+     *
+     * @param endButton The button to end the charging session, which is enabled upon successful session start.
+     * @param startButton The button to start the charging session, which is disabled when the session starts.
+     */
     private void startSession(JButton endButton, JButton startButton) {
         if (model.checkChargerAvailability(chargerID)) {
             startTime = LocalDateTime.now();
@@ -137,6 +148,15 @@ public class StartSessionForm extends JFrame {
 
 
     //method for end session
+    /**
+     * Ends the ongoing charging session and calculates the cost based on the duration and energy consumed.
+     *
+     * This method stops the timer if it's running, records the end time, and calculates the total duration,
+     * energy consumed, and cost of the session. It then updates the transaction and charger status in the database.
+     * Finally, it displays the total cost to the user and closes the session window.
+     *
+     * @param e The ActionEvent triggered by the end session button, used to stop the session timer and update transaction details.
+     */
     private void endSession(ActionEvent e) {
         if (timer != null) {
             timer.stop();
@@ -153,6 +173,15 @@ public class StartSessionForm extends JFrame {
         dispose(); // Close the window
     }
 
+
+    /**
+     * Starts a timer that updates a display every second.
+     *
+     * triggers an update to the timer display every second.
+     * adds an action listener to the end session button to stop the timer and end the session when clicked.
+     *
+     * @param endButton The end session button that stops the timer and triggers session ending.
+     */
     private void startTimer(JButton endButton) {
         timer = new Timer(1000, e -> updateTimerDisplay());  // Update every second
         timer.start();
@@ -162,6 +191,93 @@ public class StartSessionForm extends JFrame {
         });
     }
 
+
+
+    Yes, adding these methods to the Javadoc documentation is important, especially since they manage significant functionalities related to starting and ending charging sessions, handling timers, and updating UI elements. Documenting these methods helps ensure that the codebase is easily understandable and maintainable. Here's how you could document each of these methods:
+
+    Documentation for startSession:
+    java
+    Copy code
+    /**
+     * Initiates a charging session if the charger is available.
+     *
+     * This method checks the availability of a specified charger. If available, it records the start time,
+     * fetches the charging rate, and creates a charging transaction. It then updates the charger's status to "In-Use".
+     * Upon successful initiation, it disables the start button, enables the end button, and starts the session timer.
+     * If any part of the process fails, it displays an error message.
+     *
+     * @param endButton The button to end the charging session, which is enabled upon successful session start.
+     * @param startButton The button to start the charging session, which is disabled when the session starts.
+     */
+    private void startSession(JButton endButton, JButton startButton) {
+        if (model.checkChargerAvailability(chargerID)) {
+            startTime = LocalDateTime.now();
+            BigDecimal rate = model.fetchChargerCostPerKWH(chargerID);
+            transactionID = model.createChargingTransaction(startTime, chargerID, customerID, rate);
+            if (transactionID != -1 && model.updateChargerStatus(chargerID, "In-Use", startTime, customerID)) {
+                startButton.setEnabled(false);
+                endButton.setEnabled(true);
+                startTimer(endButton);
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to start session.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Charger is currently unavailable.", "Unavailable", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    Documentation for endSession:
+    java
+    Copy code
+    /**
+     * Ends the ongoing charging session and calculates the cost based on the duration and energy consumed.
+     *
+     * This method stops the timer if it's running, records the end time, and calculates the total duration,
+     * energy consumed, and cost of the session. It then updates the transaction and charger status in the database.
+     * Finally, it displays the total cost to the user and closes the session window.
+     *
+     * @param e The ActionEvent triggered by the end session button, used to stop the session timer and update transaction details.
+     */
+    private void endSession(ActionEvent e) {
+        if (timer != null) {
+            timer.stop();
+        }
+        LocalDateTime endTime = LocalDateTime.now();
+        BigDecimal durationHours = model.calculateDurationHours(startTime, endTime);
+        BigDecimal energyConsumed = model.calculateEnergyConsumed(durationHours, chargerID);
+        BigDecimal totalCost = model.calculateTotalCost(energyConsumed, chargerID);
+
+        model.updateChargingTransaction(transactionID, endTime, energyConsumed, totalCost);
+        model.updateChargerStatus(chargerID, "Available", null, null);
+
+        JOptionPane.showMessageDialog(this, "Session ended. Total Cost: €" + totalCost);
+        dispose(); // Close the window
+    }
+    Documentation for startTimer and updateTimerDisplay:
+    java
+    Copy code
+    /**
+     * Starts a timer that updates a display every second.
+     *
+     * This method initializes a Timer that triggers an update to the timer display every second.
+     * It also adds an action listener to the end session button to stop the timer and end the session when clicked.
+     *
+     * @param endButton The end session button that stops the timer and triggers session ending.
+     */
+    private void startTimer(JButton endButton) {
+        timer = new Timer(1000, e -> updateTimerDisplay());  // Update every second
+        timer.start();
+        endButton.addActionListener(e -> {
+            timer.stop();
+            endSession(e);
+        });
+    }
+
+    /**
+     * Updates the timer display with the time since the session started.
+     *
+     * This method calculates the duration from the start time to the current time and updates the timer label
+     * on the UI to show elapsed hours, minutes, and seconds in HH:mm:ss format.
+     */
     private void updateTimerDisplay() {
         Duration duration = Duration.between(startTime, LocalDateTime.now());
         long hours = duration.toHours();
@@ -170,7 +286,7 @@ public class StartSessionForm extends JFrame {
         timerLabel.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
     }
 
-}//end startsessionform
+}//end start session class
 
 
 
