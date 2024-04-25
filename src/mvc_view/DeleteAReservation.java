@@ -40,7 +40,8 @@ public class DeleteAReservation extends JFrame {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green
 
-        ImageIcon leftIcon = new ImageIcon("src/images/reserved.png");
+        //icon on the header
+        ImageIcon leftIcon = new ImageIcon(getClass().getResource("/images/reserved.png"));
         JLabel leftLabel = new JLabel(leftIcon);
         headerPanel.add(leftLabel, BorderLayout.WEST);
 
@@ -48,7 +49,10 @@ public class DeleteAReservation extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+
+
+        // Sign Out Icon on the right corner
+        ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
         JLabel signOutLabel = new JLabel(signOutIcon);
         signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new java.awt.event.MouseAdapter() {

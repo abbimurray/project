@@ -71,7 +71,7 @@ public class StationDetailsForm extends JFrame {
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
 
         // Icon on the left
-        ImageIcon stationIcon = new ImageIcon("src/images/charging-station.png");
+        ImageIcon stationIcon = new ImageIcon(getClass().getResource("/images/charging-station.png"));
         JLabel iconLabel = new JLabel(stationIcon);
         headerPanel.add(iconLabel, BorderLayout.WEST);
 
@@ -82,7 +82,7 @@ public class StationDetailsForm extends JFrame {
 
 
         // Sign Out Icon on the right corner
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
         JLabel signOutLabel = new JLabel(signOutIcon);
         signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new MouseAdapter() {

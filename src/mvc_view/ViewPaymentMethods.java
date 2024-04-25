@@ -59,7 +59,7 @@ public class ViewPaymentMethods extends JFrame {
         headerPanel.setBackground(new Color(204, 255, 204));  // Mint green background
 
         // Left icon
-        ImageIcon leftIcon = new ImageIcon("src/images/paymethod.png");
+        ImageIcon leftIcon = new ImageIcon(getClass().getResource("/images/paymethod.png"));
         JLabel leftLabel = new JLabel(leftIcon);
         headerPanel.add(leftLabel, BorderLayout.WEST);
 
@@ -68,8 +68,8 @@ public class ViewPaymentMethods extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        // Sign out icon
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        //sign out
+        ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
         JLabel signOutLabel = new JLabel(signOutIcon);
         signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -80,6 +80,7 @@ public class ViewPaymentMethods extends JFrame {
                 loginForm.setVisible(true);
             }
         });
+
         headerPanel.add(signOutLabel, BorderLayout.EAST);
 
         add(headerPanel, BorderLayout.NORTH);

@@ -44,7 +44,7 @@ public class UpdatePayMethod extends JFrame {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green
 
-        ImageIcon leftIcon = new ImageIcon("src/images/paymethod.png");
+        ImageIcon leftIcon = new ImageIcon(getClass().getResource("/images/paymethod.png"));
         JLabel leftLabel = new JLabel(leftIcon);
         headerPanel.add(leftLabel, BorderLayout.WEST);
 
@@ -52,7 +52,7 @@ public class UpdatePayMethod extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
         JLabel signOutLabel = new JLabel(signOutIcon);
         signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -63,6 +63,7 @@ public class UpdatePayMethod extends JFrame {
                 loginForm.setVisible(true);
             }
         });
+
         headerPanel.add(signOutLabel, BorderLayout.EAST);
 
         this.add(headerPanel, BorderLayout.NORTH);

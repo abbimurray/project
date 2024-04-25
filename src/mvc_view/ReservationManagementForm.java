@@ -27,10 +27,10 @@ public class ReservationManagementForm extends JFrame {
 
     private void initializeButtons() {
         // Initialize buttons with icons
-        btnAddReservations = new JButton("Add Reservation", new ImageIcon("src/images/add.png"));
-        btnViewReservations = new JButton("View My Reservations", new ImageIcon("src/images/view.png"));
-        btnUpdateReservations = new JButton("Update My Reservations", new ImageIcon("src/images/updated.png"));
-        btnDeleteReservations = new JButton("Delete My Reservations", new ImageIcon("src/images/delete.png"));
+        btnAddReservations = new JButton("Add Reservation", new ImageIcon(getClass().getResource("/images/add.png")));
+        btnViewReservations = new JButton("View My Reservations", new ImageIcon(getClass().getResource("/images/view.png")));
+        btnUpdateReservations = new JButton("Update My Reservations", new ImageIcon(getClass().getResource("/images/updated.png")));
+        btnDeleteReservations = new JButton("Delete My Reservations", new ImageIcon(getClass().getResource("/images/delete.png")));
 
         // Set font and customize buttons
         Font buttonFont = new Font("Arial", Font.BOLD, 20);
@@ -76,8 +76,11 @@ public class ReservationManagementForm extends JFrame {
         headerPanel.setBackground(new Color(204, 255, 204));
         JLabel titleLabel = new JLabel("Manage Reservations", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        JLabel iconLabel = new JLabel(new ImageIcon("src/images/reserved.png"));
-        JLabel signOutLabel = new JLabel(new ImageIcon("src/images/log-out.png"));
+        // Set icon for the header panel
+        JLabel iconLabel = new JLabel(new ImageIcon(getClass().getResource("/images/reserved.png")));
+
+        // Set icon for the sign out button
+        JLabel signOutLabel = new JLabel(new ImageIcon(getClass().getResource("/images/log-out.png")));
         signOutLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {

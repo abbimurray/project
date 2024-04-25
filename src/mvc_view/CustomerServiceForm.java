@@ -54,7 +54,7 @@ public class CustomerServiceForm extends JFrame {
             JPanel headerPanel = new JPanel(new BorderLayout());
             headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
 
-            ImageIcon leftIcon = new ImageIcon("src/images/customer-support.png");
+            ImageIcon leftIcon = new ImageIcon(getClass().getResource("/images/customer-support.png"));
             JLabel leftLabel = new JLabel(leftIcon);
             headerPanel.add(leftLabel, BorderLayout.WEST);
 
@@ -62,7 +62,7 @@ public class CustomerServiceForm extends JFrame {
             titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
             headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-            ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+            ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
             JLabel signOutLabel = new JLabel(signOutIcon);
             signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
             signOutLabel.addMouseListener(new MouseAdapter() {

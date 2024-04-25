@@ -39,8 +39,10 @@ public class AddNewReservationForm extends JFrame {
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
 
         // Left icon
-        JLabel leftIcon = new JLabel(new ImageIcon("src/images/reserved.png"));
-        headerPanel.add(leftIcon, BorderLayout.WEST);
+        ImageIcon leftIcon = new ImageIcon(getClass().getResource("/images/reserved.png"));
+        JLabel iconLabel = new JLabel(leftIcon);
+        headerPanel.add(iconLabel, BorderLayout.WEST);
+
 
         // Title
         JLabel titleLabel = new JLabel("Add New Reservation", SwingConstants.CENTER);
@@ -48,7 +50,8 @@ public class AddNewReservationForm extends JFrame {
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
         // Sign out icon
-        JLabel signOutIcon = new JLabel(new ImageIcon("src/images/log-out.png"));
+        // Set icon for the sign out button
+        JLabel signOutIcon = new JLabel(new ImageIcon(getClass().getResource("/images/log-out.png")));
         signOutIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signOutIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -62,6 +65,7 @@ public class AddNewReservationForm extends JFrame {
 
         add(headerPanel, BorderLayout.NORTH);
     }
+
     private void initializeFormFields() {
         JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
@@ -111,41 +115,39 @@ public class AddNewReservationForm extends JFrame {
     }
 
 
-
     /**
      * Parses the input string to extract an integer ID for a station or charger.
-     *
-     *  attempts to convert the string input into an integer. It is designed to be used
+     * <p>
+     * attempts to convert the string input into an integer. It is designed to be used
      * for parsing IDs for entities such as stations or chargers
      * If the input string cannot be parsed into an integer due to format issues, it throws an InvalidInputException.
      *
      * @param input The string input that needs to be parsed into an integer ID.
-     * @param type A string describing the type of ID being parsed, e.g., "station" or "charger".
+     * @param type  A string describing the type of ID being parsed, e.g., "station" or "charger".
      * @return int The parsed integer ID from the input string.
      * @throws InvalidInputException If the input string is not a valid integer, indicating an error in ID format.
      */
-private int parseStationOrChargerID(String input, String type) throws InvalidInputException {
-    try {
-        return Integer.parseInt(input);
-    } catch (NumberFormatException e) {
-        throw new InvalidInputException("Invalid " + type + " ID: " + input);
+    private int parseStationOrChargerID(String input, String type) throws InvalidInputException {
+        try {
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("Invalid " + type + " ID: " + input);
+        }
     }
-}
-
 
 
     /**
      * Handles saving a new reservation.
-     *
+     * <p>
      * processes customer inputs from a form, validates them, and attempts to add a new reservation.
      * It checks if the provided station and charger IDs are valid integers, the reservation times are in the future,
      * and the end time is after the start time. It then creates a reservation and attempts to add it using the
      * ReservationController. Feedback is provided to the user through dialog messages.
      *
      * @param e The ActionEvent triggered by the user's action.
-     * @throws NumberFormatException if the station or charger IDs are not valid integers.
-     * @throws InvalidInputException if the station or charger IDs are invalid after parsing.
-     * @throws DateTimeParseException if the start or end time inputs cannot be parsed into valid LocalDateTime objects.
+     * @throws NumberFormatException     if the station or charger IDs are not valid integers.
+     * @throws InvalidInputException     if the station or charger IDs are invalid after parsing.
+     * @throws DateTimeParseException    if the start or end time inputs cannot be parsed into valid LocalDateTime objects.
      * @throws InvalidDateRangeException if the start or end time are in the past, or if the end time is before the start time.
      */
     private void saveReservationAction(ActionEvent e) {
@@ -195,10 +197,4 @@ private int parseStationOrChargerID(String input, String type) throws InvalidInp
         }
     }
 
-
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> new AddNewReservationForm().setVisible(true));
-    }
-}
-
+}//end class

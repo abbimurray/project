@@ -37,11 +37,11 @@ public class CustomerDashboard extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
         // Dashboard symbol/icon on the header
-        ImageIcon dashboardIcon = new ImageIcon("src/images/dashboard.png");
+        ImageIcon dashboardIcon = new ImageIcon(getClass().getResource("/images/dashboard.png"));
         JLabel iconLabel = new JLabel(dashboardIcon);
 
         // Sign Out Icon on the right corner
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
         JLabel signOutLabel = new JLabel(signOutIcon);
         signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signOutLabel.addMouseListener(new MouseAdapter() {
@@ -65,12 +65,12 @@ public class CustomerDashboard extends JFrame {
         mainPanel.setLayout(new GridLayout(3, 2, 10, 10)); // 3 rows, 2 cols, gaps
 
         // Adding sections with icons
-        addSection(mainPanel, "My Profile", "src/images/myprofileicon.png");
-        addSection(mainPanel, "Search for Charging Stations", "src/images/search.png");
-        addSection(mainPanel, "Reserve a Charger", "src/images/reserved.png");
-        addSection(mainPanel, "Charging History", "src/images/history.png");
-        addSection(mainPanel, "Payment Methods", "src/images/transactionsicon.png");
-        addSection(mainPanel, "Customer Support", "src/images/customer-support.png");
+        addSection(mainPanel, "My Profile", "/images/myprofileicon.png");
+        addSection(mainPanel, "Search for Charging Stations", "/images/search.png");
+        addSection(mainPanel, "Reserve a Charger", "/images/reserved.png");
+        addSection(mainPanel, "Charging History", "/images/history.png");
+        addSection(mainPanel, "Payment Methods", "/images/transactionsicon.png");
+        addSection(mainPanel, "Customer Support", "/images/customer-support.png");
 
         add(headerPanel, BorderLayout.NORTH);
         add(mainPanel, BorderLayout.CENTER);
@@ -80,11 +80,11 @@ public class CustomerDashboard extends JFrame {
         JPanel sectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sectionPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-        ImageIcon icon = new ImageIcon(iconPath);
+          // Load the icon from the classpath
+        ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
         JLabel labelIcon = new JLabel(icon);
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Arial", Font.PLAIN, 20));
-
         sectionPanel.add(labelIcon);
         sectionPanel.add(label);
 
@@ -98,6 +98,8 @@ public class CustomerDashboard extends JFrame {
 
         panel.add(sectionPanel);
     }
+
+
 
     private void sectionPanelMouseClicked(MouseEvent evt, String labelText) {
         // Switch based on the labelText to determine which section was clicked

@@ -53,11 +53,14 @@ public class RegistrationForm extends JDialog {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint green background
         headerPanel.setPreferredSize(new Dimension(headerPanel.getWidth(), 20)); // height of title panel
-        ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png");
+
+        ImageIcon logoIcon = new ImageIcon(getClass().getResource("/images/car_logo.png"));
         JLabel logoLabel = new JLabel(logoIcon);
+
         JLabel titleLabel = new JLabel("Register as a User", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(new Color(36, 35, 37));
+
         headerPanel.add(logoLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
         mainPanel.add(headerPanel);

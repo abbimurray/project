@@ -95,9 +95,6 @@ public class LoginForm extends JFrame {
         rightPanel.add(Box.createRigidArea(new Dimension(0, 60))); // space between login message and text fields
 
 
-        //ImageIcon keyIcon = new ImageIcon(getClass().getResource("/images/key.png"));
-        //ImageIcon passwordIcon = new ImageIcon(getClass().getResource("/images/lock.png"));
-
         // Email Field
         JPanel emailPanel = new JPanel();
         emailPanel.setLayout(new BoxLayout(emailPanel, BoxLayout.Y_AXIS));

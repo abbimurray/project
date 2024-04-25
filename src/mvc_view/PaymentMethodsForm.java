@@ -40,10 +40,10 @@ public class PaymentMethodsForm extends JFrame{
 
     private void initializeButtons() {
         // Initialize buttons with icons
-        btnAddPayMethods = new JButton("Add A new Payment Method", new ImageIcon("src/images/add.png"));
-        btnViewPayMethods = new JButton(" View My Payment Methods", new ImageIcon("src/images/view.png"));
-        btnUpdatePayMethods = new JButton(" Update My Payment Methods", new ImageIcon("src/images/updated.png"));
-        btnDeletePayMethods = new JButton(" Delete My Payment Methods", new ImageIcon("src/images/delete.png"));
+        btnAddPayMethods = new JButton("Add A new Payment Method", new ImageIcon(getClass().getResource("/images/add.png")));
+        btnViewPayMethods = new JButton(" View My Payment Methods", new ImageIcon(getClass().getResource("/images/view.png")));
+        btnUpdatePayMethods = new JButton(" Update My Payment Methods", new ImageIcon(getClass().getResource("/images/updated.png")));
+        btnDeletePayMethods = new JButton(" Delete My Payment Methods", new ImageIcon(getClass().getResource("/images/delete.png")));
 
         // Set font for buttons
         Font buttonFont = new Font("Arial", Font.BOLD, 20);
@@ -101,28 +101,30 @@ public class PaymentMethodsForm extends JFrame{
         headerPanel.setBackground(new Color(204, 255, 204)); // Mint color
         JLabel titleLabel = new JLabel("Manage Payment Methods", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        ImageIcon dashboardIcon = new ImageIcon("src/images/paymethod.png");
+        // Header panel setup
+        ImageIcon dashboardIcon = new ImageIcon(getClass().getResource("/images/paymethod.png"));
         JLabel iconLabel = new JLabel(dashboardIcon);
 
-        // Sign Out Icon on the right corner
-        ImageIcon signOutIcon = new ImageIcon("src/images/log-out.png");
+        //sign out
+        ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
         JLabel signOutLabel = new JLabel(signOutIcon);
         signOutLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        signOutLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Logout action
-                UserSession.getInstance().clearSession(); // Clear user session
-                dispose(); // Close the dashboard
+        signOutLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                UserSession.getInstance().clearSession();
+                dispose();
                 LoginForm loginForm = new LoginForm();
-                loginForm.setVisible(true); // Show the login form again
+                loginForm.setVisible(true);
             }
         });
+
+        headerPanel.add(signOutLabel, BorderLayout.EAST);
+
 
         //add to header panel
         headerPanel.add(iconLabel, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
-        headerPanel.add(signOutLabel, BorderLayout.EAST);
+
 
         // Buttons Panel
         JPanel buttonsPanel = new JPanel(new GridLayout(4, 1, 10, 10));
