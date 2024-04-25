@@ -25,6 +25,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 //imports from my other packages
 import controller.UserSession;
 import model.Customer;
@@ -60,8 +61,9 @@ public class LoginForm extends JFrame {
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(new Color(204, 255, 204));//MINT GREEN
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        ImageIcon logoIcon = new ImageIcon("src/images/car_logo.png"); //logo for login page
-        JLabel logoLabel = new JLabel(logoIcon);
+        ImageIcon logoIcon = new ImageIcon(getClass().getResource("/images/car_logo.png"));
+        JLabel logoIconLabel = new JLabel(logoIcon);
+
         JLabel evChargingLabel = new JLabel("Power Flow");
         evChargingLabel.setForeground(new Color(36,35,37));
         evChargingLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -69,7 +71,7 @@ public class LoginForm extends JFrame {
 
         //add to left panel
         leftPanel.add(Box.createVerticalGlue());//create space
-        leftPanel.add(logoLabel);
+        leftPanel.add(logoIconLabel);
         leftPanel.add(evChargingLabel);
         leftPanel.add(Box.createVerticalGlue());//create space
 
@@ -91,10 +93,10 @@ public class LoginForm extends JFrame {
         //add to right panel
         rightPanel.add(welcomeLabel);
         rightPanel.add(Box.createRigidArea(new Dimension(0, 60))); // space between login message and text fields
-        //Images
-        ImageIcon keyIcon = new ImageIcon("src/GUI/Images/key.png");
-        JLabel emailIconLabel = new JLabel(new ImageIcon("src/images/email.png"));
-        JLabel passwordIconLabel = new JLabel(new ImageIcon("src/images/lock.png"));
+
+
+        //ImageIcon keyIcon = new ImageIcon(getClass().getResource("/images/key.png"));
+        //ImageIcon passwordIcon = new ImageIcon(getClass().getResource("/images/lock.png"));
 
         // Email Field
         JPanel emailPanel = new JPanel();
@@ -107,6 +109,9 @@ public class LoginForm extends JFrame {
         JPanel emailTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         emailTextField = new JTextField(20);
         emailTextField.setMaximumSize(new Dimension(300, 30)); // Set to fixed width and height
+        //email image
+        ImageIcon emailIcon = new ImageIcon(getClass().getResource("/images/email.png"));
+        JLabel emailIconLabel = new JLabel(emailIcon);
         emailTextFieldPanel.add(emailIconLabel); // Add email icon to the left
         emailTextFieldPanel.add(emailTextField);
         emailPanel.add(emailTextFieldPanel);
@@ -125,7 +130,10 @@ public class LoginForm extends JFrame {
         JPanel passwordTextFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         passwordField = new JPasswordField(20);
         passwordField.setMaximumSize(new Dimension(300, 30)); // Set fixed width and height
-        passwordTextFieldPanel.add(passwordIconLabel); // Add password icon to the left
+        //password icon
+        ImageIcon passIcon = new ImageIcon(getClass().getResource("/images/lock.png"));
+        JLabel passIconLabel = new JLabel(passIcon);
+        passwordTextFieldPanel.add(passIconLabel); // Add email icon to the left
         passwordTextFieldPanel.add(passwordField);
         passwordPanel.add(passwordTextFieldPanel);
         passwordTextFieldPanel.setBackground(Color.WHITE);
