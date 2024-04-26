@@ -94,7 +94,7 @@ public class FAQ extends JPanel {
                 answer = "Our stations support various types of charging ports including CCS, CHAdeMO, and Type 2";
                 break;
             case 2:
-                answer = "To start a charging session, connect your vehicle to the charger, open our app and press start session";
+                answer = "To start a charging session, connect your vehicle to the charger, open our app and find the station by county.When you have found the station a list of chargers at this station should appear.You will see it tells you information about the charger including chargerID. On the physical charger at tehstation it will also tell you the chargerID. Select the charger with the matching chargerID.Then all you have to do isß press start session";
                 break;
             case 3:
                 answer = "Our customer service team is available 24/7. Our contact details are below";

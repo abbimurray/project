@@ -192,9 +192,7 @@ public class CustomerDashboard extends JFrame {
         this.setVisible(false);//temporarily hide dashboard
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new CustomerDashboard().setVisible(true));
-    }
+
 
 }//end
 
