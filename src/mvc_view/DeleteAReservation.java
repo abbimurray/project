@@ -50,7 +50,6 @@ public class DeleteAReservation extends JFrame {
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
 
-
         // Sign Out Icon on the right corner
         ImageIcon signOutIcon = new ImageIcon(getClass().getResource("/images/log-out.png"));
         JLabel signOutLabel = new JLabel(signOutIcon);
@@ -101,7 +100,7 @@ public class DeleteAReservation extends JFrame {
 
     /**
      * Loads all reservations for the currently logged-in customer and updates the reservations combo box.
-     *
+     * <p>
      * This method retrieves the customer ID from the UserSession fetches all reservations associated
      * with this customer ID, and populates them into a combo box model. This model is then set to a combo box
      * for display, allowing the user to select from their current reservations. It ensures the UI element reflects
@@ -116,18 +115,18 @@ public class DeleteAReservation extends JFrame {
     }
 
 
-
     /**
      * Handles the deletion of a selected reservation.
-     *
+     * <p>
      * This method retrieves the currently selected reservation from a combo box. If no reservation is selected,
      * it throws a {@link ReservationNotFoundException}.
      * If the deletion fails, it throws a {@link ReservationDeletionException}.
      * Successful deletion results in a confirmation message to the customer
+     *
      * @param e The {@link ActionEvent} triggered by the user's action
      * @throws ReservationNotFoundException If no reservation is selected when attempting to delete.
      * @throws ReservationDeletionException If the reservation cannot be deleted successfully.
-     * @throws Exception Covers other general errors that could occur during the operation
+     * @throws Exception                    Covers other general errors that could occur during the operation
      */
 
     private void deleteReservation(ActionEvent e) {
@@ -152,9 +151,6 @@ public class DeleteAReservation extends JFrame {
             JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
             LoggerUtility.log(Level.SEVERE, "Unexpected error in deleting reservation", ex);
         }
-    }
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> new DeleteAReservation().setVisible(true));
     }
 }
 
